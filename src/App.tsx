@@ -22,6 +22,8 @@ import {
   ListItem,
   ListItemText,
   Collapse,
+  ToggleButton,
+  ToggleButtonGroup,
 } from '@mui/material'
 import {
   ContentCopy,
@@ -36,10 +38,12 @@ import {
   Settings,
   ExpandLess,
   ExpandMore as ExpandMoreIcon,
+  SwapHoriz,
 } from '@mui/icons-material'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import Ajv from 'ajv'
+import yaml from 'js-yaml'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -77,6 +81,9 @@ function App() {
   const [schemaInput, setSchemaInput] = useState('')
   const [validationErrors, setValidationErrors] = useState<any[]>([])
   const [showValidationErrors, setShowValidationErrors] = useState(false)
+  const [conversionType, setConversionType] = useState<'json' | 'yaml'>('json')
+  const [convertedOutput, setConvertedOutput] = useState('')
+  const [conversionError, setConversionError] = useState<string | null>(null)
 
   const handleFormat = () => {
     try {
@@ -230,6 +237,46 @@ function App() {
     setIndentSize(event.target.value)
   }
 
+  const handleConvert = () => {
+    try {
+      if (!input.trim()) {
+        setConversionError('Please enter some content to convert')
+        return
+      }
+
+      if (conversionType === 'json') {
+        // Convert JSON to YAML
+        const jsonData = JSON.parse(input)
+        const yamlOutput = yaml.dump(jsonData, {
+          indent: parseInt(indentSize),
+          lineWidth: -1, // No line wrapping
+          noRefs: true, // Don't use YAML references
+        })
+        setConvertedOutput(yamlOutput)
+      } else {
+        // Convert YAML to JSON
+        const jsonData = yaml.load(input)
+        const jsonOutput = JSON.stringify(jsonData, null, parseInt(indentSize))
+        setConvertedOutput(jsonOutput)
+      }
+      setConversionError(null)
+    } catch (err) {
+      setConversionError('Invalid format')
+      setConvertedOutput('')
+    }
+  }
+
+  const handleConversionTypeChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newType: 'json' | 'yaml' | null
+  ) => {
+    if (newType !== null) {
+      setConversionType(newType)
+      setConvertedOutput('')
+      setConversionError(null)
+    }
+  }
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h3" component="h1" gutterBottom align="center">
@@ -242,6 +289,7 @@ function App() {
           <Tab label="Compare" />
           <Tab label="Diff Result" />
           <Tab label="Schema Validation" />
+          <Tab label="Convert" />
         </Tabs>
       </Box>
 
@@ -438,6 +486,94 @@ function App() {
               </Collapse>
             </Paper>
           )}
+        </Box>
+      </TabPanel>
+
+      <TabPanel value={tabValue} index={4}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+            <ToggleButtonGroup
+              value={conversionType}
+              exclusive
+              onChange={handleConversionTypeChange}
+              aria-label="conversion type"
+            >
+              <ToggleButton value="json" aria-label="json to yaml">
+                JSON → YAML
+              </ToggleButton>
+              <ToggleButton value="yaml" aria-label="yaml to json">
+                YAML → JSON
+              </ToggleButton>
+            </ToggleButtonGroup>
+            <FormControl size="small" sx={{ minWidth: 100 }}>
+              <InputLabel>Indent</InputLabel>
+              <Select
+                value={indentSize}
+                label="Indent"
+                onChange={handleIndentSizeChange}
+                size="small"
+              >
+                <MenuItem value="2">2 spaces</MenuItem>
+                <MenuItem value="4">4 spaces</MenuItem>
+                <MenuItem value="8">8 spaces</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+              <TextField
+                fullWidth
+                multiline
+                rows={10}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={conversionType === 'json' ? "Enter JSON..." : "Enter YAML..."}
+                error={!!conversionError}
+                helperText={conversionError}
+                sx={{ flex: 1 }}
+              />
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pt: 1 }}>
+                <Tooltip title="Paste">
+                  <IconButton onClick={handlePaste} color="primary">
+                    <ContentPaste />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Convert">
+                  <IconButton onClick={handleConvert} color="primary">
+                    <SwapHoriz />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Box>
+
+            {convertedOutput && (
+              <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+                <Paper sx={{ p: 2, position: 'relative', flex: 1 }}>
+                  <IconButton
+                    onClick={() => {
+                      navigator.clipboard.writeText(convertedOutput)
+                      setSnackbarMessage('Converted output copied to clipboard!')
+                      setSnackbar(true)
+                    }}
+                    sx={{ position: 'absolute', top: 8, right: 8 }}
+                    color="primary"
+                    title="Copy"
+                  >
+                    <ContentCopy />
+                  </IconButton>
+                  <SyntaxHighlighter
+                    language={conversionType === 'json' ? 'yaml' : 'json'}
+                    style={vscDarkPlus}
+                    customStyle={{ margin: 0, borderRadius: 4 }}
+                  >
+                    {convertedOutput}
+                  </SyntaxHighlighter>
+                </Paper>
+                <Box sx={{ width: 48 }} /> {/* Spacer to align with input buttons */}
+              </Box>
+            )}
+          </Box>
         </Box>
       </TabPanel>
 

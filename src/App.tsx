@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Box,
   Container,
@@ -26,7 +26,11 @@ import {
   ToggleButtonGroup,
   Chip,
   Stack,
+  InputAdornment,
+  Divider,
 } from '@mui/material'
+import { TreeView } from '@mui/x-tree-view/TreeView'
+import { TreeItem } from '@mui/x-tree-view/TreeItem'
 import {
   ContentCopy,
   ContentPaste,
@@ -43,6 +47,18 @@ import {
   SwapHoriz,
   Search,
   Info,
+  ChevronRight,
+  ArrowDropDown,
+  FilterList,
+  Fullscreen,
+  FullscreenExit,
+  Folder,
+  FolderOpen,
+  List as ListIcon,
+  TextFields,
+  Numbers,
+  CheckBox,
+  Help,
 } from '@mui/icons-material'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -153,6 +169,14 @@ const QUERY_EXAMPLES = [
   { label: 'Get bicycle specs', path: '$.store.bicycle.specs' }
 ]
 
+interface JsonNode {
+  key: string
+  value: any
+  type: 'object' | 'array' | 'string' | 'number' | 'boolean' | 'null'
+  children?: JsonNode[]
+  path: string
+}
+
 function App() {
   const [input, setInput] = useState('')
   const [formatted, setFormatted] = useState('')
@@ -177,6 +201,14 @@ function App() {
   const [queryError, setQueryError] = useState<string | null>(null)
   const [showQueryInfo, setShowQueryInfo] = useState(false)
   const [showGuide, setShowGuide] = useState(false)
+  const [treeData, setTreeData] = useState<JsonNode[]>([])
+  const [treeError, setTreeError] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [expandedNodes, setExpandedNodes] = useState<string[]>(['root'])
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [selectedNode, setSelectedNode] = useState<string | null>(null)
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   const handleFormat = () => {
     try {
@@ -413,6 +445,334 @@ function App() {
     setInput(JSON.stringify(TEST_DATA, null, parseInt(indentSize)))
   }
 
+  const parseJsonToTree = (data: any, key: string = 'root', path: string = ''): JsonNode => {
+    if (data === null) {
+      return { key, value: null, type: 'null', path }
+    }
+
+    const type = Array.isArray(data) ? 'array' : typeof data
+    const node: JsonNode = { key, value: data, type: type as any, path }
+
+    if (type === 'object') {
+      node.children = Object.entries(data).map(([k, v]) => 
+        parseJsonToTree(v, k, path ? `${path}.${k}` : k)
+      )
+    } else if (type === 'array') {
+      node.children = data.map((item: any, index: number) => 
+        parseJsonToTree(item, index.toString(), `${path}[${index}]`)
+      )
+    }
+
+    return node
+  }
+
+  const handleTreeView = () => {
+    try {
+      if (!input.trim()) {
+        setTreeError('Please enter some JSON to view')
+        return
+      }
+      const jsonData = JSON.parse(input)
+      const tree = parseJsonToTree(jsonData)
+      setTreeData([tree])
+      setTreeError(null)
+    } catch (err) {
+      setTreeError('Invalid JSON format')
+      setTreeData([])
+    }
+  }
+
+  const handleNodeSelect = (event: React.SyntheticEvent, nodeId: string) => {
+    setSelectedNode(nodeId)
+  }
+
+  const handleNodeToggle = (event: React.SyntheticEvent, nodeIds: string[]) => {
+    setExpandedNodes(nodeIds)
+  }
+
+  const handleExpandToggle = () => {
+    if (isExpanded) {
+      setExpandedNodes(['root'])
+    } else {
+      const getAllNodeIds = (nodes: JsonNode[]): string[] => {
+        return nodes.reduce((acc: string[], node) => {
+          acc.push(node.key)
+          if (node.children) {
+            acc.push(...getAllNodeIds(node.children))
+          }
+          return acc
+        }, [])
+      }
+      setExpandedNodes(getAllNodeIds(treeData))
+    }
+    setIsExpanded(!isExpanded)
+  }
+
+  const handleFullscreen = () => {
+    const treeViewElement = document.getElementById('tree-view-container')
+    if (!treeViewElement) return
+
+    if (!isFullscreen) {
+      if (treeViewElement.requestFullscreen) {
+        treeViewElement.requestFullscreen()
+      } else if ((treeViewElement as any).webkitRequestFullscreen) {
+        (treeViewElement as any).webkitRequestFullscreen()
+      } else if ((treeViewElement as any).msRequestFullscreen) {
+        (treeViewElement as any).msRequestFullscreen()
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen()
+      } else if ((document as any).msExitFullscreen) {
+        (document as any).msExitFullscreen()
+      }
+    }
+    setIsFullscreen(!isFullscreen)
+  }
+
+  // Listen for fullscreen change
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange)
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange)
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange)
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange)
+    }
+  }, [])
+
+  const handleCopyNodePath = () => {
+    if (selectedNode) {
+      const findNodePath = (nodes: JsonNode[], nodeId: string): string | null => {
+        for (const node of nodes) {
+          if (node.key === nodeId) return node.path
+          if (node.children) {
+            const path = findNodePath(node.children, nodeId)
+            if (path) return path
+          }
+        }
+        return null
+      }
+      const path = findNodePath(treeData, selectedNode)
+      if (path) {
+        navigator.clipboard.writeText(path)
+        setSnackbarMessage('Node path copied to clipboard!')
+        setSnackbar(true)
+      }
+    }
+  }
+
+  const handleCopyNodeValue = () => {
+    if (selectedNode) {
+      const findNodeValue = (nodes: JsonNode[], nodeId: string): any => {
+        for (const node of nodes) {
+          if (node.key === nodeId) return node.value
+          if (node.children) {
+            const value = findNodeValue(node.children, nodeId)
+            if (value !== undefined) return value
+          }
+        }
+        return undefined
+      }
+      const value = findNodeValue(treeData, selectedNode)
+      if (value !== undefined) {
+        navigator.clipboard.writeText(JSON.stringify(value))
+        setSnackbarMessage('Node value copied to clipboard!')
+        setSnackbar(true)
+      }
+    }
+  }
+
+  const getNodeIcon = (type: string) => {
+    switch (type) {
+      case 'object':
+        return <Folder fontSize="small" />
+      case 'array':
+        return <ListIcon fontSize="small" />
+      case 'string':
+        return <TextFields fontSize="small" />
+      case 'number':
+        return <Numbers fontSize="small" />
+      case 'boolean':
+        return <CheckBox fontSize="small" />
+      default:
+        return <Help fontSize="small" />
+    }
+  }
+
+  const searchInTree = (nodes: JsonNode[], query: string): string[] => {
+    if (!query.trim()) return []
+    
+    const matches: string[] = []
+    const searchLower = query.toLowerCase()
+
+    const searchNode = (node: JsonNode) => {
+      const nodeKey = node.key.toLowerCase()
+      const nodeValue = String(node.value).toLowerCase()
+      const nodeType = node.type.toLowerCase()
+
+      if (
+        nodeKey.includes(searchLower) ||
+        nodeValue.includes(searchLower) ||
+        nodeType.includes(searchLower)
+      ) {
+        matches.push(node.key)
+      }
+
+      if (node.children) {
+        node.children.forEach(searchNode)
+      }
+    }
+
+    nodes.forEach(searchNode)
+    return matches
+  }
+
+  const getParentNodes = (nodes: JsonNode[], targetKey: string): string[] => {
+    const parents: string[] = []
+
+    const findParents = (node: JsonNode, parentPath: string[] = []) => {
+      if (node.key === targetKey) {
+        parents.push(...parentPath)
+        return true
+      }
+
+      if (node.children) {
+        return node.children.some(child => 
+          findParents(child, [...parentPath, node.key])
+        )
+      }
+
+      return false
+    }
+
+    nodes.forEach(node => findParents(node))
+    return parents
+  }
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+    
+    // Clear previous timeout
+    if (searchTimeout) {
+      clearTimeout(searchTimeout)
+    }
+
+    // Set new timeout for search
+    const timeout = setTimeout(() => {
+      if (query && treeData.length > 0) {
+        const matches = searchInTree(treeData, query)
+        if (matches.length > 0) {
+          // Get all parent nodes of matches
+          const parentNodes = matches.reduce((acc: string[], match) => {
+            return [...acc, ...getParentNodes(treeData, match)]
+          }, [])
+
+          // Combine matches and their parents, remove duplicates
+          const nodesToExpand = [...new Set([...matches, ...parentNodes])]
+          setExpandedNodes(prev => [...new Set([...prev, ...nodesToExpand])])
+        }
+      } else {
+        // If search is cleared, collapse all nodes except root
+        setExpandedNodes(['root'])
+      }
+    }, 300) // 300ms debounce
+
+    setSearchTimeout(timeout)
+  }
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (searchTimeout) {
+        clearTimeout(searchTimeout)
+      }
+    }
+  }, [searchTimeout])
+
+  const renderTree = (nodes: JsonNode[]) => {
+    const searchLower = searchQuery.toLowerCase()
+    
+    return nodes.map((node) => {
+      const nodeKey = node.key.toLowerCase()
+      const nodeValue = String(node.value).toLowerCase()
+      const nodeType = node.type.toLowerCase()
+      const isMatch = searchQuery && (
+        nodeKey.includes(searchLower) ||
+        nodeValue.includes(searchLower) ||
+        nodeType.includes(searchLower)
+      )
+
+      return (
+        <TreeItem
+          key={node.key}
+          nodeId={node.key}
+          label={
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 1,
+                backgroundColor: isMatch ? 'rgba(255, 255, 0, 0.1)' : 'transparent',
+                borderRadius: 1,
+                px: 0.5
+              }}
+            >
+              {getNodeIcon(node.type)}
+              <Typography
+                component="span"
+                sx={{
+                  fontWeight: node.type === 'object' || node.type === 'array' ? 'bold' : 'normal',
+                  color: node.type === 'string' ? '#ce9178' :
+                         node.type === 'number' ? '#b5cea8' :
+                         node.type === 'boolean' ? '#569cd6' :
+                         node.type === 'null' ? '#808080' : 'inherit'
+                }}
+              >
+                {node.key}:
+              </Typography>
+              {node.type !== 'object' && node.type !== 'array' && (
+                <Typography
+                  component="span"
+                  sx={{
+                    color: node.type === 'string' ? '#ce9178' :
+                           node.type === 'number' ? '#b5cea8' :
+                           node.type === 'boolean' ? '#569cd6' :
+                           node.type === 'null' ? '#808080' : 'inherit'
+                  }}
+                >
+                  {node.type === 'string' ? `"${node.value}"` : String(node.value)}
+                </Typography>
+              )}
+              {(node.type === 'object' || node.type === 'array') && (
+                <Typography
+                  component="span"
+                  sx={{ color: 'text.secondary', fontSize: '0.875rem' }}
+                >
+                  {node.type === 'object' 
+                    ? `{${node.children?.length || 0} properties}`
+                    : `[${node.children?.length || 0} items]`}
+                </Typography>
+              )}
+            </Box>
+          }
+        >
+          {node.children && renderTree(node.children)}
+        </TreeItem>
+      )
+    })
+  }
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h3" component="h1" gutterBottom align="center">
@@ -426,6 +786,7 @@ function App() {
           <Tab label="Schema Validation" />
           <Tab label="Convert" />
           <Tab label="Query" />
+          <Tab label="Tree View" />
         </Tabs>
       </Box>
 
@@ -868,6 +1229,105 @@ function App() {
               </Paper>
               <Box sx={{ width: 48 }} /> {/* Spacer to align with input buttons */}
             </Box>
+          )}
+        </Box>
+      </TabPanel>
+
+      <TabPanel value={tabValue} index={5}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+            <TextField
+              fullWidth
+              multiline
+              rows={10}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Enter JSON to view as tree..."
+              error={!!treeError}
+              helperText={treeError}
+              sx={{ flex: 1 }}
+            />
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pt: 1 }}>
+              <Tooltip title="Paste">
+                <IconButton onClick={handlePaste} color="primary">
+                  <ContentPaste />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="View Tree">
+                <IconButton onClick={handleTreeView} color="primary">
+                  <ExpandMore />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Box>
+
+          {treeData.length > 0 && (
+            <Paper sx={{ p: 2 }}>
+              <Box sx={{ mb: 2, display: 'flex', gap: 1, alignItems: 'center' }}>
+                <TextField
+                  size="small"
+                  placeholder="Search in tree..."
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  sx={{ flex: 1 }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Search />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <Tooltip title={isExpanded ? "Collapse All" : "Expand All"}>
+                  <IconButton onClick={handleExpandToggle} size="small">
+                    {isExpanded ? <ExpandLess /> : <ExpandMore />}
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}>
+                  <IconButton onClick={handleFullscreen} size="small">
+                    {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
+                  </IconButton>
+                </Tooltip>
+                {selectedNode && (
+                  <>
+                    <Divider orientation="vertical" flexItem />
+                    <Tooltip title="Copy Node Path">
+                      <IconButton onClick={handleCopyNodePath} size="small">
+                        <Code />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Copy Node Value">
+                      <IconButton onClick={handleCopyNodeValue} size="small">
+                        <ContentCopy />
+                      </IconButton>
+                    </Tooltip>
+                  </>
+                )}
+              </Box>
+              <Box id="tree-view-container">
+                <TreeView
+                  defaultCollapseIcon={<ArrowDropDown />}
+                  defaultExpandIcon={<ChevronRight />}
+                  expanded={expandedNodes}
+                  selected={selectedNode}
+                  onNodeSelect={handleNodeSelect}
+                  onNodeToggle={handleNodeToggle}
+                  sx={{
+                    height: isFullscreen ? 'calc(100vh - 100px)' : 400,
+                    flexGrow: 1,
+                    maxWidth: '100%',
+                    overflowY: 'auto',
+                    '& .MuiTreeItem-root': {
+                      '& .MuiTreeItem-content': {
+                        padding: '4px 0',
+                      },
+                    },
+                  }}
+                >
+                  {renderTree(treeData)}
+                </TreeView>
+              </Box>
+            </Paper>
           )}
         </Box>
       </TabPanel>

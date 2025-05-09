@@ -294,82 +294,93 @@ function App() {
       </Box>
 
       <TabPanel value={tabValue} index={0}>
-        <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-          <TextField
-            fullWidth
-            multiline
-            rows={10}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Paste your JSON here..."
-            error={!!formatError}
-            helperText={formatError}
-            sx={{ flex: 1 }}
-          />
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <Tooltip title="Paste">
-              <IconButton onClick={handlePaste} color="primary">
-                <ContentPaste />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Format">
-              <IconButton onClick={handleFormat} color="primary">
-                <FormatPaint />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Minify">
-              <IconButton onClick={handleMinify} color="primary">
-                <Compress />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Download">
-              <IconButton onClick={handleDownload} color="primary">
-                <Download />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Upload">
-              <IconButton component="label" color="primary">
-                <Upload />
-                <input
-                  type="file"
-                  hidden
-                  accept=".json"
-                  onChange={handleUpload}
-                />
-              </IconButton>
-            </Tooltip>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+            <FormControl size="small" sx={{ minWidth: 100 }}>
+              <InputLabel>Indent</InputLabel>
+              <Select
+                value={indentSize}
+                label="Indent"
+                onChange={handleIndentSizeChange}
+                size="small"
+              >
+                <MenuItem value="2">2 spaces</MenuItem>
+                <MenuItem value="4">4 spaces</MenuItem>
+                <MenuItem value="8">8 spaces</MenuItem>
+              </Select>
+            </FormControl>
           </Box>
-        </Box>
 
-        {formatted && (
-          <Paper sx={{ p: 2, position: 'relative' }}>
-            <Box sx={{ position: 'absolute', top: 8, right: 8, display: 'flex', gap: 1 }}>
-              <FormControl size="small" sx={{ minWidth: 100 }}>
-                <InputLabel>Indent</InputLabel>
-                <Select
-                  value={indentSize}
-                  label="Indent"
-                  onChange={handleIndentSizeChange}
-                  size="small"
-                >
-                  <MenuItem value="2">2 spaces</MenuItem>
-                  <MenuItem value="4">4 spaces</MenuItem>
-                  <MenuItem value="8">8 spaces</MenuItem>
-                </Select>
-              </FormControl>
-              <IconButton onClick={handleCopy} color="primary" title="Copy">
-                <ContentCopy />
-              </IconButton>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+            <TextField
+              fullWidth
+              multiline
+              rows={10}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Paste your JSON here..."
+              error={!!formatError}
+              helperText={formatError}
+              sx={{ flex: 1 }}
+            />
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pt: 1 }}>
+              <Tooltip title="Paste">
+                <IconButton onClick={handlePaste} color="primary">
+                  <ContentPaste />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Format">
+                <IconButton onClick={handleFormat} color="primary">
+                  <FormatPaint />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Minify">
+                <IconButton onClick={handleMinify} color="primary">
+                  <Compress />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Download">
+                <IconButton onClick={handleDownload} color="primary">
+                  <Download />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Upload">
+                <IconButton component="label" color="primary">
+                  <Upload />
+                  <input
+                    type="file"
+                    hidden
+                    accept=".json"
+                    onChange={handleUpload}
+                  />
+                </IconButton>
+              </Tooltip>
             </Box>
-            <SyntaxHighlighter
-              language="json"
-              style={vscDarkPlus}
-              customStyle={{ margin: 0, borderRadius: 4 }}
-            >
-              {formatted}
-            </SyntaxHighlighter>
-          </Paper>
-        )}
+          </Box>
+
+          {formatted && (
+            <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+              <Paper sx={{ p: 2, position: 'relative', flex: 1 }}>
+                <IconButton
+                  onClick={handleCopy}
+                  sx={{ position: 'absolute', top: 8, right: 8 }}
+                  color="primary"
+                  title="Copy"
+                >
+                  <ContentCopy />
+                </IconButton>
+                <SyntaxHighlighter
+                  language="json"
+                  style={vscDarkPlus}
+                  customStyle={{ margin: 0, borderRadius: 4 }}
+                >
+                  {formatted}
+                </SyntaxHighlighter>
+              </Paper>
+              <Box sx={{ width: 48 }} /> {/* Spacer to align with input buttons */}
+            </Box>
+          )}
+        </Box>
       </TabPanel>
 
       <TabPanel value={tabValue} index={1}>

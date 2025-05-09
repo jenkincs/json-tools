@@ -28,6 +28,14 @@ import {
   Stack,
   InputAdornment,
   Divider,
+  Badge,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
 } from '@mui/material'
 import { TreeView } from '@mui/x-tree-view/TreeView'
 import { TreeItem } from '@mui/x-tree-view/TreeItem'
@@ -59,6 +67,10 @@ import {
   Numbers,
   CheckBox,
   Help,
+  History,
+  FileDownload,
+  Delete,
+  Restore,
 } from '@mui/icons-material'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -177,6 +189,18 @@ interface JsonNode {
   path: string
 }
 
+interface QueryHistory {
+  query: string
+  timestamp: number
+  resultCount: number
+}
+
+interface QueryResult {
+  path: string
+  value: any
+  type: string
+}
+
 function App() {
   const [input, setInput] = useState('')
   const [formatted, setFormatted] = useState('')
@@ -209,6 +233,11 @@ function App() {
   const [selectedNode, setSelectedNode] = useState<string | null>(null)
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null)
   const [isExpanded, setIsExpanded] = useState(false)
+  const [queryHistory, setQueryHistory] = useState<QueryHistory[]>([])
+  const [showHistory, setShowHistory] = useState(false)
+  const [queryResults, setQueryResults] = useState<QueryResult[]>([])
+  const [sortConfig, setSortConfig] = useState<{ key: keyof QueryResult; direction: 'asc' | 'desc' } | null>(null)
+  const [filterType, setFilterType] = useState<string>('all')
 
   const handleFormat = () => {
     try {
@@ -414,13 +443,119 @@ function App() {
       }
 
       const jsonData = JSON.parse(input)
-      const results = JSONPath({ path: jsonpathQuery, json: jsonData })
-      setQueryResult(results)
+      const results = JSONPath({ path: jsonpathQuery, json: jsonData, resultType: 'path' })
+      
+      // Transform results into QueryResult array
+      const transformedResults = results.map((path: string) => {
+        const value = JSONPath({ path, json: jsonData })[0]
+        return {
+          path,
+          value,
+          type: Array.isArray(value) ? 'array' : typeof value
+        }
+      })
+
+      setQueryResults(transformedResults)
+      
+      // Add to history
+      const newHistory = {
+        query: jsonpathQuery,
+        timestamp: Date.now(),
+        resultCount: transformedResults.length
+      }
+      setQueryHistory(prev => [newHistory, ...prev].slice(0, 10)) // Keep last 10 queries
+      
       setQueryError(null)
     } catch (err) {
       setQueryError('Invalid JSON or JSONPath query')
-      setQueryResult([])
+      setQueryResults([])
     }
+  }
+
+  const handleHistoryClick = (query: string) => {
+    setJsonpathQuery(query)
+    // Automatically execute the query
+    try {
+      if (!input.trim()) {
+        setQueryError('Please enter some JSON to query')
+        return
+      }
+      const jsonData = JSON.parse(input)
+      const results = JSONPath({ path: query, json: jsonData, resultType: 'path' })
+      
+      const transformedResults = results.map((path: string) => {
+        const value = JSONPath({ path, json: jsonData })[0]
+        return {
+          path,
+          value,
+          type: Array.isArray(value) ? 'array' : typeof value
+        }
+      })
+
+      setQueryResults(transformedResults)
+      setQueryError(null)
+    } catch (err) {
+      setQueryError('Invalid JSON or JSONPath query')
+      setQueryResults([])
+    }
+  }
+
+  const handleClearHistory = () => {
+    setQueryHistory([])
+  }
+
+  const handleSort = (key: keyof QueryResult) => {
+    let direction: 'asc' | 'desc' = 'asc'
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc'
+    }
+    setSortConfig({ key, direction })
+  }
+
+  const handleFilterChange = (event: SelectChangeEvent) => {
+    setFilterType(event.target.value)
+  }
+
+  const handleExportResults = () => {
+    const data = queryResults.map(result => ({
+      path: result.path,
+      value: result.value,
+      type: result.type
+    }))
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'query-results.json'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
+  const getSortedAndFilteredResults = () => {
+    let filtered = queryResults
+    
+    // Apply type filter
+    if (filterType !== 'all') {
+      filtered = filtered.filter(result => result.type === filterType)
+    }
+    
+    // Apply sorting
+    if (sortConfig) {
+      filtered = [...filtered].sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'asc' ? -1 : 1
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'asc' ? 1 : -1
+        }
+        return 0
+      })
+    }
+    
+    return filtered
   }
 
   const handleExampleClick = (example: string) => {
@@ -432,12 +567,31 @@ function App() {
         return
       }
       const jsonData = JSON.parse(input)
-      const results = JSONPath({ path: example, json: jsonData })
-      setQueryResult(results)
+      const results = JSONPath({ path: example, json: jsonData, resultType: 'path' })
+      
+      const transformedResults = results.map((path: string) => {
+        const value = JSONPath({ path, json: jsonData })[0]
+        return {
+          path,
+          value,
+          type: Array.isArray(value) ? 'array' : typeof value
+        }
+      })
+
+      setQueryResults(transformedResults)
+      
+      // Add to history
+      const newHistory = {
+        query: example,
+        timestamp: Date.now(),
+        resultCount: transformedResults.length
+      }
+      setQueryHistory(prev => [newHistory, ...prev].slice(0, 10))
+      
       setQueryError(null)
     } catch (err) {
       setQueryError('Invalid JSON or JSONPath query')
-      setQueryResult([])
+      setQueryResults([])
     }
   }
 
@@ -1142,7 +1296,7 @@ function App() {
                     key={index}
                     label={`${example.label}: ${example.path}`}
                     onClick={() => handleExampleClick(example.path)}
-                    sx={{ m: 0.5 }}
+                    sx={{ m: 0.5, cursor: 'pointer' }}
                   />
                 ))}
               </Stack>
@@ -1160,7 +1314,7 @@ function App() {
                     key={index}
                     label={`${example.label}: ${example.path}`}
                     onClick={() => handleExampleClick(example.path)}
-                    sx={{ m: 0.5 }}
+                    sx={{ m: 0.5, cursor: 'pointer' }}
                   />
                 ))}
               </Stack>
@@ -1188,7 +1342,7 @@ function App() {
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
             <TextField
               fullWidth
               value={jsonpathQuery}
@@ -1202,33 +1356,123 @@ function App() {
                 <Search />
               </IconButton>
             </Tooltip>
+            <Tooltip title="Query History">
+              <IconButton 
+                onClick={() => setShowHistory(!showHistory)} 
+                color="primary"
+              >
+                <Badge badgeContent={queryHistory.length} color="primary">
+                  <History />
+                </Badge>
+              </IconButton>
+            </Tooltip>
           </Box>
 
-          {queryResult.length > 0 && (
-            <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
-              <Paper sx={{ p: 2, position: 'relative', flex: 1 }}>
-                <IconButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(JSON.stringify(queryResult, null, parseInt(indentSize)))
-                    setSnackbarMessage('Query results copied to clipboard!')
-                    setSnackbar(true)
-                  }}
-                  sx={{ position: 'absolute', top: 8, right: 8 }}
-                  color="primary"
-                  title="Copy"
-                >
-                  <ContentCopy />
+          <Collapse in={showHistory}>
+            <Paper sx={{ p: 2, mb: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6">Query History</Typography>
+                <IconButton onClick={handleClearHistory} size="small">
+                  <Delete />
                 </IconButton>
-                <SyntaxHighlighter
-                  language="json"
-                  style={vscDarkPlus}
-                  customStyle={{ margin: 0, borderRadius: 4 }}
-                >
-                  {JSON.stringify(queryResult, null, parseInt(indentSize))}
-                </SyntaxHighlighter>
-              </Paper>
-              <Box sx={{ width: 48 }} /> {/* Spacer to align with input buttons */}
-            </Box>
+              </Box>
+              <List>
+                {queryHistory.map((item, index) => (
+                  <ListItem
+                    key={index}
+                    secondaryAction={
+                      <Typography variant="body2" color="text.secondary">
+                        {item.resultCount} results
+                      </Typography>
+                    }
+                  >
+                    <ListItemText
+                      primary={item.query}
+                      secondary={new Date(item.timestamp).toLocaleString()}
+                      onClick={() => handleHistoryClick(item.query)}
+                      sx={{ cursor: 'pointer' }}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </Paper>
+          </Collapse>
+
+          {queryResults.length > 0 && (
+            <Paper sx={{ p: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6">
+                  Results ({queryResults.length})
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <FormControl size="small" sx={{ minWidth: 120 }}>
+                    <InputLabel>Filter Type</InputLabel>
+                    <Select
+                      value={filterType}
+                      label="Filter Type"
+                      onChange={handleFilterChange}
+                      size="small"
+                    >
+                      <MenuItem value="all">All Types</MenuItem>
+                      <MenuItem value="string">String</MenuItem>
+                      <MenuItem value="number">Number</MenuItem>
+                      <MenuItem value="boolean">Boolean</MenuItem>
+                      <MenuItem value="object">Object</MenuItem>
+                      <MenuItem value="array">Array</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <Tooltip title="Export Results">
+                    <IconButton onClick={handleExportResults} color="primary">
+                      <FileDownload />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Box>
+              <TableContainer>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortConfig?.key === 'path'}
+                          direction={sortConfig?.key === 'path' ? sortConfig.direction : 'asc'}
+                          onClick={() => handleSort('path')}
+                        >
+                          Path
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortConfig?.key === 'type'}
+                          direction={sortConfig?.key === 'type' ? sortConfig.direction : 'asc'}
+                          onClick={() => handleSort('type')}
+                        >
+                          Type
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>Value</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {getSortedAndFilteredResults().map((result, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{result.path}</TableCell>
+                        <TableCell>{result.type}</TableCell>
+                        <TableCell>
+                          <SyntaxHighlighter
+                            language="json"
+                            style={vscDarkPlus}
+                            customStyle={{ margin: 0, background: 'transparent' }}
+                          >
+                            {JSON.stringify(result.value, null, 2)}
+                          </SyntaxHighlighter>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
           )}
         </Box>
       </TabPanel>

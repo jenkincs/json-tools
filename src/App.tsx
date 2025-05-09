@@ -18,6 +18,10 @@ import {
   FormControl,
   InputLabel,
   SelectChangeEvent,
+  List,
+  ListItem,
+  ListItemText,
+  Collapse,
 } from '@mui/material'
 import {
   ContentCopy,
@@ -30,9 +34,12 @@ import {
   Upload,
   Compare,
   Settings,
+  ExpandLess,
+  ExpandMore as ExpandMoreIcon,
 } from '@mui/icons-material'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import Ajv from 'ajv'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -57,7 +64,9 @@ function TabPanel(props: TabPanelProps) {
 function App() {
   const [input, setInput] = useState('')
   const [formatted, setFormatted] = useState('')
-  const [error, setError] = useState<string | null>(null)
+  const [formatError, setFormatError] = useState<string | null>(null)
+  const [compareError, setCompareError] = useState<string | null>(null)
+  const [validationError, setValidationError] = useState<string | null>(null)
   const [snackbar, setSnackbar] = useState(false)
   const [snackbarMessage, setSnackbarMessage] = useState('')
   const [tabValue, setTabValue] = useState(0)
@@ -65,19 +74,22 @@ function App() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [compareInput, setCompareInput] = useState('')
   const [diffResult, setDiffResult] = useState('')
+  const [schemaInput, setSchemaInput] = useState('')
+  const [validationErrors, setValidationErrors] = useState<any[]>([])
+  const [showValidationErrors, setShowValidationErrors] = useState(false)
 
   const handleFormat = () => {
     try {
       if (!input.trim()) {
-        setError('Please enter some JSON to format')
+        setFormatError('Please enter some JSON to format')
         return
       }
       const parsed = JSON.parse(input)
       const formatted = JSON.stringify(parsed, null, parseInt(indentSize))
       setFormatted(formatted)
-      setError(null)
+      setFormatError(null)
     } catch (err) {
-      setError('Invalid JSON format')
+      setFormatError('Invalid JSON format')
       setFormatted('')
     }
   }
@@ -95,7 +107,7 @@ function App() {
       const text = await navigator.clipboard.readText()
       setInput(text)
     } catch (err) {
-      setError('Failed to read from clipboard')
+      setFormatError('Failed to read from clipboard')
     }
   }
 
@@ -128,15 +140,15 @@ function App() {
   const handleMinify = () => {
     try {
       if (!input.trim()) {
-        setError('Please enter some JSON to minify')
+        setFormatError('Please enter some JSON to minify')
         return
       }
       const parsed = JSON.parse(input)
       const minified = JSON.stringify(parsed)
       setFormatted(minified)
-      setError(null)
+      setFormatError(null)
     } catch (err) {
-      setError('Invalid JSON format')
+      setFormatError('Invalid JSON format')
       setFormatted('')
     }
   }
@@ -146,10 +158,40 @@ function App() {
       const obj1 = JSON.parse(input)
       const obj2 = JSON.parse(compareInput)
       const diff = findDifferences(obj1, obj2)
-      setDiffResult(JSON.stringify(diff, null, parseInt(indentSize)))
+      setDiffResult(JSON.stringify(diff, null, 2))
+      setCompareError(null)
       setTabValue(2)
     } catch (err) {
-      setError('Invalid JSON format in one or both inputs')
+      setCompareError('Invalid JSON format in one or both inputs')
+    }
+  }
+
+  const handleValidate = () => {
+    try {
+      if (!input.trim() || !schemaInput.trim()) {
+        setValidationError('Please enter both JSON and Schema')
+        return
+      }
+
+      const jsonData = JSON.parse(input)
+      const schema = JSON.parse(schemaInput)
+      
+      const ajv = new Ajv({ allErrors: true })
+      const validate = ajv.compile(schema)
+      const valid = validate(jsonData)
+
+      if (valid) {
+        setValidationErrors([])
+        setValidationError(null)
+        setSnackbarMessage('JSON is valid according to the schema!')
+        setSnackbar(true)
+      } else {
+        setValidationErrors(validate.errors || [])
+        setValidationError('JSON validation failed')
+      }
+    } catch (err) {
+      setValidationError('Invalid JSON or Schema format')
+      setValidationErrors([])
     }
   }
 
@@ -199,6 +241,7 @@ function App() {
           <Tab label="Format" />
           <Tab label="Compare" />
           <Tab label="Diff Result" />
+          <Tab label="Schema Validation" />
         </Tabs>
       </Box>
 
@@ -211,8 +254,8 @@ function App() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Paste your JSON here..."
-            error={!!error}
-            helperText={error}
+            error={!!formatError}
+            helperText={formatError}
             sx={{ flex: 1 }}
           />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -290,8 +333,8 @@ function App() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="First JSON..."
-            error={!!error}
-            helperText={error}
+            error={!!compareError}
+            helperText={compareError}
           />
           <TextField
             fullWidth
@@ -300,7 +343,7 @@ function App() {
             value={compareInput}
             onChange={(e) => setCompareInput(e.target.value)}
             placeholder="Second JSON..."
-            error={!!error}
+            error={!!compareError}
           />
           <Button
             variant="contained"
@@ -336,6 +379,66 @@ function App() {
             </SyntaxHighlighter>
           </Paper>
         )}
+      </TabPanel>
+
+      <TabPanel value={tabValue} index={3}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <TextField
+              fullWidth
+              multiline
+              rows={8}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Enter JSON to validate..."
+              error={!!validationError}
+              helperText={validationError}
+            />
+            <TextField
+              fullWidth
+              multiline
+              rows={8}
+              value={schemaInput}
+              onChange={(e) => setSchemaInput(e.target.value)}
+              placeholder="Enter JSON Schema..."
+              error={!!validationError}
+            />
+          </Box>
+          <Button
+            variant="contained"
+            onClick={handleValidate}
+            startIcon={<Code />}
+          >
+            Validate JSON
+          </Button>
+
+          {validationErrors.length > 0 && (
+            <Paper sx={{ p: 2, mt: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                <Typography variant="h6" sx={{ flex: 1 }}>
+                  Validation Errors
+                </Typography>
+                <IconButton
+                  onClick={() => setShowValidationErrors(!showValidationErrors)}
+                >
+                  {showValidationErrors ? <ExpandLess /> : <ExpandMoreIcon />}
+                </IconButton>
+              </Box>
+              <Collapse in={showValidationErrors}>
+                <List>
+                  {validationErrors.map((error, index) => (
+                    <ListItem key={index}>
+                      <ListItemText
+                        primary={`${error.instancePath || 'root'}: ${error.message}`}
+                        secondary={`Schema path: ${error.schemaPath}`}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
+            </Paper>
+          )}
+        </Box>
       </TabPanel>
 
       <Snackbar

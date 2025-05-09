@@ -260,7 +260,7 @@ function App() {
       const diff = findDifferences(obj1, obj2)
       setDiffResult(JSON.stringify(diff, null, 2))
       setCompareError(null)
-      setTabValue(2)
+      setTabValue(1)
     } catch (err) {
       setCompareError('Invalid JSON format in one or both inputs')
     }
@@ -423,7 +423,6 @@ function App() {
         <Tabs value={tabValue} onChange={(_, newValue) => setTabValue(newValue)}>
           <Tab label="Format" />
           <Tab label="Compare" />
-          <Tab label="Diff Result" />
           <Tab label="Schema Validation" />
           <Tab label="Convert" />
           <Tab label="Query" />
@@ -548,36 +547,34 @@ function App() {
           >
             Compare JSONs
           </Button>
+
+          {diffResult && (
+            <Paper sx={{ p: 2, position: 'relative' }}>
+              <IconButton
+                onClick={() => {
+                  navigator.clipboard.writeText(diffResult)
+                  setSnackbarMessage('Diff copied to clipboard!')
+                  setSnackbar(true)
+                }}
+                sx={{ position: 'absolute', top: 8, right: 8 }}
+                color="primary"
+                title="Copy"
+              >
+                <ContentCopy />
+              </IconButton>
+              <SyntaxHighlighter
+                language="json"
+                style={vscDarkPlus}
+                customStyle={{ margin: 0, borderRadius: 4 }}
+              >
+                {diffResult}
+              </SyntaxHighlighter>
+            </Paper>
+          )}
         </Box>
       </TabPanel>
 
       <TabPanel value={tabValue} index={2}>
-        {diffResult && (
-          <Paper sx={{ p: 2, position: 'relative' }}>
-            <IconButton
-              onClick={() => {
-                navigator.clipboard.writeText(diffResult)
-                setSnackbarMessage('Diff copied to clipboard!')
-                setSnackbar(true)
-              }}
-              sx={{ position: 'absolute', top: 8, right: 8 }}
-              color="primary"
-              title="Copy"
-            >
-              <ContentCopy />
-            </IconButton>
-            <SyntaxHighlighter
-              language="json"
-              style={vscDarkPlus}
-              customStyle={{ margin: 0, borderRadius: 4 }}
-            >
-              {diffResult}
-            </SyntaxHighlighter>
-          </Paper>
-        )}
-      </TabPanel>
-
-      <TabPanel value={tabValue} index={3}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <TextField
@@ -637,7 +634,7 @@ function App() {
         </Box>
       </TabPanel>
 
-      <TabPanel value={tabValue} index={4}>
+      <TabPanel value={tabValue} index={3}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
             <ToggleButtonGroup
@@ -725,7 +722,7 @@ function App() {
         </Box>
       </TabPanel>
 
-      <TabPanel value={tabValue} index={5}>
+      <TabPanel value={tabValue} index={4}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
             <FormControl size="small" sx={{ minWidth: 100 }}>

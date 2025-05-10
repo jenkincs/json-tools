@@ -10,27 +10,28 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-syntax-highlighter": "^15.5.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.15.6",
     "@mui/icons-material": "^5.15.6",
+    "@mui/material": "^5.15.6",
     "@mui/x-tree-view": "^6.17.0",
     "ajv": "^8.12.0",
     "js-yaml": "^4.1.0",
     "jsonpath-plus": "^8.0.0",
     "jsontoxml": "^1.0.1",
-    "papaparse": "^5.4.1"
+    "papaparse": "^5.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-syntax-highlighter": "^15.5.0",
+    "recharts": "^2.15.3"
   },
   "devDependencies": {
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
-    "@types/react-syntax-highlighter": "^15.5.11",
     "@types/js-yaml": "^4.0.9",
     "@types/jsontoxml": "^1.0.1",
     "@types/papaparse": "^5.3.14",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@types/react-syntax-highlighter": "^15.5.11",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react": "^4.2.1",
@@ -40,4 +41,4 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   }
-} 
+}

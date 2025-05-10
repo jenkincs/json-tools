@@ -20,6 +20,7 @@ import { ConvertPanel } from './components/ConvertPanel'
 import { VisualizePanel } from './components/VisualizePanel'
 import { SchemaValidationPanel } from './components/SchemaValidationPanel'
 import { QueryPanel } from './components/QueryPanel'
+import { Footer } from './components/Footer'
 
 function App() {
   const [activeTab, setActiveTab] = useState(0)
@@ -84,7 +85,7 @@ function App() {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -93,7 +94,7 @@ function App() {
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+      <Container maxWidth="xl" sx={{ mt: 4, mb: 4, flexGrow: 1 }}>
         {/* SEO Optimized Page Introduction */}
         <Box sx={{ mb: 3 }}>
           <Typography variant="h4" component="h1" gutterBottom>
@@ -154,6 +155,8 @@ function App() {
           </TabPanel>
         </Paper>
       </Container>
+
+      <Footer />
 
       <Snackbar
         open={snackbar.open}

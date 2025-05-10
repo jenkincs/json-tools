@@ -1,10 +1,12 @@
 import { Box, Container, Typography, Link, Divider, IconButton, Stack, Grid, useTheme, useMediaQuery } from '@mui/material'
 import { GitHub, LinkedIn, Email, Twitter, Code, BugReport } from '@mui/icons-material'
+import { useThemeContext } from '../context/ThemeContext'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const { mode } = useThemeContext()
   
   return (
     <Box 

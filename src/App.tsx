@@ -11,8 +11,11 @@ import {
   AppBar,
   Toolbar,
   Divider,
-  Chip
+  Chip,
+  IconButton,
+  Tooltip
 } from '@mui/material'
+import { Brightness4, Brightness7 } from '@mui/icons-material'
 import { TabPanel } from './components/TabPanel'
 import { FormatPanel } from './components/FormatPanel'
 import { ComparePanel } from './components/ComparePanel'
@@ -21,8 +24,10 @@ import { VisualizePanel } from './components/VisualizePanel'
 import { SchemaValidationPanel } from './components/SchemaValidationPanel'
 import { QueryPanel } from './components/QueryPanel'
 import { Footer } from './components/Footer'
+import { useThemeContext } from './context/ThemeContext'
 
 function App() {
+  const { mode, toggleTheme } = useThemeContext();
   const [activeTab, setActiveTab] = useState(0)
   const [snackbar, setSnackbar] = useState<{
     open: boolean
@@ -91,6 +96,11 @@ function App() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             JSON Tools - Comprehensive JSON Utilities
           </Typography>
+          <Tooltip title={mode === 'dark' ? "切换到浅色模式" : "切换到深色模式"}>
+            <IconButton color="inherit" onClick={toggleTheme} aria-label="切换主题">
+              {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
 

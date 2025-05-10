@@ -609,6 +609,23 @@ export function VisualizePanel({ onSnackbar }: VisualizePanelProps) {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* SEO Enhancement - Page Description */}
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h5" component="h1" gutterBottom>
+          JSON Data Visualization Tool
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Transform your JSON data into meaningful visualizations with our powerful chart generator.
+          Create bar charts, line graphs, pie charts and more to gain insights from your data.
+          Perfect for data analysis, reporting, and presenting JSON data in a visual format.
+        </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+          {['Data visualization', 'JSON charts', 'JSON graphs', 'Data analysis', 'Chart generator', 'JSON plotting', 'Interactive charts'].map((keyword) => (
+            <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
+          ))}
+        </Box>
+      </Box>
+      
       <Paper sx={{ p: 2 }}>
         <Typography variant="h6" component="h2" gutterBottom>
           Data Visualization

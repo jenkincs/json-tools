@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Box,
   Container,
@@ -9,7 +9,9 @@ import {
   Alert,
   Typography,
   AppBar,
-  Toolbar
+  Toolbar,
+  Divider,
+  Chip
 } from '@mui/material'
 import { TabPanel } from './components/TabPanel'
 import { FormatPanel } from './components/FormatPanel'
@@ -30,6 +32,40 @@ function App() {
     message: '',
     severity: 'success'
   })
+
+  // SEO Optimization - Update document title based on active tab
+  useEffect(() => {
+    const tabTitles = [
+      "JSON Formatter & Beautifier | JSON Tools",
+      "JSON Diff & Compare Tool | JSON Tools",
+      "JSON Converter (XML, CSV, YAML) | JSON Tools",
+      "JSON Visualization Tool | JSON Tools",
+      "JSON Schema Validator | JSON Tools",
+      "JSONPath Query Tool | JSON Tools"
+    ];
+    
+    document.title = tabTitles[activeTab];
+    
+    // Add meta description based on active tab
+    const metaDescription = document.querySelector('meta[name="description"]');
+    const descriptions = [
+      "Free online JSON formatter, beautifier and validator with advanced formatting options. Format, validate and make your JSON data more readable.",
+      "Compare two JSON objects and visualize the differences. Perfect for API testing and debugging JSON outputs.",
+      "Convert JSON to XML, CSV, YAML and other formats easily. Transform your JSON data to different data representations.",
+      "Create interactive visualizations from your JSON data. Generate charts, graphs and visual representations with a few clicks.",
+      "Validate JSON against JSON Schema. Ensure your data matches the required structure and formats for your application.",
+      "Query JSON using JSONPath expressions. Extract specific data from complex JSON structures with powerful path syntax."
+    ];
+    
+    if (metaDescription) {
+      metaDescription.setAttribute('content', descriptions[activeTab]);
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = descriptions[activeTab];
+      document.head.appendChild(meta);
+    }
+  }, [activeTab]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
@@ -52,12 +88,30 @@ function App() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            JSON Tools
+            JSON Tools - Comprehensive JSON Utilities
           </Typography>
         </Toolbar>
       </AppBar>
 
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+        {/* SEO Optimized Page Introduction */}
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            All-in-One JSON Tools Suite
+          </Typography>
+          <Typography variant="body1" paragraph>
+            A comprehensive collection of JSON utilities for developers and data professionals. Format, validate, 
+            compare, convert, query, and visualize JSON data with these powerful online tools.
+          </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+            {['JSON tools', 'JSON formatter', 'JSON validator', 'JSON comparison', 'JSON converter',
+              'JSON visualization', 'JSON query', 'JSON schema', 'developer tools', 'data tools'].map((keyword) => (
+              <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
+            ))}
+          </Box>
+          <Divider sx={{ my: 2 }} />
+        </Box>
+        
         <Paper sx={{ width: '100%' }}>
           <Tabs
             value={activeTab}

@@ -14,7 +14,8 @@ import {
   FormControlLabel,
   Switch,
   Typography,
-  SelectChangeEvent
+  SelectChangeEvent,
+  Chip
 } from '@mui/material'
 import {
   ContentCopy,
@@ -139,6 +140,23 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* SEO Enhancement - Page Description */}
+      <Box sx={{ mb: 3 }}>
+        <Typography variant="h5" component="h1" gutterBottom>
+          JSON Converter - XML, CSV, YAML Conversion Tool
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Convert JSON data to and from different formats including YAML, XML, and CSV. This versatile tool 
+          offers customizable options for indentation, headers, and data formatting to meet your specific 
+          conversion needs. Perfect for data migration, API integrations, and format transformations.
+        </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+          {['JSON to YAML', 'JSON to XML', 'JSON to CSV', 'YAML to JSON', 'Format conversion', 'Data transformation', 'API integration', 'Data export'].map((keyword) => (
+            <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
+          ))}
+        </Box>
+      </Box>
+      
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
         <ToggleButtonGroup
           value={conversionType}

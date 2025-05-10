@@ -10,7 +10,9 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  SelectChangeEvent
+  SelectChangeEvent,
+  Typography,
+  Chip
 } from '@mui/material'
 import {
   ContentCopy,
@@ -117,6 +119,23 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* SEO Enhancement - Page Description */}
+      <Box sx={{ mb: 3 }}>
+        <Typography variant="h5" component="h1" gutterBottom>
+          JSON Formatter & Beautifier
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Format and beautify your JSON data with this easy-to-use tool. Improve readability with customizable 
+          indentation, validate JSON syntax, and quickly minify for production use. Upload from file or paste 
+          directly, then download or copy the formatted result.
+        </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+          {['JSON formatter', 'JSON beautifier', 'JSON validator', 'JSON minifier', 'Indent JSON', 'Format JSON', 'Readable JSON', 'JSON syntax'].map((keyword) => (
+            <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
+          ))}
+        </Box>
+      </Box>
+      
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
         <FormControl size="small" sx={{ minWidth: 100 }}>
           <InputLabel>Indent</InputLabel>

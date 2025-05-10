@@ -411,6 +411,23 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
 
   return (
     <Box sx={{ p: 2 }}>
+      {/* SEO Enhancement - Page Description */}
+      <Box sx={{ mb: 3 }}>
+        <Typography variant="h5" component="h1" gutterBottom>
+          JSON Schema Validation Tool
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Validate your JSON data against JSON Schema to ensure data integrity and structure. 
+          This tool helps developers verify that JSON payloads conform to predefined schemas, 
+          catching errors and ensuring data quality before integration or API usage.
+        </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+          {['JSON validation', 'Schema validation', 'API testing', 'Data validation', 'JSON Schema', 'JSON format', 'Data integrity'].map((keyword) => (
+            <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
+          ))}
+        </Box>
+      </Box>
+      
       {/* 顶部操作栏 */}
       <Paper sx={{ p: 2, mb: 3 }}>
         <Grid container spacing={2} alignItems="center">

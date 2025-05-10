@@ -5,7 +5,9 @@ import {
   Paper,
   IconButton,
   Tooltip,
-  Button
+  Button,
+  Typography,
+  Chip
 } from '@mui/material'
 import {
   ContentCopy,
@@ -60,6 +62,23 @@ export function ComparePanel({ onSnackbar }: ComparePanelProps) {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* SEO Enhancement - Page Description */}
+      <Box sx={{ mb: 3 }}>
+        <Typography variant="h5" component="h1" gutterBottom>
+          JSON Diff & Compare Tool
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Compare two JSON objects and identify all differences between them. Perfect for API testing, debugging 
+          response variations, and tracking changes in JSON data structures. This tool provides a detailed list 
+          of additions, deletions, and modifications between JSON objects.
+        </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+          {['JSON diff', 'JSON compare', 'JSON difference', 'API testing', 'Object comparison', 'Data comparison', 'JSON changes', 'JSON delta'].map((keyword) => (
+            <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
+          ))}
+        </Box>
+      </Box>
+      
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
           <TextField

@@ -554,150 +554,170 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
   }
 
   return (
-    <Box sx={{ p: 2 }}>
-      {/* Quick Actions Bar */}
-      <Paper sx={{ p: 2, mb: 2 }}>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Button
-            variant="outlined"
-            startIcon={<Info />}
-            onClick={() => setShowGuide(!showGuide)}
-          >
-            {showGuide ? 'Hide Guide' : 'Show Guide'}
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<PlayArrow />}
-            onClick={handleLoadTestData}
-          >
-            Load Test Data
-          </Button>
-          <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
-            Click on any example below to try it out
-          </Typography>
-        </Stack>
-      </Paper>
-
-      {/* Guide Section */}
-      <Collapse in={showGuide}>
-        <Paper sx={{ p: 2, mb: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            JSONPath Quick Guide
-          </Typography>
-          
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="subtitle2" gutterBottom>
-              示例数据结构:
-            </Typography>
-            <Box sx={{ 
-              overflowX: 'auto',
-              '& pre': {
-                margin: 0,
-                fontSize: '0.8rem',
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-word',
-                maxWidth: '100%'
-              }
-            }}>
-              <SyntaxHighlighter
-                language="json"
-                style={vscDarkPlus}
-                customStyle={{ 
-                  margin: 0, 
-                  borderRadius: 4,
-                  minWidth: '100%',
-                  maxHeight: '150px'
-                }}
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* SEO Enhancement - Page Description */}
+      <Box sx={{ mb: 3 }}>
+        <Typography variant="h5" component="h1" gutterBottom>
+          JSONPath Query Tool - Extract Data from JSON
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Query and extract specific data from complex JSON structures using JSONPath expressions. 
+          This powerful tool allows you to navigate and filter JSON data with precise path syntax, 
+          ideal for API response analysis, data extraction, and JSON processing workflows.
+        </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+          {['JSONPath', 'JSON query', 'JSON extraction', 'JSON filter', 'JSON navigator', 'API response parser', 'JSON data select', 'Path expressions'].map((keyword) => (
+            <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
+          ))}
+        </Box>
+      </Box>
+      
+      <Grid container spacing={3}>
+        {/* Quick Actions Bar */}
+        <Grid item xs={12}>
+          <Paper sx={{ p: 2, mb: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Button
+                variant="outlined"
+                startIcon={<Info />}
+                onClick={() => setShowGuide(!showGuide)}
               >
-                {JSON.stringify({
-                  store: {
-                    book: [
-                      {
-                        author: 'J.K. Rowling',
-                        title: 'Harry Potter',
-                        price: 9.99,
-                        inStock: true
-                      },
-                      // 更多图书...
-                    ],
-                    bicycle: { color: 'red', price: 199.99 }
-                  }
-                }, null, 2)}
-              </SyntaxHighlighter>
-            </Box>
-          </Box>
-          
-          <Grid container spacing={2}>
-            {COMMON_JSONPATH_EXAMPLES.map((example, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <Card variant="outlined">
-                  <CardContent>
-                    <Typography variant="subtitle2" gutterBottom>
-                      {example.label}
-                    </Typography>
-                    <Chip
-                      label={example.path}
-                      size="small"
-                      onClick={() => handleExampleClick(example.path)}
-                      sx={{ fontFamily: 'monospace', mb: 1 }}
-                    />
-                    <Typography variant="caption" color="text.secondary">
-                      {example.path === '$' && '返回整个JSON对象'}
-                      {example.path === '$.store' && '返回store对象及其所有内容'}
-                      {example.path === '$.store.book[*]' && '返回所有书籍数组中的对象'}
-                      {example.path === '$.store.book[0]' && '返回第一本书的所有信息'}
-                      {example.path === '$.store.book[*].title' && '返回所有书的标题，如 ["Harry Potter",...]'}
-                      {example.path === '$.store.book[?(@.inStock==true)]' && '返回所有库存为true的书'}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-          
-          <Box sx={{ mt: 3 }}>
-            <Typography variant="subtitle2" gutterBottom>
-              JSONPath 语法参考:
-            </Typography>
-            <List dense>
-              <ListItem>
-                <ListItemText
-                  primary="$"
-                  secondary="代表根对象"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary="."
-                  secondary="表示子元素，如 $.store.book 访问store下的book属性"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary="[n]"
-                  secondary="访问数组的第n个元素，如 $.store.book[0] 访问第一本书"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary="[*]"
-                  secondary="表示数组中的所有元素，如 $.store.book[*].title 返回所有书名"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary="[?(条件)]"
-                  secondary="根据条件筛选元素，如 $.store.book[?(@.price<10)] 返回价格小于10的书"
-                />
-              </ListItem>
-            </List>
-          </Box>
-        </Paper>
-      </Collapse>
+                {showGuide ? 'Hide Guide' : 'Show Guide'}
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<PlayArrow />}
+                onClick={handleLoadTestData}
+              >
+                Load Test Data
+              </Button>
+              <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
+                Click on any example below to try it out
+              </Typography>
+            </Stack>
+          </Paper>
+        </Grid>
 
-      {/* Main Content */}
-      <Grid container spacing={2}>
-        {/* Left Column - Input and Query */}
+        {/* Guide Section */}
+        <Grid item xs={12}>
+          <Collapse in={showGuide}>
+            <Paper sx={{ p: 2, mb: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                JSONPath Quick Guide
+              </Typography>
+              
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle2" gutterBottom>
+                  示例数据结构:
+                </Typography>
+                <Box sx={{ 
+                  overflowX: 'auto',
+                  '& pre': {
+                    margin: 0,
+                    fontSize: '0.8rem',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
+                    maxWidth: '100%'
+                  }
+                }}>
+                  <SyntaxHighlighter
+                    language="json"
+                    style={vscDarkPlus}
+                    customStyle={{ 
+                      margin: 0, 
+                      borderRadius: 4,
+                      minWidth: '100%',
+                      maxHeight: '150px'
+                    }}
+                  >
+                    {JSON.stringify({
+                      store: {
+                        book: [
+                          {
+                            author: 'J.K. Rowling',
+                            title: 'Harry Potter',
+                            price: 9.99,
+                            inStock: true
+                          },
+                          // 更多图书...
+                        ],
+                        bicycle: { color: 'red', price: 199.99 }
+                      }
+                    }, null, 2)}
+                  </SyntaxHighlighter>
+                </Box>
+              </Box>
+              
+              <Grid container spacing={2}>
+                {COMMON_JSONPATH_EXAMPLES.map((example, index) => (
+                  <Grid item xs={12} sm={6} md={4} key={index}>
+                    <Card variant="outlined">
+                      <CardContent>
+                        <Typography variant="subtitle2" gutterBottom>
+                          {example.label}
+                        </Typography>
+                        <Chip
+                          label={example.path}
+                          size="small"
+                          onClick={() => handleExampleClick(example.path)}
+                          sx={{ fontFamily: 'monospace', mb: 1 }}
+                        />
+                        <Typography variant="caption" color="text.secondary">
+                          {example.path === '$' && '返回整个JSON对象'}
+                          {example.path === '$.store' && '返回store对象及其所有内容'}
+                          {example.path === '$.store.book[*]' && '返回所有书籍数组中的对象'}
+                          {example.path === '$.store.book[0]' && '返回第一本书的所有信息'}
+                          {example.path === '$.store.book[*].title' && '返回所有书的标题，如 ["Harry Potter",...]'}
+                          {example.path === '$.store.book[?(@.inStock==true)]' && '返回所有库存为true的书'}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+              
+              <Box sx={{ mt: 3 }}>
+                <Typography variant="subtitle2" gutterBottom>
+                  JSONPath 语法参考:
+                </Typography>
+                <List dense>
+                  <ListItem>
+                    <ListItemText
+                      primary="$"
+                      secondary="代表根对象"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary="."
+                      secondary="表示子元素，如 $.store.book 访问store下的book属性"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary="[n]"
+                      secondary="访问数组的第n个元素，如 $.store.book[0] 访问第一本书"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary="[*]"
+                      secondary="表示数组中的所有元素，如 $.store.book[*].title 返回所有书名"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary="[?(条件)]"
+                      secondary="根据条件筛选元素，如 $.store.book[?(@.price<10)] 返回价格小于10的书"
+                    />
+                  </ListItem>
+                </List>
+              </Box>
+            </Paper>
+          </Collapse>
+        </Grid>
+
+        {/* Main Content */}
         <Grid item xs={12} md={8}>
           <Paper sx={{ p: 2, mb: 2 }}>
             <Typography variant="subtitle1" gutterBottom>

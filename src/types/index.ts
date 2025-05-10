@@ -41,10 +41,11 @@ export interface ChartData {
   name: string
   value: number
   color?: string
+  [key: string]: any  // 支持多系列数据的动态属性
 }
 
 export interface VisualizationOptions {
-  chartType: 'bar' | 'line' | 'pie'
+  chartType: 'bar' | 'line' | 'pie' | 'donut' | 'area' | 'stackedBar' | 'scatter' | 'radar' | 'treemap'
   xField: string
   yField: string
   colorField: string

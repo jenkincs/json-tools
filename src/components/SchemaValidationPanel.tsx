@@ -40,10 +40,10 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
 
-// Schema 模板
+// Schema templates
 const SCHEMA_TEMPLATES = [
   {
-    name: '通用对象',
+    name: 'Generic Object',
     schema: {
       type: 'object',
       properties: {
@@ -55,7 +55,7 @@ const SCHEMA_TEMPLATES = [
     }
   },
   {
-    name: '用户列表',
+    name: 'User List',
     schema: {
       type: 'array',
       items: {
@@ -71,7 +71,7 @@ const SCHEMA_TEMPLATES = [
     }
   },
   {
-    name: '配置对象',
+    name: 'Configuration Object',
     schema: {
       type: 'object',
       properties: {
@@ -94,10 +94,10 @@ const SCHEMA_TEMPLATES = [
   }
 ]
 
-// 示例数据
+// Example data
 const DATA_EXAMPLES = [
   {
-    name: '通用对象',
+    name: 'Generic Object',
     data: {
       name: "John Doe",
       age: 30,
@@ -105,14 +105,14 @@ const DATA_EXAMPLES = [
     }
   },
   {
-    name: '用户列表',
+    name: 'User List',
     data: [
       { id: 1, name: "John", email: "john@example.com", active: true },
       { id: 2, name: "Jane", email: "jane@example.com", active: false }
     ]
   },
   {
-    name: '配置对象',
+    name: 'Configuration Object',
     data: {
       appName: "MyApp",
       version: "1.0.0",
@@ -149,37 +149,37 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
   const [selectedDataExample, setSelectedDataExample] = useState<number | ''>('')
   const [selectedSchemaTemplate, setSelectedSchemaTemplate] = useState<number | ''>('')
   
-  // 加载模板
+  // Load template
   const handleLoadTemplate = (index: number) => {
     setSchemaInput(JSON.stringify(SCHEMA_TEMPLATES[index].schema, null, 2));
     setSelectedSchemaTemplate(index);
     
-    // 自动加载对应的示例数据
+    // Automatically load corresponding example data
     if (SCHEMA_TEMPLATES[index].name === DATA_EXAMPLES[index].name) {
       setInput(JSON.stringify(DATA_EXAMPLES[index].data, null, 2));
       setSelectedDataExample(index);
-      onSnackbar(`已加载 Schema 模板和匹配的示例数据: ${SCHEMA_TEMPLATES[index].name}`);
+      onSnackbar(`Schema template and matching example data loaded: ${SCHEMA_TEMPLATES[index].name}`);
     } else {
       onSnackbar('Schema template loaded');
     }
   }
   
-  // 加载示例数据
+  // Load example data
   const handleLoadExample = (index: number) => {
     setInput(JSON.stringify(DATA_EXAMPLES[index].data, null, 2));
     setSelectedDataExample(index);
     
-    // 自动加载对应的 Schema 模板
+    // Automatically load corresponding schema template
     if (DATA_EXAMPLES[index].name === SCHEMA_TEMPLATES[index].name) {
       setSchemaInput(JSON.stringify(SCHEMA_TEMPLATES[index].schema, null, 2));
       setSelectedSchemaTemplate(index);
-      onSnackbar(`已加载示例数据和匹配的 Schema 模板: ${DATA_EXAMPLES[index].name}`);
+      onSnackbar(`Example data and matching schema template loaded: ${DATA_EXAMPLES[index].name}`);
     } else {
       onSnackbar('Example data loaded');
     }
   }
 
-  // 验证逻辑
+  // Validation logic
   const handleValidate = () => {
     try {
       if (!input.trim() || !schemaInput.trim()) {
@@ -194,7 +194,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
         allErrors: true,
         verbose: true
       })
-      addFormats(ajv) // 添加email, date等格式验证
+      addFormats(ajv) // Add email, date and other format validations
       
       const validate = ajv.compile(schema)
       const valid = validate(jsonData)
@@ -205,13 +205,13 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
         setIsValid(true)
         onSnackbar('JSON is valid according to the schema!', 'success')
       } else {
-        // 更详细的错误信息
+        // More detailed error information
         const errors = validate.errors?.map(error => {
-          // 根据错误路径获取实际数据值
+          // Get actual data value based on error path
           let dataValue;
           if (error.instancePath) {
             try {
-              // 从JSON数据中提取出对应路径的实际值
+              // Extract the actual value from JSON data at the corresponding path
               const path = error.instancePath.split('/').filter(p => p);
               let current = jsonData;
               for (const segment of path) {
@@ -219,11 +219,11 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
               }
               dataValue = current;
             } catch (e) {
-              // 如果路径解析出错，使用错误对象提供的数据
+              // If path parsing fails, use the data provided by the error object
               dataValue = error.data;
             }
           } else {
-            // 如果没有路径，可能是根对象或其他
+            // If there's no path, it might be the root object or something else
             dataValue = error.data || jsonData;
           }
           
@@ -266,17 +266,17 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
     onSnackbar('Copied to clipboard!');
   }
   
-  // 获取错误详情的辅助函数
+  // Helper function for error details
   const getErrorDetails = (error: ValidationErrorDetails) => {
     switch (error.keyword) {
       case 'type': {
-        // 直接获取实际值
+        // Get actual value directly
         const actualValue = error.data;
         
-        // 确定实际类型
+        // Determine actual type
         let actualType;
         if (actualValue === undefined) {
-          // 特殊处理undefined情况，这可能是由于数据访问路径问题
+          // Special handling for undefined, which might be due to path issues
           actualType = 'undefined';
         } else if (actualValue === null) {
           actualType = 'null';
@@ -286,16 +286,16 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
           actualType = typeof actualValue;
         }
         
-        // 创建值的表示
+        // Create value representation
         let displayValue = '';
         if (actualValue !== undefined) {
           try {
             const valueStr = JSON.stringify(actualValue);
             if (valueStr && valueStr.length < 50) {
-              displayValue = ` (值: ${valueStr})`;
+              displayValue = ` (Value: ${valueStr})`;
             }
           } catch (e) {
-            // 忽略序列化错误
+            // Ignore serialization errors
           }
         }
         
@@ -306,7 +306,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
         return `Missing required property: '${error.params.missingProperty}'`;
       
       case 'enum': {
-        // 处理枚举类型错误
+        // Handle enum type errors
         let valueStr = '';
         const actualValue = error.data;
         if (actualValue !== undefined) {
@@ -324,7 +324,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
       }
       
       case 'format': {
-        // 格式错误
+        // Format errors
         let valueStr = '';
         try {
           valueStr = JSON.stringify(error.data);
@@ -338,7 +338,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
       }
       
       case 'minimum': {
-        // 最小值错误
+        // Minimum value errors
         try {
           return `Value ${error.data} must be >= ${error.params.limit}`;
         } catch (e) {
@@ -347,7 +347,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
       }
       
       case 'maximum': {
-        // 最大值错误
+        // Maximum value errors
         try {
           return `Value ${error.data} must be <= ${error.params.limit}`;
         } catch (e) {
@@ -356,7 +356,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
       }
       
       case 'minLength': {
-        // 最小长度错误
+        // Minimum length errors
         try {
           const strValue = String(error.data || '');
           return `String '${strValue.length > 20 ? strValue.substring(0, 17) + '...' : strValue}' length (${strValue.length}) must be >= ${error.params.limit}`;
@@ -366,7 +366,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
       }
       
       case 'maxLength': {
-        // 最大长度错误
+        // Maximum length errors
         try {
           const strValue = String(error.data || '');
           return `String length (${strValue.length}) must be <= ${error.params.limit}`;
@@ -376,7 +376,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
       }
       
       case 'pattern': {
-        // 模式匹配错误
+        // Pattern matching errors
         try {
           const strValue = String(error.data || '');
           return `String '${strValue.length > 15 ? strValue.substring(0, 12) + '...' : strValue}' must match pattern: ${error.params.pattern}`;
@@ -386,19 +386,19 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
       }
       
       default:
-        // 默认情况返回原始错误信息
+        // Return original error message by default
         return error.message || 'Unknown validation error';
     }
   }
   
-  // 突出显示有错误的数据部分
+  // Highlight data with error
   const highlightDataWithError = () => {
     if (!selectedErrorPath || !input) return input;
     
     try {
       const jsonData = JSON.parse(input);
       
-      // 辅助函数：显示带有高亮的JSON字符串
+      // Helper function: display JSON string with highlighting
       const highlightJSON = (obj: any, path: string) => {
         return JSON.stringify(obj, null, 2);
       };
@@ -416,10 +416,10 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} sm={6} md={3}>
             <FormControl fullWidth size="small">
-              <InputLabel>加载示例数据</InputLabel>
+              <InputLabel>Load Example Data</InputLabel>
               <Select
                 value={selectedDataExample}
-                label="加载示例数据"
+                label="Load Example Data"
                 onChange={(e) => {
                   const index = parseInt(e.target.value as string);
                   if (!isNaN(index)) handleLoadExample(index);
@@ -434,10 +434,10 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
           
           <Grid item xs={12} sm={6} md={3}>
             <FormControl fullWidth size="small">
-              <InputLabel>加载 Schema 模板</InputLabel>
+              <InputLabel>Load Schema Template</InputLabel>
               <Select
                 value={selectedSchemaTemplate}
-                label="加载 Schema 模板"
+                label="Load Schema Template"
                 onChange={(e) => {
                   const index = parseInt(e.target.value as string);
                   if (!isNaN(index)) handleLoadTemplate(index);
@@ -457,7 +457,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
                 startIcon={<Article />}
                 onClick={() => setShowExamples(!showExamples)}
               >
-                {showExamples ? '隐藏说明' : '查看说明'}
+                {showExamples ? 'Hide Guide' : 'View Guide'}
               </Button>
               
               <Button 
@@ -466,7 +466,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
                 onClick={handleValidate}
                 color={isValid === true ? 'success' : isValid === false ? 'error' : 'primary'}
               >
-                验证
+                Validate
               </Button>
             </Stack>
           </Grid>
@@ -477,24 +477,24 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
       <Collapse in={showExamples}>
         <Paper sx={{ p: 2, mb: 3 }}>
           <Typography variant="h6" gutterBottom>
-            JSON Schema 验证说明
+            JSON Schema Validation Guide
           </Typography>
           <Typography variant="body2" paragraph>
-            JSON Schema 是一种验证 JSON 数据结构的声明式语言。您可以定义数据应该具有的格式、
-            必填字段、数据类型等，然后验证 JSON 数据是否符合这些规则。
+            JSON Schema is a declarative language for validating JSON data. You can define the format,
+            required fields, and data types, then validate whether JSON data meets these rules.
           </Typography>
           
           <Divider sx={{ my: 2 }} />
           
           <Typography variant="subtitle2" gutterBottom>
-            常用 Schema 关键字示例：
+            Common Schema Keywords Examples:
           </Typography>
           
           <Grid container spacing={2} sx={{ mt: 1 }}>
             <Grid item xs={12} sm={6} md={4}>
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="subtitle2">类型验证</Typography>
+                  <Typography variant="subtitle2">Type Validation</Typography>
                   <SyntaxHighlighter
                     language="json"
                     style={vscDarkPlus}
@@ -503,7 +503,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
 {`{
   "type": "string" 
 }
-// 或
+// Or
 {
   "type": ["string", "number"]
 }`}
@@ -515,7 +515,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
             <Grid item xs={12} sm={6} md={4}>
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="subtitle2">必填字段</Typography>
+                  <Typography variant="subtitle2">Required Fields</Typography>
                   <SyntaxHighlighter
                     language="json"
                     style={vscDarkPlus}
@@ -537,7 +537,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
             <Grid item xs={12} sm={6} md={4}>
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="subtitle2">数值范围</Typography>
+                  <Typography variant="subtitle2">Value Range</Typography>
                   <SyntaxHighlighter
                     language="json"
                     style={vscDarkPlus}
@@ -563,7 +563,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="subtitle1" gutterBottom>
-              JSON 数据
+              JSON Data
             </Typography>
             <Box sx={{ position: 'relative' }}>
               <TextField
@@ -577,12 +577,12 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
                 sx={{ fontFamily: 'monospace' }}
               />
               <Box sx={{ position: 'absolute', top: 8, right: 8, display: 'flex', gap: 1 }}>
-                <Tooltip title="粘贴">
+                <Tooltip title="Paste">
                   <IconButton size="small" onClick={() => handlePaste(false)}>
                     <ContentPaste fontSize="small" />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="复制">
+                <Tooltip title="Copy">
                   <IconButton size="small" onClick={() => handleCopy(input)}>
                     <ContentCopy fontSize="small" />
                   </IconButton>
@@ -616,12 +616,12 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
                 sx={{ fontFamily: 'monospace' }}
               />
               <Box sx={{ position: 'absolute', top: 8, right: 8, display: 'flex', gap: 1 }}>
-                <Tooltip title="粘贴">
+                <Tooltip title="Paste">
                   <IconButton size="small" onClick={() => handlePaste(true)}>
                     <ContentPaste fontSize="small" />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="复制">
+                <Tooltip title="Copy">
                   <IconButton size="small" onClick={() => handleCopy(schemaInput)}>
                     <ContentCopy fontSize="small" />
                   </IconButton>
@@ -639,7 +639,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
             {isValid ? (
               <Chip 
                 icon={<Check />} 
-                label="验证通过" 
+                label="Validation Passed" 
                 color="success" 
                 variant="outlined"
                 sx={{ mr: 2 }}
@@ -647,7 +647,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
             ) : (
               <Chip 
                 icon={<ErrorIcon />} 
-                label={`发现 ${validationErrors.length} 个错误`} 
+                label={`Found ${validationErrors.length} errors`} 
                 color="error" 
                 variant="outlined"
                 sx={{ mr: 2 }}
@@ -683,7 +683,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
                     <ListItemText
                       primary={
                         <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                          位置: {error.path || 'root'}
+                          Path: {error.path || 'root'}
                         </Typography>
                       }
                       secondary={
@@ -692,7 +692,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
                             {getErrorDetails(error)}
                           </Typography>
                           <Typography variant="caption" color="text.secondary">
-                            错误类型: {error.keyword}
+                            Error type: {error.keyword}
                           </Typography>
                         </Box>
                       }

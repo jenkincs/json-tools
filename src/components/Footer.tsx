@@ -1,12 +1,14 @@
 import { Box, Container, Typography, Link, Divider, IconButton, Stack, Grid, useTheme, useMediaQuery } from '@mui/material'
 import { GitHub, LinkedIn, Email, Twitter, Code, BugReport } from '@mui/icons-material'
 import { useThemeContext } from '../context/ThemeContext'
+import { useTranslation } from 'react-i18next'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
   const { mode } = useThemeContext()
+  const { t } = useTranslation()
   
   return (
     <Box 
@@ -28,39 +30,39 @@ export function Footer() {
               JSON Tools
             </Typography>
             <Typography variant="body2" color="inherit" sx={{ mb: 1 }}>
-              A comprehensive suite of JSON utilities for developers and data professionals.
+              {t('footer.description')}
             </Typography>
             <Typography variant="body2" color="inherit">
-              Built with React, TypeScript, and Material-UI.
+              {t('footer.built')}
             </Typography>
             <Typography variant="body2" color="inherit" sx={{ mt: 2 }}>
-              © {currentYear} JSON Tools. All rights reserved.
+              {t('footer.copyright', { year: currentYear })}
             </Typography>
           </Grid>
           
           {/* Tools Links */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography variant="subtitle1" color="text.primary" gutterBottom>
-              Tools
+              {t('footer.tools')}
             </Typography>
             <Stack spacing={1}>
-              <Link href="#" color="primary" variant="body2" underline="hover">JSON Formatter & Beautifier</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover">JSON Diff & Compare</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover">JSON Converter (XML, CSV, YAML)</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover">JSON Visualizer</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover">JSON Schema Validator</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover">JSONPath Query Tool</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover">{t('format.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover">{t('compare.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover">{t('convert.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover">{t('visualize.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover">{t('validate.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover">{t('query.title')}</Link>
             </Stack>
           </Grid>
           
           {/* Resources */}
           <Grid item xs={12} sm={6} md={2}>
             <Typography variant="subtitle1" color="text.primary" gutterBottom>
-              Resources
+              {t('footer.resources')}
             </Typography>
             <Stack spacing={1}>
-              <Link href="#" color="primary" variant="body2" underline="hover">Documentation</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover">API Reference</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover">{t('footer.documentation')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover">{t('footer.apiReference')}</Link>
               <Link href="https://json.org/" target="_blank" rel="noopener" color="primary" variant="body2" underline="hover">JSON.org</Link>
               <Link href="https://jsonpath.com/" target="_blank" rel="noopener" color="primary" variant="body2" underline="hover">JSONPath Reference</Link>
               <Link href="https://json-schema.org/" target="_blank" rel="noopener" color="primary" variant="body2" underline="hover">JSON Schema</Link>
@@ -70,7 +72,7 @@ export function Footer() {
           {/* Developer Contact */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography variant="subtitle1" color="text.primary" gutterBottom>
-              Connect with the Developer
+              {t('footer.connect')}
             </Typography>
             <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
               <IconButton size="small" color="primary" aria-label="GitHub" component="a" href="https://github.com/yourusername" target="_blank" rel="noopener">
@@ -87,14 +89,14 @@ export function Footer() {
               </IconButton>
             </Stack>
             <Typography variant="body2" color="inherit" sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-              <Email fontSize="small" /> your.email@example.com
+              <Email fontSize="small" /> {t('footer.contactEmail')}
             </Typography>
             <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
               <Link href="https://github.com/yourusername/json-formatter-v2" target="_blank" rel="noopener" color="primary" variant="body2" underline="hover" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Code fontSize="small" /> Source Code
+                <Code fontSize="small" /> {t('footer.sourceCode')}
               </Link>
               <Link href="https://github.com/yourusername/json-formatter-v2/issues" target="_blank" rel="noopener" color="primary" variant="body2" underline="hover" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <BugReport fontSize="small" /> Report Bug
+                <BugReport fontSize="small" /> {t('footer.reportBug')}
               </Link>
             </Stack>
           </Grid>
@@ -106,11 +108,11 @@ export function Footer() {
         
         <Box sx={{ pt: 2, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'center', sm: 'center' }, gap: 1 }}>
           <Typography variant="caption" color="inherit">
-            All tools on this site are client-side only. Your data never leaves your browser.
+            {t('footer.privacy')}
           </Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
-            <Link href="#" color="primary" variant="caption" underline="hover">Privacy Policy</Link>
-            <Link href="#" color="primary" variant="caption" underline="hover">Terms of Use</Link>
+            <Link href="#" color="primary" variant="caption" underline="hover">{t('footer.privacyPolicy')}</Link>
+            <Link href="#" color="primary" variant="caption" underline="hover">{t('footer.termsOfUse')}</Link>
           </Box>
         </Box>
       </Container>

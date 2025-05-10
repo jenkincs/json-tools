@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Box,
   TextField,
@@ -29,7 +30,8 @@ import {
   StackedBarChart as StackedBarChartIcon,
   BubbleChart as ScatterChartIcon,
   ExpandMore,
-  ShowChart
+  ShowChart,
+  GridOn as TreemapIcon
 } from '@mui/icons-material'
 import {
   BarChart,
@@ -68,7 +70,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'
 // 示例数据
 const EXAMPLE_DATA = [
   {
-    name: 'Example 1 - Simple Data',
+    id: 'example1',
     data: JSON.stringify([
       { "Month": "January", "Sales": 1200, "Cost": 800, "Profit": 400, "Category": "Electronics" },
       { "Month": "February", "Sales": 1900, "Cost": 1200, "Profit": 700, "Category": "Electronics" },
@@ -78,7 +80,7 @@ const EXAMPLE_DATA = [
     ], null, 2)
   },
   {
-    name: 'Example 2 - Multi-series Data',
+    id: 'example2',
     data: JSON.stringify([
       { "Region": "North", "Electronics": 4200, "Clothing": 2800, "Food": 3500 },
       { "Region": "East", "Electronics": 5500, "Clothing": 3100, "Food": 4100 },
@@ -87,7 +89,7 @@ const EXAMPLE_DATA = [
     ], null, 2)
   },
   {
-    name: 'Example 3 - Nested Data',
+    id: 'example3',
     data: JSON.stringify({
       "SalesData": {
         "2023": {
@@ -102,6 +104,7 @@ const EXAMPLE_DATA = [
 ]
 
 export function VisualizePanel({ onSnackbar }: VisualizePanelProps) {
+  const { t } = useTranslation();
   const [input, setInput] = useState('')
   const [chartData, setChartData] = useState<ChartData[]>([])
   const [availableFields, setAvailableFields] = useState<string[]>([])
@@ -186,19 +189,19 @@ export function VisualizePanel({ onSnackbar }: VisualizePanelProps) {
   const handleVisualize = () => {
     try {
       if (!input.trim()) {
-        setVisualizationError('Please enter JSON data')
+        setVisualizationError(t('common.error.emptyInput', { content: 'JSON data', action: 'visualize' }));
         return
       }
 
       const jsonData = JSON.parse(input)
       
       if (!visualizationOptions.xField || (!visualizationOptions.yField && !multiSeriesMode)) {
-        setVisualizationError('Please select X and Y fields')
+        setVisualizationError(t('visualize.selectFields'));
         return
       }
       
       if (multiSeriesMode && seriesFields.length === 0) {
-        setVisualizationError('Please select at least one data series')
+        setVisualizationError(t('visualize.selectSeries'));
         return
       }
 
@@ -260,16 +263,16 @@ export function VisualizePanel({ onSnackbar }: VisualizePanelProps) {
       
       // 确保生成的数据至少有一个项
       if (chartData.length === 0) {
-        setVisualizationError('No valid data points to visualize')
+        setVisualizationError(t('visualize.noDataPoints'));
         return
       }
       
       setChartData(chartData)
       setVisualizationError(null)
-      onSnackbar('Chart updated')
+      onSnackbar(t('visualize.chartUpdated'))
     } catch (err) {
       console.error(err)
-      setVisualizationError('Invalid JSON format')
+      setVisualizationError(t('common.error.invalidJson'));
       setChartData([])
     }
   }
@@ -300,16 +303,16 @@ export function VisualizePanel({ onSnackbar }: VisualizePanelProps) {
       const text = await navigator.clipboard.readText()
       setInput(text)
     } catch (err) {
-      setVisualizationError('Failed to read from clipboard')
+      setVisualizationError(t('common.error.clipboard'));
     }
   }
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(input)
-      onSnackbar('Copied to clipboard')
+      onSnackbar(t('common.copied', { content: 'JSON' }));
     } catch (err) {
-      setVisualizationError('Failed to copy to clipboard')
+      setVisualizationError(t('common.error.clipboard'));
     }
   }
 
@@ -525,39 +528,16 @@ export function VisualizePanel({ onSnackbar }: VisualizePanelProps) {
             <Treemap
               data={chartData}
               dataKey={multiSeriesMode ? seriesFields[0] : "value"}
-              ratio={4/3}
               stroke="#fff"
               fill="#8884d8"
-              content={({ root, depth, x, y, width, height, index, payload, colors, rank, name }) => {
-                return (
-                  <g>
-                    <rect
-                      x={x}
-                      y={y}
-                      width={width}
-                      height={height}
-                      style={{
-                        fill: chartData[index]?.color || COLORS[index % COLORS.length],
-                        stroke: '#fff',
-                        strokeWidth: 2 / (depth + 1e-10),
-                        strokeOpacity: 1 / (depth + 1e-10),
-                      }}
-                    />
-                    {depth === 1 && (
-                      <text
-                        x={x + width / 2}
-                        y={y + height / 2 + 7}
-                        textAnchor="middle"
-                        fill="#fff"
-                        fontSize={14}
-                      >
-                        {chartData[index]?.name}
-                      </text>
-                    )}
-                  </g>
-                );
-              }}
-            />
+            >
+              {chartData.map((entry, index) => (
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={entry.color || COLORS[index % COLORS.length]} 
+                />
+              ))}
+            </Treemap>
           </ResponsiveContainer>
         )
       default:
@@ -610,309 +590,262 @@ export function VisualizePanel({ onSnackbar }: VisualizePanelProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       {/* SEO Enhancement - Page Description */}
-      <Box sx={{ mb: 2 }}>
+      <Box sx={{ mb: 3 }}>
         <Typography variant="h5" component="h1" gutterBottom>
-          JSON Data Visualization Tool
+          {t('visualize.title')}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Transform your JSON data into meaningful visualizations with our powerful chart generator.
-          Create bar charts, line graphs, pie charts and more to gain insights from your data.
-          Perfect for data analysis, reporting, and presenting JSON data in a visual format.
+          {t('visualize.description')}
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {['Data visualization', 'JSON charts', 'JSON graphs', 'Data analysis', 'Chart generator', 'JSON plotting', 'Interactive charts'].map((keyword) => (
-            <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
-          ))}
+          {(() => {
+            try {
+              const keywords = t('visualize.keywords', { returnObjects: true });
+              if (Array.isArray(keywords)) {
+                return keywords.map((keyword, index) => (
+                  <Chip 
+                    key={index} 
+                    label={String(keyword)} 
+                    size="small" 
+                    variant="outlined" 
+                    sx={{ borderRadius: 1 }} 
+                  />
+                ));
+              }
+            } catch (error) {
+              console.error('Error rendering keywords:', error);
+            }
+            return null;
+          })()}
         </Box>
       </Box>
       
-      <Paper sx={{ p: 2 }}>
-        <Typography variant="h6" component="h2" gutterBottom>
-          Data Visualization
-        </Typography>
-        <Divider sx={{ mb: 2 }} />
-        
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Typography variant="subtitle1">JSON Data</Typography>
+            <Paper sx={{ p: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="subtitle1" fontWeight="bold">
+                  {t('visualize.jsonData')}
+                </Typography>
                 <Box>
-                  <Button 
-                    size="small" 
-                    variant="outlined" 
-                    color="primary" 
-                    onClick={() => setDataExample(true)}
-                    sx={{ mr: 1 }}
-                  >
-                    Load Examples
-                  </Button>
-                  <Tooltip title="Paste">
+                  <Tooltip title={t('format.paste')}>
                     <IconButton onClick={handlePaste} size="small">
-                      <ContentPaste />
+                      <ContentPaste fontSize="small" />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Copy">
+                  <Tooltip title={t('format.copy')}>
                     <IconButton onClick={handleCopy} size="small">
-                      <ContentCopy />
+                      <ContentCopy fontSize="small" />
                     </IconButton>
                   </Tooltip>
                 </Box>
               </Box>
-              
               <TextField
                 fullWidth
                 multiline
-                rows={10}
+                rows={8}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Enter JSON data here..."
+                placeholder={t('visualize.enterJson')}
                 error={!!visualizationError}
                 helperText={visualizationError}
+                sx={{ mb: 2 }}
               />
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Button 
+                  variant="outlined" 
+                  size="small"
+                  onClick={() => setDataExample(!dataExample)}
+                >
+                  {t('visualize.loadExample')}
+                </Button>
+                <Button 
+                  variant="contained" 
+                  color="primary"
+                  onClick={handleVisualize}
+                  disabled={!input.trim()}
+                >
+                  {t('visualize.visualize')}
+                </Button>
+              </Box>
               
               {dataExample && (
-                <Paper variant="outlined" sx={{ p: 1, mt: 1 }}>
-                  <Typography variant="subtitle2" gutterBottom>Example Data:</Typography>
+                <Box sx={{ mt: 2 }}>
+                  <Typography variant="subtitle2" gutterBottom>
+                    {t('visualize.examples')}
+                  </Typography>
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                     {EXAMPLE_DATA.map((example, index) => (
                       <Button 
                         key={index}
+                        variant="outlined" 
                         size="small"
-                        variant="outlined"
                         onClick={() => loadExampleData(example.data)}
                       >
-                        {example.name}
+                        {t(`visualize.exampleData.${example.id}`)}
                       </Button>
                     ))}
                   </Box>
-                </Paper>
+                </Box>
               )}
-            </Box>
+            </Paper>
           </Grid>
           
           <Grid item xs={12} md={6}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <Typography variant="subtitle1">Chart Configuration</Typography>
+            <Paper sx={{ p: 2 }}>
+              <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+                {t('visualize.chartOptions')}
+              </Typography>
               
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
-                <FormControl size="small" sx={{ minWidth: 150 }}>
-                  <InputLabel>Chart Type</InputLabel>
+              <FormControl fullWidth margin="normal" size="small">
+                <InputLabel>{t('visualize.chartType')}</InputLabel>
+                <Select
+                  value={visualizationOptions.chartType}
+                  label={t('visualize.chartType')}
+                  onChange={handleChartTypeChange}
+                >
+                  <MenuItem value="bar">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <BarChartIcon sx={{ mr: 1 }} fontSize="small" />
+                      {t('visualize.barChart')}
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="line">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <LineChartIcon sx={{ mr: 1 }} fontSize="small" />
+                      {t('visualize.lineChart')}
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="pie">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <PieChartIcon sx={{ mr: 1 }} fontSize="small" />
+                      {t('visualize.pieChart')}
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="donut">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <DonutChartIcon sx={{ mr: 1 }} fontSize="small" />
+                      {t('visualize.donutChart')}
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="area">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <ShowChart sx={{ mr: 1 }} fontSize="small" />
+                      {t('visualize.areaChart')}
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="stackedBar">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <StackedBarChartIcon sx={{ mr: 1 }} fontSize="small" />
+                      {t('visualize.stackedBarChart')}
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="scatter">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <ScatterChartIcon sx={{ mr: 1 }} fontSize="small" />
+                      {t('visualize.scatterChart')}
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="radar">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <ShowChart sx={{ mr: 1 }} fontSize="small" />
+                      {t('visualize.radarChart')}
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="treemap">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <TreemapIcon sx={{ mr: 1 }} fontSize="small" />
+                      {t('visualize.treemapChart')}
+                    </Box>
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              
+              <FormControl fullWidth margin="normal" size="small">
+                <InputLabel>{t('visualize.xAxisField')}</InputLabel>
+                <Select
+                  value={visualizationOptions.xField}
+                  label={t('visualize.xAxisField')}
+                  onChange={(e) => handleFieldChange('xField', e.target.value)}
+                  disabled={availableFields.length === 0}
+                >
+                  {availableFields.map((field) => (
+                    <MenuItem key={field} value={field}>
+                      {field} {isCategoryField(field) ? `(${t('visualize.category')})` : ''}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              
+              {!multiSeriesMode && (
+                <FormControl fullWidth margin="normal" size="small">
+                  <InputLabel>{t('visualize.yAxisField')}</InputLabel>
                   <Select
-                    value={visualizationOptions.chartType}
-                    label="Chart Type"
-                    onChange={handleChartTypeChange}
+                    value={visualizationOptions.yField}
+                    label={t('visualize.yAxisField')}
+                    onChange={(e) => handleFieldChange('yField', e.target.value)}
+                    disabled={availableFields.length === 0}
                   >
-                    <MenuItem value="bar">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <BarChartIcon /> Bar Chart
-                      </Box>
-                    </MenuItem>
-                    <MenuItem value="stackedBar">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <StackedBarChartIcon /> Stacked Bar 
-                        <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>
-                          (requires multi-series)
-                        </Typography>
-                      </Box>
-                    </MenuItem>
-                    <MenuItem value="line">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <LineChartIcon /> Line Chart
-                      </Box>
-                    </MenuItem>
-                    <MenuItem value="area">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <ShowChart /> Area Chart
-                      </Box>
-                    </MenuItem>
-                    <MenuItem value="pie">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <PieChartIcon /> Pie Chart
-                      </Box>
-                    </MenuItem>
-                    <MenuItem value="donut">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <DonutChartIcon /> Donut Chart
-                      </Box>
-                    </MenuItem>
-                    <MenuItem value="scatter">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <ScatterChartIcon /> Scatter Plot
-                      </Box>
-                    </MenuItem>
-                    <MenuItem value="radar">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <DonutChartIcon /> Radar Chart
-                      </Box>
-                    </MenuItem>
-                    <MenuItem value="treemap">
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <BarChartIcon /> Treemap
-                      </Box>
-                    </MenuItem>
+                    {availableFields
+                      .filter(field => isNumericField(field))
+                      .map((field) => (
+                        <MenuItem key={field} value={field}>
+                          {field} {isNumericField(field) ? `(${t('visualize.numeric')})` : ''}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
-                
-                <FormControl size="small" sx={{ minWidth: 150 }}>
-                  <InputLabel>X-Axis Field</InputLabel>
-                  <Select
-                    value={visualizationOptions.xField}
-                    label="X-Axis Field"
-                    onChange={(e) => handleFieldChange('xField', e.target.value)}
-                  >
-                    {availableFields.map((field) => (
-                      <MenuItem key={field} value={field}>
-                        {field} {isCategoryField(field) && <small style={{ color: 'gray' }}>(category)</small>}
-                        {isNumericField(field) && <small style={{ color: 'gray' }}>(numeric)</small>}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                
-                {!multiSeriesMode && (
-                  <FormControl size="small" sx={{ minWidth: 150 }}>
-                    <InputLabel>Y-Axis Field</InputLabel>
-                    <Select
-                      value={visualizationOptions.yField}
-                      label="Y-Axis Field"
-                      onChange={(e) => handleFieldChange('yField', e.target.value)}
-                    >
-                      {availableFields
-                        .filter(field => isNumericField(field))
-                        .map((field) => (
-                          <MenuItem key={field} value={field}>
-                            {field} <small style={{ color: 'gray' }}>(numeric)</small>
-                          </MenuItem>
-                        ))}
-                      {availableFields
-                        .filter(field => !isNumericField(field))
-                        .map((field) => (
-                          <MenuItem key={field} value={field}>
-                            {field}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                  </FormControl>
-                )}
-                
-                {!multiSeriesMode && (
-                  <FormControl size="small" sx={{ minWidth: 150 }}>
-                    <InputLabel>Color Field</InputLabel>
-                    <Select
-                      value={visualizationOptions.colorField}
-                      label="Color Field"
-                      onChange={(e) => handleFieldChange('colorField', e.target.value)}
-                    >
-                      <MenuItem value="">None</MenuItem>
-                      {availableFields
-                        .filter(field => isCategoryField(field))
-                        .map((field) => (
-                          <MenuItem key={field} value={field}>
-                            {field} <small style={{ color: 'gray' }}>(category)</small>
-                          </MenuItem>
-                        ))}
-                      {availableFields
-                        .filter(field => !isCategoryField(field))
-                        .map((field) => (
-                          <MenuItem key={field} value={field}>
-                            {field}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                  </FormControl>
-                )}
+              )}
+              
+              <Box sx={{ mt: 2, mb: 2 }}>
+                <Button
+                  variant={multiSeriesMode ? "contained" : "outlined"}
+                  size="small"
+                  color={multiSeriesMode ? "primary" : "inherit"}
+                  onClick={() => setMultiSeriesMode(!multiSeriesMode)}
+                  disabled={availableFields.length === 0}
+                >
+                  {multiSeriesMode ? t('visualize.multiSeriesEnabled') : t('visualize.enableMultiSeries')}
+                </Button>
               </Box>
               
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMore />}>
-                  <Typography>Multi-series Options</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Typography variant="body2">Enable multi-series mode:</Typography>
-                      <Button 
-                        variant={multiSeriesMode ? "contained" : "outlined"} 
-                        size="small"
-                        onClick={() => setMultiSeriesMode(!multiSeriesMode)}
-                      >
-                        {multiSeriesMode ? "Enabled" : "Disabled"}
-                      </Button>
-                    </Box>
-                    
-                    {multiSeriesMode && (
-                      <>
-                        <Typography variant="body2">Select data series:</Typography>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                          <Box sx={{ width: '100%', mb: 1 }}>
-                            <Typography variant="caption" color="textSecondary">
-                              Numeric fields (recommended):
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                              {availableFields
-                                .filter(field => field !== visualizationOptions.xField && isNumericField(field))
-                                .map((field) => (
-                                  <Chip
-                                    key={field}
-                                    label={field}
-                                    color={seriesFields.includes(field) ? "primary" : "default"}
-                                    onClick={() => toggleSeriesField(field)}
-                                    size="small"
-                                    sx={{ m: 0.5 }}
-                                  />
-                                ))}
-                            </Box>
-                          </Box>
-                          
-                          <Box sx={{ width: '100%' }}>
-                            <Typography variant="caption" color="textSecondary">
-                              Other fields:
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                              {availableFields
-                                .filter(field => field !== visualizationOptions.xField && !isNumericField(field))
-                                .map((field) => (
-                                  <Chip
-                                    key={field}
-                                    label={field}
-                                    color={seriesFields.includes(field) ? "primary" : "default"}
-                                    onClick={() => toggleSeriesField(field)}
-                                    size="small"
-                                    sx={{ m: 0.5 }}
-                                  />
-                                ))}
-                            </Box>
-                          </Box>
-                        </Box>
-                      </>
-                    )}
+              {multiSeriesMode && (
+                <Box sx={{ mt: 2 }}>
+                  <Typography variant="subtitle2" gutterBottom>
+                    {t('visualize.selectDataSeries')}
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    {availableFields
+                      .filter(field => field !== visualizationOptions.xField && isNumericField(field))
+                      .map((field) => (
+                        <Chip
+                          key={field}
+                          label={field}
+                          clickable
+                          color={seriesFields.includes(field) ? "primary" : "default"}
+                          onClick={() => toggleSeriesField(field)}
+                          variant={seriesFields.includes(field) ? "filled" : "outlined"}
+                        />
+                      ))}
                   </Box>
-                </AccordionDetails>
-              </Accordion>
-              
-              <Button 
-                variant="contained" 
-                color="primary" 
-                onClick={handleVisualize}
-                startIcon={<BarChartIcon />}
-              >
-                Generate Chart
-              </Button>
-            </Box>
+                </Box>
+              )}
+            </Paper>
           </Grid>
         </Grid>
-      </Paper>
-
-      {chartData.length > 0 && (
-        <Paper sx={{ p: 2 }}>
-          <Typography variant="h6" component="h2" gutterBottom>
-            Chart Results
-          </Typography>
-          <Divider sx={{ mb: 2 }} />
-          {renderChart()}
-        </Paper>
-      )}
+        
+        {chartData.length > 0 && (
+          <Paper sx={{ p: 2, mt: 2 }}>
+            <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+              {t('visualize.chart')}
+            </Typography>
+            <Box sx={{ height: 400, width: '100%' }}>
+              {renderChart()}
+            </Box>
+          </Paper>
+        )}
+      </Box>
     </Box>
   )
 } 

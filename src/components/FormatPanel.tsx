@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Box,
   TextField,
@@ -30,6 +31,7 @@ interface FormatPanelProps {
 }
 
 export function FormatPanel({ onSnackbar }: FormatPanelProps) {
+  const { t } = useTranslation()
   const [input, setInput] = useState('')
   const [formatted, setFormatted] = useState('')
   const [formatError, setFormatError] = useState<string | null>(null)
@@ -38,7 +40,7 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
   const handleFormat = () => {
     try {
       if (!input.trim()) {
-        setFormatError('Please enter some JSON to format')
+        setFormatError(t('common.error.emptyInput', { content: 'JSON', action: t('format.format').toLowerCase() }))
         return
       }
 
@@ -47,7 +49,7 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
       setFormatted(formattedJson)
       setFormatError(null)
     } catch (err) {
-      setFormatError('Invalid JSON format')
+      setFormatError(t('common.error.invalidJson'))
       setFormatted('')
     }
   }
@@ -55,7 +57,7 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
   const handleMinify = () => {
     try {
       if (!input.trim()) {
-        setFormatError('Please enter some JSON to minify')
+        setFormatError(t('common.error.emptyInput', { content: 'JSON', action: t('format.minify').toLowerCase() }))
         return
       }
 
@@ -64,7 +66,7 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
       setFormatted(minifiedJson)
       setFormatError(null)
     } catch (err) {
-      setFormatError('Invalid JSON format')
+      setFormatError(t('common.error.invalidJson'))
       setFormatted('')
     }
   }
@@ -78,13 +80,13 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
       const text = await navigator.clipboard.readText()
       setInput(text)
     } catch (err) {
-      setFormatError('Failed to read from clipboard')
+      setFormatError(t('common.error.clipboard'))
     }
   }
 
   const handleDownload = () => {
     if (!formatted) {
-      setFormatError('No formatted JSON to download')
+      setFormatError(t('common.error.noData', { content: t('format.title') }))
       return
     }
 
@@ -97,7 +99,7 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
-    onSnackbar('JSON file downloaded successfully!')
+    onSnackbar(t('common.copied', { content: 'JSON file' }))
   }
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,7 +113,7 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
         setInput(content)
         setFormatError(null)
       } catch (err) {
-        setFormatError('Failed to read file')
+        setFormatError(t('common.error.fileRead'))
       }
     }
     reader.readAsText(file)
@@ -122,15 +124,13 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
       {/* SEO Enhancement - Page Description */}
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" component="h1" gutterBottom>
-          JSON Formatter & Beautifier
+          {t('format.title')}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Format and beautify your JSON data with this easy-to-use tool. Improve readability with customizable 
-          indentation, validate JSON syntax, and quickly minify for production use. Upload from file or paste 
-          directly, then download or copy the formatted result.
+          {t('format.description')}
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {['JSON formatter', 'JSON beautifier', 'JSON validator', 'JSON minifier', 'Indent JSON', 'Format JSON', 'Readable JSON', 'JSON syntax'].map((keyword) => (
+          {t('format.keywords', { returnObjects: true }).map((keyword: string) => (
             <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
           ))}
         </Box>
@@ -138,16 +138,16 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
       
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
         <FormControl size="small" sx={{ minWidth: 100 }}>
-          <InputLabel>Indent</InputLabel>
+          <InputLabel>{t('format.indent')}</InputLabel>
           <Select
             value={indentSize}
-            label="Indent"
+            label={t('format.indent')}
             onChange={handleIndentSizeChange}
             size="small"
           >
-            <MenuItem value="2">2 spaces</MenuItem>
-            <MenuItem value="4">4 spaces</MenuItem>
-            <MenuItem value="8">8 spaces</MenuItem>
+            <MenuItem value="2">{t('format.spaces', { count: 2 })}</MenuItem>
+            <MenuItem value="4">{t('format.spaces', { count: 4 })}</MenuItem>
+            <MenuItem value="8">{t('format.spaces', { count: 8 })}</MenuItem>
           </Select>
         </FormControl>
         <Button
@@ -155,14 +155,14 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
           startIcon={<FormatPaint />}
           onClick={handleFormat}
         >
-          Format
+          {t('format.format')}
         </Button>
         <Button
           variant="outlined"
           startIcon={<Code />}
           onClick={handleMinify}
         >
-          Minify
+          {t('format.minify')}
         </Button>
         <Button
           variant="outlined"
@@ -170,14 +170,14 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
           onClick={handleDownload}
           disabled={!formatted}
         >
-          Download
+          {t('format.download')}
         </Button>
         <Button
           variant="outlined"
           component="label"
           startIcon={<Upload />}
         >
-          Upload
+          {t('format.upload')}
           <input
             type="file"
             hidden
@@ -195,18 +195,18 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
             rows={10}
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Enter JSON..."
+            placeholder={t('format.enterJson')}
             error={!!formatError}
             helperText={formatError}
             sx={{ flex: 1 }}
           />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pt: 1 }}>
-            <Tooltip title="Paste">
+            <Tooltip title={t('format.paste')}>
               <IconButton onClick={handlePaste} color="primary">
                 <ContentPaste />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Format">
+            <Tooltip title={t('format.format')}>
               <IconButton onClick={handleFormat} color="primary">
                 <FormatPaint />
               </IconButton>
@@ -227,11 +227,11 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
               <IconButton
                 onClick={() => {
                   navigator.clipboard.writeText(formatted)
-                  onSnackbar('Formatted JSON copied to clipboard!')
+                  onSnackbar(t('common.copied', { content: t('format.title') }))
                 }}
                 sx={{ position: 'absolute', top: 8, right: 8 }}
                 color="primary"
-                title="Copy"
+                title={t('format.copy')}
               >
                 <ContentCopy />
               </IconButton>

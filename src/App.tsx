@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Box,
   Container,
@@ -24,9 +25,11 @@ import { VisualizePanel } from './components/VisualizePanel'
 import { SchemaValidationPanel } from './components/SchemaValidationPanel'
 import { QueryPanel } from './components/QueryPanel'
 import { Footer } from './components/Footer'
+import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { useThemeContext } from './context/ThemeContext'
 
 function App() {
+  const { t } = useTranslation();
   const { mode, toggleTheme } = useThemeContext();
   const [activeTab, setActiveTab] = useState(0)
   const [snackbar, setSnackbar] = useState<{
@@ -42,12 +45,12 @@ function App() {
   // SEO Optimization - Update document title based on active tab
   useEffect(() => {
     const tabTitles = [
-      "JSON Formatter & Beautifier | JSON Tools",
-      "JSON Diff & Compare Tool | JSON Tools",
-      "JSON Converter (XML, CSV, YAML) | JSON Tools",
-      "JSON Visualization Tool | JSON Tools",
-      "JSON Schema Validator | JSON Tools",
-      "JSONPath Query Tool | JSON Tools"
+      t('format.title') + " | JSON Tools",
+      t('compare.title') + " | JSON Tools",
+      t('convert.title') + " | JSON Tools",
+      t('visualize.title') + " | JSON Tools",
+      t('validate.title') + " | JSON Tools",
+      t('query.title') + " | JSON Tools"
     ];
     
     document.title = tabTitles[activeTab];
@@ -55,12 +58,12 @@ function App() {
     // Add meta description based on active tab
     const metaDescription = document.querySelector('meta[name="description"]');
     const descriptions = [
-      "Free online JSON formatter, beautifier and validator with advanced formatting options. Format, validate and make your JSON data more readable.",
-      "Compare two JSON objects and visualize the differences. Perfect for API testing and debugging JSON outputs.",
-      "Convert JSON to XML, CSV, YAML and other formats easily. Transform your JSON data to different data representations.",
-      "Create interactive visualizations from your JSON data. Generate charts, graphs and visual representations with a few clicks.",
-      "Validate JSON against JSON Schema. Ensure your data matches the required structure and formats for your application.",
-      "Query JSON using JSONPath expressions. Extract specific data from complex JSON structures with powerful path syntax."
+      t('format.description'),
+      t('compare.description'),
+      t('convert.description'),
+      t('visualize.description'),
+      t('validate.description'),
+      t('query.description')
     ];
     
     if (metaDescription) {
@@ -71,7 +74,7 @@ function App() {
       meta.content = descriptions[activeTab];
       document.head.appendChild(meta);
     }
-  }, [activeTab]);
+  }, [activeTab, t]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
@@ -94,10 +97,11 @@ function App() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            JSON Tools - Comprehensive JSON Utilities
+            {t('app.title')}
           </Typography>
-          <Tooltip title={mode === 'dark' ? "切换到浅色模式" : "切换到深色模式"}>
-            <IconButton color="inherit" onClick={toggleTheme} aria-label="切换主题">
+          <LanguageSwitcher />
+          <Tooltip title={mode === 'dark' ? t('theme.toggleLight') : t('theme.toggleDark')}>
+            <IconButton color="inherit" onClick={toggleTheme} aria-label={t('theme.toggle')}>
               {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
             </IconButton>
           </Tooltip>
@@ -108,11 +112,10 @@ function App() {
         {/* SEO Optimized Page Introduction */}
         <Box sx={{ mb: 3 }}>
           <Typography variant="h4" component="h1" gutterBottom>
-            All-in-One JSON Tools Suite
+            {t('app.header')}
           </Typography>
           <Typography variant="body1" paragraph>
-            A comprehensive collection of JSON utilities for developers and data professionals. Format, validate, 
-            compare, convert, query, and visualize JSON data with these powerful online tools.
+            {t('app.description')}
           </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
             {['JSON tools', 'JSON formatter', 'JSON validator', 'JSON comparison', 'JSON converter',
@@ -132,12 +135,12 @@ function App() {
             variant="scrollable"
             scrollButtons="auto"
           >
-            <Tab label="Format" />
-            <Tab label="Compare" />
-            <Tab label="Convert" />
-            <Tab label="Visualize" />
-            <Tab label="Validate" />
-            <Tab label="Query" />
+            <Tab label={t('tabs.format')} />
+            <Tab label={t('tabs.compare')} />
+            <Tab label={t('tabs.convert')} />
+            <Tab label={t('tabs.visualize')} />
+            <Tab label={t('tabs.validate')} />
+            <Tab label={t('tabs.query')} />
           </Tabs>
 
           <TabPanel value={activeTab} index={0}>

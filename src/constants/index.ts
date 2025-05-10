@@ -1,26 +1,26 @@
 export const COMMON_JSONPATH_EXAMPLES = [
   {
-    label: 'Root object',
+    label: 'example1',
     path: '$'
   },
   {
-    label: 'Get store object',
+    label: 'example2',
     path: '$.store'
   },
   {
-    label: 'Get all books',
+    label: 'example3',
     path: '$.store.book[*]'
   },
   {
-    label: 'Get first book',
+    label: 'example4',
     path: '$.store.book[0]'
   },
   {
-    label: 'Get book titles',
+    label: 'example5',
     path: '$.store.book[*].title'
   },
   {
-    label: 'Get in-stock books',
+    label: 'example6',
     path: '$.store.book[?(@.inStock==true)]'
   }
 ]
@@ -67,55 +67,55 @@ export const TEST_DATA = {
 
 export const QUERY_EXAMPLES = [
   {
-    label: 'Get entire data',
+    label: 'example1',
     path: '$'
   },
   {
-    label: 'Get store object',
+    label: 'example2',
     path: '$.store'
   },
   {
-    label: 'Get all books',
+    label: 'example3',
     path: '$.store.book[*]'
   },
   {
-    label: 'Get first book',
+    label: 'example4',
     path: '$.store.book[0]'
   },
   {
-    label: 'Get second book',
+    label: 'example5',
     path: '$.store.book[1]'
   },
   {
-    label: 'Get first book title',
+    label: 'example6',
     path: '$.store.book[0].title'
   },
   {
-    label: 'Get all book titles',
+    label: 'example7',
     path: '$.store.book[*].title'
   },
   {
-    label: 'Get all book authors',
+    label: 'example8',
     path: '$.store.book[*].author'
   },
   {
-    label: 'Get in-stock books',
+    label: 'example9',
     path: '$.store.book[?(@.inStock==true)]'
   },
   {
-    label: 'Get books over $10',
+    label: 'example10',
     path: '$.store.book[?(@.price>10)]'
   },
   {
-    label: 'Get books under $10',
+    label: 'example11',
     path: '$.store.book[?(@.price<10)]'
   },
   {
-    label: 'Get bicycle details',
+    label: 'example12',
     path: '$.store.bicycle'
   },
   {
-    label: 'Get store location',
+    label: 'example13',
     path: '$.store.location'
   }
 ] 

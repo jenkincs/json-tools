@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Box,
   TextField,
@@ -43,7 +44,7 @@ import addFormats from 'ajv-formats'
 // Schema templates
 const SCHEMA_TEMPLATES = [
   {
-    name: 'Generic Object',
+    id: 'genericObject',
     schema: {
       type: 'object',
       properties: {
@@ -55,7 +56,7 @@ const SCHEMA_TEMPLATES = [
     }
   },
   {
-    name: 'User List',
+    id: 'userList',
     schema: {
       type: 'array',
       items: {
@@ -71,7 +72,7 @@ const SCHEMA_TEMPLATES = [
     }
   },
   {
-    name: 'Configuration Object',
+    id: 'configObject',
     schema: {
       type: 'object',
       properties: {
@@ -97,7 +98,7 @@ const SCHEMA_TEMPLATES = [
 // Example data
 const DATA_EXAMPLES = [
   {
-    name: 'Generic Object',
+    id: 'genericObject',
     data: {
       name: "John Doe",
       age: 30,
@@ -105,14 +106,14 @@ const DATA_EXAMPLES = [
     }
   },
   {
-    name: 'User List',
+    id: 'userList',
     data: [
       { id: 1, name: "John", email: "john@example.com", active: true },
       { id: 2, name: "Jane", email: "jane@example.com", active: false }
     ]
   },
   {
-    name: 'Configuration Object',
+    id: 'configObject',
     data: {
       appName: "MyApp",
       version: "1.0.0",
@@ -138,6 +139,7 @@ interface SchemaValidationPanelProps {
 }
 
 export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps) {
+  const { t } = useTranslation();
   const [input, setInput] = useState('')
   const [schemaInput, setSchemaInput] = useState('')
   const [validationErrors, setValidationErrors] = useState<ValidationErrorDetails[]>([])
@@ -155,12 +157,12 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
     setSelectedSchemaTemplate(index);
     
     // Automatically load corresponding example data
-    if (SCHEMA_TEMPLATES[index].name === DATA_EXAMPLES[index].name) {
+    if (SCHEMA_TEMPLATES[index].id === DATA_EXAMPLES[index].id) {
       setInput(JSON.stringify(DATA_EXAMPLES[index].data, null, 2));
       setSelectedDataExample(index);
-      onSnackbar(`Schema template and matching example data loaded: ${SCHEMA_TEMPLATES[index].name}`);
+      onSnackbar(t('validate.templateDataLoaded', { name: t(`validate.templateExamples.${SCHEMA_TEMPLATES[index].id}`) }));
     } else {
-      onSnackbar('Schema template loaded');
+      onSnackbar(t('validate.templateLoaded'));
     }
   }
   
@@ -170,12 +172,12 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
     setSelectedDataExample(index);
     
     // Automatically load corresponding schema template
-    if (DATA_EXAMPLES[index].name === SCHEMA_TEMPLATES[index].name) {
+    if (DATA_EXAMPLES[index].id === SCHEMA_TEMPLATES[index].id) {
       setSchemaInput(JSON.stringify(SCHEMA_TEMPLATES[index].schema, null, 2));
       setSelectedSchemaTemplate(index);
-      onSnackbar(`Example data and matching schema template loaded: ${DATA_EXAMPLES[index].name}`);
+      onSnackbar(t('validate.dataTemplateLoaded', { name: t(`validate.templateExamples.${DATA_EXAMPLES[index].id}`) }));
     } else {
-      onSnackbar('Example data loaded');
+      onSnackbar(t('validate.dataLoaded'));
     }
   }
 
@@ -183,7 +185,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
   const handleValidate = () => {
     try {
       if (!input.trim() || !schemaInput.trim()) {
-        setValidationError('Please enter both JSON data and schema')
+        setValidationError(t('validate.enterBoth'));
         return
       }
 
@@ -203,7 +205,7 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
         setValidationErrors([])
         setValidationError(null)
         setIsValid(true)
-        onSnackbar('JSON is valid according to the schema!', 'success')
+        onSnackbar(t('validate.jsonValid'));
       } else {
         // More detailed error information
         const errors = validate.errors?.map(error => {
@@ -229,20 +231,20 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
           
           return {
             path: error.instancePath || 'root',
-            message: error.message || 'Invalid value',
+            message: error.message || t('validate.invalidValue'),
             keyword: error.keyword,
             params: error.params,
-            data: dataValue  // 将提取的实际数据值添加到错误对象
+            data: dataValue
           };
         }) || [];
         
         setValidationErrors(errors as ValidationErrorDetails[])
-        setValidationError('JSON is invalid according to the schema')
+        setValidationError(t('validate.jsonInvalid'));
         setIsValid(false)
         setShowValidationErrors(true)
       }
     } catch (err: any) {
-      setValidationError(`Error: ${err.message || 'Invalid JSON or schema format'}`)
+      setValidationError(`${t('common.error.invalidJson')}: ${err.message || t('validate.invalidFormat')}`);
       setValidationErrors([])
       setIsValid(false)
     }
@@ -257,13 +259,13 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
         setInput(text)
       }
     } catch (err) {
-      setValidationError('Failed to read from clipboard')
+      setValidationError(t('common.error.clipboard'))
     }
   }
   
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
-    onSnackbar('Copied to clipboard!');
+    navigator.clipboard.writeText(text)
+    onSnackbar(t('common.copied', { content: t('validate.validationResult') }));
   }
   
   // Helper function for error details
@@ -410,317 +412,314 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
   }
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       {/* SEO Enhancement - Page Description */}
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" component="h1" gutterBottom>
-          JSON Schema Validation Tool
+          {t('validate.title')}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Validate your JSON data against JSON Schema to ensure data integrity and structure. 
-          This tool helps developers verify that JSON payloads conform to predefined schemas, 
-          catching errors and ensuring data quality before integration or API usage.
+          {t('validate.description')}
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {['JSON validation', 'Schema validation', 'API testing', 'Data validation', 'JSON Schema', 'JSON format', 'Data integrity'].map((keyword) => (
+          {t('validate.keywords', { returnObjects: true }).map((keyword: string) => (
             <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
           ))}
         </Box>
       </Box>
       
-      {/* 顶部操作栏 */}
-      <Paper sx={{ p: 2, mb: 3 }}>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} sm={6} md={3}>
-            <FormControl fullWidth size="small">
-              <InputLabel>Load Example Data</InputLabel>
-              <Select
-                value={selectedDataExample}
-                label="Load Example Data"
-                onChange={(e) => {
-                  const index = parseInt(e.target.value as string);
-                  if (!isNaN(index)) handleLoadExample(index);
-                }}
-              >
-                {DATA_EXAMPLES.map((example, index) => (
-                  <MenuItem key={index} value={index}>{example.name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          
-          <Grid item xs={12} sm={6} md={3}>
-            <FormControl fullWidth size="small">
-              <InputLabel>Load Schema Template</InputLabel>
-              <Select
-                value={selectedSchemaTemplate}
-                label="Load Schema Template"
-                onChange={(e) => {
-                  const index = parseInt(e.target.value as string);
-                  if (!isNaN(index)) handleLoadTemplate(index);
-                }}
-              >
-                {SCHEMA_TEMPLATES.map((template, index) => (
-                  <MenuItem key={index} value={index}>{template.name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          
-          <Grid item xs={12} sm={12} md={6}>
-            <Stack direction="row" spacing={2} justifyContent={{xs: 'center', md: 'flex-end'}}>
-              <Button 
-                variant="outlined" 
-                startIcon={<Article />}
-                onClick={() => setShowExamples(!showExamples)}
-              >
-                {showExamples ? 'Hide Guide' : 'View Guide'}
-              </Button>
-              
-              <Button 
-                variant="contained" 
-                startIcon={<PlayArrow />}
-                onClick={handleValidate}
-                color={isValid === true ? 'success' : isValid === false ? 'error' : 'primary'}
-              >
-                Validate
-              </Button>
-            </Stack>
-          </Grid>
-        </Grid>
-      </Paper>
-      
-      {/* 说明展示区域 */}
-      <Collapse in={showExamples}>
-        <Paper sx={{ p: 2, mb: 3 }}>
-          <Typography variant="h6" gutterBottom>
-            JSON Schema Validation Guide
-          </Typography>
-          <Typography variant="body2" paragraph>
-            JSON Schema is a declarative language for validating JSON data. You can define the format,
-            required fields, and data types, then validate whether JSON data meets these rules.
-          </Typography>
-          
-          <Divider sx={{ my: 2 }} />
-          
-          <Typography variant="subtitle2" gutterBottom>
-            Common Schema Keywords Examples:
-          </Typography>
-          
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12} sm={6} md={4}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="subtitle2">Type Validation</Typography>
-                  <SyntaxHighlighter
-                    language="json"
-                    style={vscDarkPlus}
-                    customStyle={{ borderRadius: 4, marginTop: 8, fontSize: '0.8rem' }}
-                  >
-{`{
-  "type": "string" 
-}
-// Or
-{
-  "type": ["string", "number"]
-}`}
-                  </SyntaxHighlighter>
-                </CardContent>
-              </Card>
-            </Grid>
-            
-            <Grid item xs={12} sm={6} md={4}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="subtitle2">Required Fields</Typography>
-                  <SyntaxHighlighter
-                    language="json"
-                    style={vscDarkPlus}
-                    customStyle={{ borderRadius: 4, marginTop: 8, fontSize: '0.8rem' }}
-                  >
-{`{
-  "type": "object",
-  "properties": {
-    "name": { "type": "string" },
-    "age": { "type": "number" }
-  },
-  "required": ["name"]
-}`}
-                  </SyntaxHighlighter>
-                </CardContent>
-              </Card>
-            </Grid>
-            
-            <Grid item xs={12} sm={6} md={4}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="subtitle2">Value Range</Typography>
-                  <SyntaxHighlighter
-                    language="json"
-                    style={vscDarkPlus}
-                    customStyle={{ borderRadius: 4, marginTop: 8, fontSize: '0.8rem' }}
-                  >
-{`{
-  "type": "number",
-  "minimum": 0,
-  "maximum": 100,
-  "exclusiveMaximum": true
-}`}
-                  </SyntaxHighlighter>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Collapse>
-
-      {/* 主内容区域 */}
-      <Grid container spacing={3}>
-        {/* 左侧：JSON数据 */}
-        <Grid item xs={12} md={6}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} lg={6}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="subtitle1" gutterBottom>
-              JSON Data
+              {t('validate.jsonData')}
             </Typography>
-            <Box sx={{ position: 'relative' }}>
-              <TextField
-                fullWidth
-                multiline
-                rows={15}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Enter JSON data..."
-                error={isValid === false}
-                sx={{ fontFamily: 'monospace' }}
-              />
-              <Box sx={{ position: 'absolute', top: 8, right: 8, display: 'flex', gap: 1 }}>
-                <Tooltip title="Paste">
-                  <IconButton size="small" onClick={() => handlePaste(false)}>
-                    <ContentPaste fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Copy">
-                  <IconButton size="small" onClick={() => handleCopy(input)}>
-                    <ContentCopy fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            </Box>
-            
-            {validationError && (
-              <FormHelperText error>
-                {validationError}
-              </FormHelperText>
-            )}
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <FormControl fullWidth size="small" sx={{ mb: 1 }}>
+                  <InputLabel>{t('validate.dataExamples')}</InputLabel>
+                  <Select
+                    value={selectedDataExample}
+                    label={t('validate.dataExamples')}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value !== '') {
+                        handleLoadExample(value as number);
+                      }
+                    }}
+                  >
+                    <MenuItem value="">{t('validate.selectExample')}</MenuItem>
+                    {DATA_EXAMPLES.map((example, index) => (
+                      <MenuItem key={index} value={index}>
+                        {t(`validate.templateExamples.${example.id}`)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={10}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder={t('validate.enterJsonData')}
+                  error={!!validationError}
+                  sx={{ mb: 1 }}
+                />
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Tooltip title={t('format.paste')}>
+                    <IconButton 
+                      onClick={async () => {
+                        try {
+                          const text = await navigator.clipboard.readText()
+                          setInput(text)
+                        } catch (err) {
+                          onSnackbar(t('common.error.clipboard'))
+                        }
+                      }}
+                    >
+                      <ContentPaste />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Grid>
+            </Grid>
           </Paper>
         </Grid>
         
-        {/* 右侧：JSON Schema */}
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} lg={6}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="subtitle1" gutterBottom>
-              JSON Schema
+              {t('validate.jsonSchema')}
             </Typography>
-            <Box sx={{ position: 'relative' }}>
-              <TextField
-                fullWidth
-                multiline
-                rows={15}
-                value={schemaInput}
-                onChange={(e) => setSchemaInput(e.target.value)}
-                placeholder="Enter JSON Schema..."
-                error={isValid === false}
-                sx={{ fontFamily: 'monospace' }}
-              />
-              <Box sx={{ position: 'absolute', top: 8, right: 8, display: 'flex', gap: 1 }}>
-                <Tooltip title="Paste">
-                  <IconButton size="small" onClick={() => handlePaste(true)}>
-                    <ContentPaste fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Copy">
-                  <IconButton size="small" onClick={() => handleCopy(schemaInput)}>
-                    <ContentCopy fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            </Box>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <FormControl fullWidth size="small" sx={{ mb: 1 }}>
+                  <InputLabel>{t('validate.schemaTemplates')}</InputLabel>
+                  <Select
+                    value={selectedSchemaTemplate}
+                    label={t('validate.schemaTemplates')}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value !== '') {
+                        handleLoadTemplate(value as number);
+                      }
+                    }}
+                  >
+                    <MenuItem value="">{t('validate.selectTemplate')}</MenuItem>
+                    {SCHEMA_TEMPLATES.map((template, index) => (
+                      <MenuItem key={index} value={index}>
+                        {t(`validate.templateExamples.${template.id}`)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={10}
+                  value={schemaInput}
+                  onChange={(e) => setSchemaInput(e.target.value)}
+                  placeholder={t('validate.enterJsonSchema')}
+                  error={!!validationError}
+                  sx={{ mb: 1 }}
+                />
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Tooltip title={t('format.paste')}>
+                    <IconButton 
+                      onClick={async () => {
+                        try {
+                          const text = await navigator.clipboard.readText()
+                          setSchemaInput(text)
+                        } catch (err) {
+                          onSnackbar(t('common.error.clipboard'))
+                        }
+                      }}
+                    >
+                      <ContentPaste />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Grid>
+            </Grid>
           </Paper>
         </Grid>
       </Grid>
-
-      {/* 验证结果区域 */}
+      
+      <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleValidate}
+          startIcon={<PlayArrow />}
+          disabled={!input.trim() || !schemaInput.trim()}
+          sx={{ minWidth: 150 }}
+        >
+          {t('validate.validate')}
+        </Button>
+      </Box>
+      
       {isValid !== null && (
-        <Paper sx={{ p: 2, mt: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+        <Paper sx={{ p: 2, borderLeft: 5, borderColor: isValid ? 'success.main' : 'error.main' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
             {isValid ? (
-              <Chip 
-                icon={<Check />} 
-                label="Validation Passed" 
-                color="success" 
-                variant="outlined"
-                sx={{ mr: 2 }}
-              />
+              <Check color="success" sx={{ mr: 1 }} />
             ) : (
-              <Chip 
-                icon={<ErrorIcon />} 
-                label={`Found ${validationErrors.length} errors`} 
-                color="error" 
-                variant="outlined"
-                sx={{ mr: 2 }}
-              />
+              <ErrorIcon color="error" sx={{ mr: 1 }} />
             )}
-            
-            {validationErrors.length > 0 && (
-              <IconButton
-                onClick={() => setShowValidationErrors(!showValidationErrors)}
-                size="small"
-              >
-                {showValidationErrors ? <ExpandLess /> : <ExpandMore />}
-              </IconButton>
-            )}
+            <Typography 
+              variant="subtitle1" 
+              color={isValid ? 'success.main' : 'error.main'}
+              sx={{ fontWeight: 'bold' }}
+            >
+              {isValid ? t('validate.validResult') : t('validate.invalidResult')}
+            </Typography>
+            <IconButton 
+              size="small" 
+              sx={{ ml: 'auto' }} 
+              onClick={() => handleCopy(JSON.stringify(validationErrors, null, 2))}
+            >
+              <ContentCopy fontSize="small" />
+            </IconButton>
           </Box>
           
-          {validationErrors.length > 0 && (
-            <Collapse in={showValidationErrors}>
-              <List dense>
+          {!isValid && validationErrors.length > 0 && (
+            <>
+              <Typography variant="body2" sx={{ mb: 1 }}>
+                {t('validate.errorsFound', { count: validationErrors.length })}
+              </Typography>
+              
+              <List sx={{ bgcolor: 'background.paper', border: 1, borderColor: 'divider', borderRadius: 1 }}>
                 {validationErrors.map((error, index) => (
                   <ListItem 
                     key={index}
+                    divider={index < validationErrors.length - 1}
                     button
-                    selected={selectedErrorPath === error.path}
-                    onClick={() => setSelectedErrorPath(error.path)}
-                    sx={{ 
-                      borderLeft: '2px solid', 
-                      borderLeftColor: 'error.main',
-                      mb: 1,
-                      backgroundColor: selectedErrorPath === error.path ? 'rgba(255, 0, 0, 0.05)' : 'transparent'
+                    onClick={() => {
+                      setSelectedErrorPath(selectedErrorPath === error.path ? null : error.path)
                     }}
                   >
                     <ListItemText
                       primary={
-                        <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                          Path: {error.path || 'root'}
+                        <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                          {t('validate.atPath')} <code>{error.path}</code>
                         </Typography>
                       }
                       secondary={
-                        <Box sx={{ mt: 0.5 }}>
-                          <Typography variant="body2" color="error">
-                            {getErrorDetails(error)}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            Error type: {error.keyword}
-                          </Typography>
-                        </Box>
+                        <Typography variant="body2" color="error" component="span">
+                          {error.message}
+                        </Typography>
                       }
                     />
+                    {selectedErrorPath === error.path ? <ExpandLess /> : <ExpandMore />}
                   </ListItem>
                 ))}
               </List>
-            </Collapse>
+              
+              {/* Error Details Expansion */}
+              {validationErrors.map((error, index) => (
+                <Collapse key={index} in={selectedErrorPath === error.path} timeout="auto">
+                  <Card variant="outlined" sx={{ mt: 1, mb: 2 }}>
+                    <CardContent>
+                      <Typography variant="subtitle2" gutterBottom>
+                        {t('validate.errorDetails')}
+                      </Typography>
+                      <Stack spacing={1}>
+                        <Box>
+                          <Typography variant="caption" color="text.secondary">
+                            {t('validate.errorType')}
+                          </Typography>
+                          <Typography variant="body2">
+                            {error.keyword}
+                          </Typography>
+                        </Box>
+                        
+                        <Box>
+                          <Typography variant="caption" color="text.secondary">
+                            {t('validate.path')}
+                          </Typography>
+                          <Typography variant="body2">
+                            <code>{error.path}</code>
+                          </Typography>
+                        </Box>
+                        
+                        <Box>
+                          <Typography variant="caption" color="text.secondary">
+                            {t('validate.message')}
+                          </Typography>
+                          <Typography variant="body2">
+                            {error.message}
+                          </Typography>
+                        </Box>
+                        
+                        <Box>
+                          <Typography variant="caption" color="text.secondary">
+                            {t('validate.receivedValue')}
+                          </Typography>
+                          <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+                            {typeof error.data === 'object' 
+                              ? JSON.stringify(error.data)
+                              : String(error.data)
+                            }
+                          </Typography>
+                        </Box>
+                        
+                        <Box>
+                          <Typography variant="caption" color="text.secondary">
+                            {t('validate.expectedSchema')}
+                          </Typography>
+                          <Typography variant="body2">
+                            {error.params && JSON.stringify(error.params)}
+                          </Typography>
+                        </Box>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Collapse>
+              ))}
+            </>
           )}
         </Paper>
       )}
+      
+      <Grid container spacing={2} sx={{ mt: 1 }}>
+        <Grid item xs={12}>
+          <Paper sx={{ p: 2 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              {t('validate.learnJsonSchema')}
+            </Typography>
+            <Typography variant="body2" paragraph>
+              {t('validate.schemaDescription')}
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+              <Button 
+                variant="outlined" 
+                size="small" 
+                component="a" 
+                href="https://json-schema.org/understanding-json-schema/index.html" 
+                target="_blank"
+                startIcon={<Article />}
+              >
+                {t('validate.documentation')}
+              </Button>
+              <Button 
+                variant="outlined" 
+                size="small" 
+                component="a" 
+                href="https://json-schema.org/learn/getting-started-step-by-step.html" 
+                target="_blank"
+                startIcon={<FormatListBulleted />}
+              >
+                {t('validate.tutorial')}
+              </Button>
+            </Box>
+          </Paper>
+        </Grid>
+      </Grid>
     </Box>
   )
 } 

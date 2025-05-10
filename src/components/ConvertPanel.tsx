@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Box,
   TextField,
@@ -35,6 +36,7 @@ interface ConvertPanelProps {
 }
 
 export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
+  const { t } = useTranslation();
   const [input, setInput] = useState('')
   const [convertedOutput, setConvertedOutput] = useState('')
   const [conversionError, setConversionError] = useState<string | null>(null)
@@ -56,7 +58,7 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
   const handleConvert = () => {
     try {
       if (!input.trim()) {
-        setConversionError('Please enter some content to convert')
+        setConversionError(t('common.error.emptyInput', { content: 'content', action: 'convert' }));
         return
       }
 
@@ -99,7 +101,7 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
       }
       setConversionError(null)
     } catch (err) {
-      setConversionError('Invalid format')
+      setConversionError(t('common.error.invalidJson'));
       setConvertedOutput('')
     }
   }
@@ -134,7 +136,7 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
       const text = await navigator.clipboard.readText()
       setInput(text)
     } catch (err) {
-      setConversionError('Failed to read from clipboard')
+      setConversionError(t('common.error.clipboard'));
     }
   }
 
@@ -143,15 +145,13 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
       {/* SEO Enhancement - Page Description */}
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" component="h1" gutterBottom>
-          JSON Converter - XML, CSV, YAML Conversion Tool
+          {t('convert.title')}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Convert JSON data to and from different formats including YAML, XML, and CSV. This versatile tool 
-          offers customizable options for indentation, headers, and data formatting to meet your specific 
-          conversion needs. Perfect for data migration, API integrations, and format transformations.
+          {t('convert.description')}
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {['JSON to YAML', 'JSON to XML', 'JSON to CSV', 'YAML to JSON', 'Format conversion', 'Data transformation', 'API integration', 'Data export'].map((keyword) => (
+          {t('convert.keywords', { returnObjects: true }).map((keyword: string) => (
             <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
           ))}
         </Box>
@@ -165,29 +165,29 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
           aria-label="conversion type"
         >
           <ToggleButton value="json" aria-label="json to yaml">
-            JSON → YAML
+            {t('convert.jsonToYaml')}
           </ToggleButton>
           <ToggleButton value="yaml" aria-label="yaml to json">
-            YAML → JSON
+            {t('convert.yamlToJson')}
           </ToggleButton>
           <ToggleButton value="xml" aria-label="json to xml">
-            JSON → XML
+            {t('convert.jsonToXml')}
           </ToggleButton>
           <ToggleButton value="csv" aria-label="json to csv">
-            JSON → CSV
+            {t('convert.jsonToCsv')}
           </ToggleButton>
         </ToggleButtonGroup>
         <FormControl size="small" sx={{ minWidth: 100 }}>
-          <InputLabel>Indent</InputLabel>
+          <InputLabel>{t('format.indent')}</InputLabel>
           <Select
             value={indentSize}
-            label="Indent"
+            label={t('format.indent')}
             onChange={handleIndentSizeChange}
             size="small"
           >
-            <MenuItem value="2">2 spaces</MenuItem>
-            <MenuItem value="4">4 spaces</MenuItem>
-            <MenuItem value="8">8 spaces</MenuItem>
+            <MenuItem value="2">{t('format.spaces', { count: 2 })}</MenuItem>
+            <MenuItem value="4">{t('format.spaces', { count: 4 })}</MenuItem>
+            <MenuItem value="8">{t('format.spaces', { count: 8 })}</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -195,7 +195,7 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
       {(conversionType === 'xml' || conversionType === 'csv') && (
         <Paper sx={{ p: 2 }}>
           <Typography variant="subtitle2" gutterBottom>
-            Conversion Options
+            {t('convert.options')}
           </Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
             {conversionType === 'xml' && (
@@ -208,7 +208,7 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
                         onChange={(e) => handleOptionChange('xml', 'pretty', e.target.checked)}
                       />
                     }
-                    label="Pretty Print"
+                    label={t('convert.prettyPrint')}
                   />
                 </FormControl>
                 <FormControl size="small">
@@ -219,7 +219,7 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
                         onChange={(e) => handleOptionChange('xml', 'header', e.target.checked)}
                       />
                     }
-                    label="XML Header"
+                    label={t('convert.xmlHeader')}
                   />
                 </FormControl>
               </>
@@ -234,7 +234,7 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
                         onChange={(e) => handleOptionChange('csv', 'header', e.target.checked)}
                       />
                     }
-                    label="Include Header"
+                    label={t('convert.includeHeader')}
                   />
                 </FormControl>
                 <FormControl size="small">
@@ -245,14 +245,14 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
                         onChange={(e) => handleOptionChange('csv', 'flatten', e.target.checked)}
                       />
                     }
-                    label="Flatten Objects"
+                    label={t('convert.flattenObjects')}
                   />
                 </FormControl>
                 <FormControl size="small" sx={{ minWidth: 100 }}>
-                  <InputLabel>Delimiter</InputLabel>
+                  <InputLabel>{t('convert.delimiter')}</InputLabel>
                   <Select
                     value={conversionOptions.csv.delimiter}
-                    label="Delimiter"
+                    label={t('convert.delimiter')}
                     onChange={(e) => handleOptionChange('csv', 'delimiter', e.target.value)}
                     size="small"
                   >
@@ -276,18 +276,18 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
             rows={10}
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={conversionType === 'yaml' ? "Enter YAML..." : "Enter JSON..."}
+            placeholder={conversionType === 'yaml' ? t('convert.enterYaml') : t('convert.enterJson')}
             error={!!conversionError}
             helperText={conversionError}
             sx={{ flex: 1 }}
           />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pt: 1 }}>
-            <Tooltip title="Paste">
+            <Tooltip title={t('format.paste')}>
               <IconButton onClick={handlePaste} color="primary">
                 <ContentPaste />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Convert">
+            <Tooltip title={t('convert.convert')}>
               <IconButton onClick={handleConvert} color="primary">
                 <SwapHoriz />
               </IconButton>
@@ -308,11 +308,11 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
               <IconButton
                 onClick={() => {
                   navigator.clipboard.writeText(convertedOutput)
-                  onSnackbar('Converted output copied to clipboard!')
+                  onSnackbar(t('convert.result'))
                 }}
                 sx={{ position: 'absolute', top: 8, right: 8 }}
                 color="primary"
-                title="Copy"
+                title={t('format.copy')}
               >
                 <ContentCopy />
               </IconButton>

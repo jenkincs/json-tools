@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Box,
   TextField,
@@ -23,6 +24,7 @@ interface ComparePanelProps {
 }
 
 export function ComparePanel({ onSnackbar }: ComparePanelProps) {
+  const { t } = useTranslation()
   const [input, setInput] = useState('')
   const [compareInput, setCompareInput] = useState('')
   const [diffResult, setDiffResult] = useState('')
@@ -31,7 +33,7 @@ export function ComparePanel({ onSnackbar }: ComparePanelProps) {
   const handleCompare = () => {
     try {
       if (!input.trim() || !compareInput.trim()) {
-        setCompareError('Please enter both JSON objects to compare')
+        setCompareError(t('common.error.emptyInput', { content: t('compare.title'), action: t('compare.compare').toLowerCase() }))
         return
       }
 
@@ -42,7 +44,7 @@ export function ComparePanel({ onSnackbar }: ComparePanelProps) {
       setDiffResult(formattedDiff)
       setCompareError(null)
     } catch (err) {
-      setCompareError('Invalid JSON format')
+      setCompareError(t('common.error.invalidJson'))
       setDiffResult('')
     }
   }
@@ -56,7 +58,7 @@ export function ComparePanel({ onSnackbar }: ComparePanelProps) {
         setInput(text)
       }
     } catch (err) {
-      setCompareError('Failed to read from clipboard')
+      setCompareError(t('common.error.clipboard'))
     }
   }
 
@@ -65,15 +67,13 @@ export function ComparePanel({ onSnackbar }: ComparePanelProps) {
       {/* SEO Enhancement - Page Description */}
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" component="h1" gutterBottom>
-          JSON Diff & Compare Tool
+          {t('compare.title')}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Compare two JSON objects and identify all differences between them. Perfect for API testing, debugging 
-          response variations, and tracking changes in JSON data structures. This tool provides a detailed list 
-          of additions, deletions, and modifications between JSON objects.
+          {t('compare.description')}
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {['JSON diff', 'JSON compare', 'JSON difference', 'API testing', 'Object comparison', 'Data comparison', 'JSON changes', 'JSON delta'].map((keyword) => (
+          {t('compare.keywords', { returnObjects: true }).map((keyword: string) => (
             <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
           ))}
         </Box>
@@ -87,13 +87,13 @@ export function ComparePanel({ onSnackbar }: ComparePanelProps) {
             rows={10}
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Enter first JSON..."
+            placeholder={t('compare.firstJson')}
             error={!!compareError}
             helperText={compareError}
             sx={{ flex: 1 }}
           />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pt: 1 }}>
-            <Tooltip title="Paste">
+            <Tooltip title={t('format.paste')}>
               <IconButton onClick={() => handlePaste(false)} color="primary">
                 <ContentPaste />
               </IconButton>
@@ -108,12 +108,12 @@ export function ComparePanel({ onSnackbar }: ComparePanelProps) {
             rows={10}
             value={compareInput}
             onChange={(e) => setCompareInput(e.target.value)}
-            placeholder="Enter second JSON..."
+            placeholder={t('compare.secondJson')}
             error={!!compareError}
             sx={{ flex: 1 }}
           />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pt: 1 }}>
-            <Tooltip title="Paste">
+            <Tooltip title={t('format.paste')}>
               <IconButton onClick={() => handlePaste(true)} color="primary">
                 <ContentPaste />
               </IconButton>
@@ -128,7 +128,7 @@ export function ComparePanel({ onSnackbar }: ComparePanelProps) {
             onClick={handleCompare}
             size="large"
           >
-            Compare
+            {t('compare.compare')}
           </Button>
         </Box>
 
@@ -145,11 +145,11 @@ export function ComparePanel({ onSnackbar }: ComparePanelProps) {
               <IconButton
                 onClick={() => {
                   navigator.clipboard.writeText(diffResult)
-                  onSnackbar('Comparison result copied to clipboard!')
+                  onSnackbar(t('compare.result'))
                 }}
                 sx={{ position: 'absolute', top: 8, right: 8 }}
                 color="primary"
-                title="Copy"
+                title={t('format.copy')}
               >
                 <ContentCopy />
               </IconButton>

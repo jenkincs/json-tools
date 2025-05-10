@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Box,
   TextField,
@@ -39,6 +40,7 @@ interface QueryPanelProps {
 }
 
 export function QueryPanel({ onSnackbar }: QueryPanelProps) {
+  const { t } = useTranslation()
   const [input, setInput] = useState('')
   const [query, setQuery] = useState('')
   const [queryResults, setQueryResults] = useState<QueryResult[]>([])
@@ -50,7 +52,7 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
   const handleQuery = () => {
     try {
       if (!input.trim() || !query.trim()) {
-        setQueryError('Please enter both JSON data and query')
+        setQueryError(t('query.invalidQuery'))
         return
       }
 
@@ -216,10 +218,11 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
             let value = match[4]
             
             // Convert string value to appropriate type
-            if (value === 'true') value = true
-            else if (value === 'false') value = false
-            else if (!isNaN(Number(value))) value = Number(value)
-            else value = value.replace(/"/g, '').replace(/'/g, '')
+            let typedValue: any;
+            if (value === 'true') typedValue = true
+            else if (value === 'false') typedValue = false
+            else if (!isNaN(Number(value))) typedValue = Number(value)
+            else typedValue = value.replace(/"/g, '').replace(/'/g, '')
             
             let base = data
             for (const part of basePath.split('.')) {
@@ -237,16 +240,16 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
                   
                   switch (operator) {
                     case '==':
-                      matches = propValue == value
+                      matches = propValue == typedValue
                       break
                     case '!=':
-                      matches = propValue != value
+                      matches = propValue != typedValue
                       break
                     case '>':
-                      matches = propValue > value
+                      matches = propValue > typedValue
                       break
                     case '<':
-                      matches = propValue < value
+                      matches = propValue < typedValue
                       break
                   }
                   
@@ -264,24 +267,26 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
           }
         }
       }
-
+      
       evaluateQuery(jsonData, query)
       
-      if (results.length === 0) {
-        setQueryError('No results found')
-      } else {
+      if (results.length > 0) {
         setQueryResults(results)
         setQueryError(null)
         
         // Add to history
-        setQueryHistory(prev => [{
+        const newHistoryItem: QueryHistory = {
           query,
           timestamp: Date.now(),
           resultCount: results.length
-        }, ...prev].slice(0, 10))
+        }
+        setQueryHistory(prev => [newHistoryItem, ...prev.slice(0, 9)])
+      } else {
+        setQueryResults([])
+        setQueryError(t('query.noResults'))
       }
     } catch (err) {
-      setQueryError('Invalid JSON or query format')
+      setQueryError(t('query.invalidQuery'))
       setQueryResults([])
     }
   }
@@ -295,262 +300,20 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
         setInput(text)
       }
     } catch (err) {
-      setQueryError('Failed to read from clipboard')
+      setQueryError(t('common.error.clipboard'))
     }
   }
 
   const handleExampleClick = (path: string) => {
-    // 设置查询字符串
-    setQuery(path);
-    
-    // 确保测试数据已加载
-    const inputData = input.trim() ? input : JSON.stringify(TEST_DATA, null, 2);
-    
-    try {
-      // 直接执行查询逻辑而不依赖于状态更新
-      const jsonData = JSON.parse(inputData);
-      const results: QueryResult[] = [];
-      
-      // 使用与handleQuery相同的查询逻辑
-      // 调用evaluateQuery函数
-      const evaluateQuery = (data: any, queryPath: string) => {
-        // Simple case for root object
-        if (queryPath === '$') {
-          results.push({
-            path: queryPath,
-            value: data,
-            type: typeof data
-          });
-          return;
-        }
-
-        if (queryPath.startsWith('$.')) {
-          // Handle simple dot notation paths
-          if (!queryPath.includes('[') && !queryPath.includes('*')) {
-            const parts = queryPath.slice(2).split('.');
-            let current = data;
-            let currentPath = '$';
-            
-            for (const part of parts) {
-              if (current === undefined) break;
-              current = current[part];
-              currentPath += `.${part}`;
-            }
-            
-            if (current !== undefined) {
-              results.push({
-                path: currentPath,
-                value: current,
-                type: typeof current
-              });
-            }
-            return;
-          }
-          
-          // Handle array access with [*] wildcard
-          if (queryPath.includes('[*]')) {
-            const basePath = queryPath.split('[*]')[0].slice(2);
-            const remainingPath = queryPath.split('[*]').slice(1).join('[*]');
-            
-            let base = data;
-            for (const part of basePath.split('.')) {
-              if (!part) continue;
-              base = base[part];
-              if (!base) return;
-            }
-            
-            if (Array.isArray(base)) {
-              // If it's a simple array element access
-              if (!remainingPath) {
-                base.forEach((item, index) => {
-                  results.push({
-                    path: `$${basePath ? '.' + basePath : ''}[${index}]`,
-                    value: item,
-                    type: typeof item
-                  });
-                });
-                return;
-              }
-              
-              // If there's a path after the wildcard
-              if (remainingPath.startsWith('.')) {
-                const propertyPath = remainingPath.slice(1);
-                base.forEach((item, index) => {
-                  if (item && typeof item === 'object') {
-                    let propertyValue = item;
-                    let valid = true;
-                    
-                    for (const prop of propertyPath.split('.')) {
-                      propertyValue = propertyValue[prop];
-                      if (propertyValue === undefined) {
-                        valid = false;
-                        break;
-                      }
-                    }
-                    
-                    if (valid) {
-                      results.push({
-                        path: `$${basePath ? '.' + basePath : ''}[${index}].${propertyPath}`,
-                        value: propertyValue,
-                        type: typeof propertyValue
-                      });
-                    }
-                  }
-                });
-                return;
-              }
-            }
-          }
-          
-          // Handle specific array indices
-          if (queryPath.match(/\[\d+\]/) && !queryPath.includes('*')) {
-            let parts = queryPath.slice(2);
-            let current = data;
-            let currentPath = '$';
-            
-            const regex = /(.+?)?(\[\d+\])/g;
-            let match;
-            let remainder = parts;
-            
-            while ((match = regex.exec(parts)) !== null) {
-              const propPath = match[1];
-              const arrayAccess = match[2];
-              const index = parseInt(arrayAccess.slice(1, -1));
-              
-              if (propPath) {
-                for (const part of propPath.split('.')) {
-                  if (!part) continue;
-                  current = current[part];
-                  currentPath += `.${part}`;
-                  if (current === undefined) break;
-                }
-              }
-              
-              if (Array.isArray(current) && current.length > index) {
-                current = current[index];
-                currentPath += `[${index}]`;
-              } else {
-                current = undefined;
-                break;
-              }
-              
-              remainder = parts.slice(match[0].length);
-            }
-            
-            // Process any remaining path segments after array access
-            if (current !== undefined && remainder) {
-              if (remainder.startsWith('.')) {
-                const props = remainder.slice(1).split('.');
-                for (const prop of props) {
-                  if (!prop) continue;
-                  current = current[prop];
-                  currentPath += `.${prop}`;
-                  if (current === undefined) break;
-                }
-              }
-            }
-            
-            if (current !== undefined) {
-              results.push({
-                path: currentPath,
-                value: current,
-                type: typeof current
-              });
-            }
-            return;
-          }
-          
-          // Handle simple filter conditions for inStock and price
-          const filterRegex = /\$\.(.+?)\[\?\(@\.(.+?)(==|<|>|!=)(.+?)\)\]/;
-          const match = queryPath.match(filterRegex);
-          
-          if (match) {
-            const basePath = match[1];
-            const property = match[2];
-            const operator = match[3];
-            let value = match[4];
-            
-            // Convert string value to appropriate type
-            if (value === 'true') value = true;
-            else if (value === 'false') value = false;
-            else if (!isNaN(Number(value))) value = Number(value);
-            else value = value.replace(/"/g, '').replace(/'/g, '');
-            
-            let base = data;
-            for (const part of basePath.split('.')) {
-              if (!part) continue;
-              base = base[part];
-              if (!base) return;
-            }
-            
-            if (Array.isArray(base)) {
-              base.forEach((item, index) => {
-                let matches = false;
-                
-                if (item && typeof item === 'object' && property in item) {
-                  const propValue = item[property];
-                  
-                  switch (operator) {
-                    case '==':
-                      matches = propValue == value;
-                      break;
-                    case '!=':
-                      matches = propValue != value;
-                      break;
-                    case '>':
-                      matches = propValue > value;
-                      break;
-                    case '<':
-                      matches = propValue < value;
-                      break;
-                  }
-                  
-                  if (matches) {
-                    results.push({
-                      path: `$.${basePath}[${index}]`,
-                      value: item,
-                      type: typeof item
-                    });
-                  }
-                }
-              });
-            }
-            return;
-          }
-        }
-      };
-      
-      evaluateQuery(jsonData, path);
-      
-      if (results.length === 0) {
-        setQueryError('No results found');
-        setQueryResults([]);
-      } else {
-        // 更新状态
-        setQueryResults(results);
-        setQueryError(null);
-        
-        // 如果需要，更新输入框
-        if (!input.trim()) {
-          setInput(inputData);
-        }
-        
-        // 添加到历史记录
-        setQueryHistory(prev => [{
-          query: path,
-          timestamp: Date.now(),
-          resultCount: results.length
-        }, ...prev].slice(0, 10));
-      }
-    } catch (err) {
-      setQueryError('Invalid JSON or query format');
-      setQueryResults([]);
+    setQuery(path)
+    if (input) {
+      handleQuery()
     }
   }
 
   const handleLoadTestData = () => {
     setInput(JSON.stringify(TEST_DATA, null, 2))
-    onSnackbar('Test data loaded!')
+    onSnackbar(t('query.guide.loadExample'))
   }
 
   return (
@@ -558,17 +321,31 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
       {/* SEO Enhancement - Page Description */}
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" component="h1" gutterBottom>
-          JSONPath Query Tool - Extract Data from JSON
+          {t('query.title')}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Query and extract specific data from complex JSON structures using JSONPath expressions. 
-          This powerful tool allows you to navigate and filter JSON data with precise path syntax, 
-          ideal for API response analysis, data extraction, and JSON processing workflows.
+          {t('query.description')}
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {['JSONPath', 'JSON query', 'JSON extraction', 'JSON filter', 'JSON navigator', 'API response parser', 'JSON data select', 'Path expressions'].map((keyword) => (
-            <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
-          ))}
+          {(() => {
+            try {
+              const keywords = t('query.keywords', { returnObjects: true });
+              if (Array.isArray(keywords)) {
+                return keywords.map((keyword, index) => (
+                  <Chip 
+                    key={index} 
+                    label={String(keyword)} 
+                    size="small" 
+                    variant="outlined" 
+                    sx={{ borderRadius: 1 }} 
+                  />
+                ));
+              }
+            } catch (error) {
+              console.error('Error rendering keywords:', error);
+            }
+            return null;
+          })()}
         </Box>
       </Box>
       
@@ -582,17 +359,17 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
                 startIcon={<Info />}
                 onClick={() => setShowGuide(!showGuide)}
               >
-                {showGuide ? 'Hide Guide' : 'Show Guide'}
+                {showGuide ? t('query.guide.hideGuide') : t('query.guide.showGuide')}
               </Button>
               <Button
                 variant="outlined"
                 startIcon={<PlayArrow />}
                 onClick={handleLoadTestData}
               >
-                Load Test Data
+                {t('query.guide.loadExample')}
               </Button>
               <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
-                Click on any example below to try it out
+                {t('query.guide.try')}
               </Typography>
             </Stack>
           </Paper>
@@ -603,12 +380,12 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
           <Collapse in={showGuide}>
             <Paper sx={{ p: 2, mb: 2 }}>
               <Typography variant="h6" gutterBottom>
-                JSONPath Quick Guide
+                {t('query.guide.title')}
               </Typography>
               
               <Box sx={{ mb: 3 }}>
                 <Typography variant="subtitle2" gutterBottom>
-                  示例数据结构:
+                  {t('query.guide.dataStructure')}
                 </Typography>
                 <Box sx={{ 
                   overflowX: 'auto',
@@ -654,7 +431,7 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
                     <Card variant="outlined">
                       <CardContent>
                         <Typography variant="subtitle2" gutterBottom>
-                          {example.label}
+                          {t(`query.${example.label}`)}
                         </Typography>
                         <Chip
                           label={example.path}
@@ -663,12 +440,12 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
                           sx={{ fontFamily: 'monospace', mb: 1 }}
                         />
                         <Typography variant="caption" color="text.secondary">
-                          {example.path === '$' && '返回整个JSON对象'}
-                          {example.path === '$.store' && '返回store对象及其所有内容'}
-                          {example.path === '$.store.book[*]' && '返回所有书籍数组中的对象'}
-                          {example.path === '$.store.book[0]' && '返回第一本书的所有信息'}
-                          {example.path === '$.store.book[*].title' && '返回所有书的标题，如 ["Harry Potter",...]'}
-                          {example.path === '$.store.book[?(@.inStock==true)]' && '返回所有库存为true的书'}
+                          {example.path === '$' && t('query.guide.returnRoot')}
+                          {example.path === '$.store' && t('query.guide.returnStore')}
+                          {example.path === '$.store.book[*]' && t('query.guide.returnAllBooks')}
+                          {example.path === '$.store.book[0]' && t('query.guide.returnFirstBook')}
+                          {example.path === '$.store.book[*].title' && t('query.guide.returnAllTitles')}
+                          {example.path === '$.store.book[?(@.inStock==true)]' && t('query.guide.returnInStock')}
                         </Typography>
                       </CardContent>
                     </Card>
@@ -678,37 +455,37 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
               
               <Box sx={{ mt: 3 }}>
                 <Typography variant="subtitle2" gutterBottom>
-                  JSONPath 语法参考:
+                  {t('query.guide.syntax')}
                 </Typography>
                 <List dense>
                   <ListItem>
                     <ListItemText
                       primary="$"
-                      secondary="代表根对象"
+                      secondary={t('query.guide.root')}
                     />
                   </ListItem>
                   <ListItem>
                     <ListItemText
                       primary="."
-                      secondary="表示子元素，如 $.store.book 访问store下的book属性"
+                      secondary={t('query.guide.child')}
                     />
                   </ListItem>
                   <ListItem>
                     <ListItemText
                       primary="[n]"
-                      secondary="访问数组的第n个元素，如 $.store.book[0] 访问第一本书"
+                      secondary={t('query.guide.array')}
                     />
                   </ListItem>
                   <ListItem>
                     <ListItemText
                       primary="[*]"
-                      secondary="表示数组中的所有元素，如 $.store.book[*].title 返回所有书名"
+                      secondary={t('query.guide.allItems')}
                     />
                   </ListItem>
                   <ListItem>
                     <ListItemText
                       primary="[?(条件)]"
-                      secondary="根据条件筛选元素，如 $.store.book[?(@.price<10)] 返回价格小于10的书"
+                      secondary={t('query.guide.filter')}
                     />
                   </ListItem>
                 </List>
@@ -721,7 +498,7 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
         <Grid item xs={12} md={8}>
           <Paper sx={{ p: 2, mb: 2 }}>
             <Typography variant="subtitle1" gutterBottom>
-              JSON Data
+              {t('query.jsonData')}
             </Typography>
             <Box sx={{ position: 'relative' }}>
               <TextField
@@ -730,7 +507,7 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
                 rows={8}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Enter or paste your JSON data here..."
+                placeholder={t('format.enterJson')}
                 error={!!queryError}
                 helperText={queryError}
                 sx={{ mb: 2 }}
@@ -745,14 +522,14 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
             </Box>
 
             <Typography variant="subtitle1" gutterBottom>
-              JSONPath Query
+              {t('query.jsonPath')}
             </Typography>
             <Box sx={{ position: 'relative' }}>
               <TextField
                 fullWidth
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Enter your JSONPath query (e.g., $.store.book[*].title)"
+                placeholder="$.store.book[*].title"
                 error={!!queryError}
                 sx={{ mb: 2 }}
               />
@@ -771,7 +548,7 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
               onClick={handleQuery}
               fullWidth
             >
-              Execute Query
+              {t('query.executeQuery')}
             </Button>
           </Paper>
 
@@ -779,7 +556,7 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
           {queryResults.length > 0 && (
             <Paper sx={{ p: 2, mb: 2 }}>
               <Typography variant="subtitle1" gutterBottom>
-                Query Results ({queryResults.length})
+                {t('query.results')} ({queryResults.length})
               </Typography>
               <List>
                 {queryResults.map((result, index) => (
@@ -793,7 +570,7 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
                       secondary={
                         <Box sx={{ mt: 1 }}>
                           <Typography variant="caption" color="text.secondary" sx={{ mr: 1 }}>
-                            Type: {result.type}
+                            {t('query.type')}: {result.type}
                           </Typography>
                           <Box sx={{ 
                             overflowX: 'auto',
@@ -822,7 +599,7 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
                     <IconButton
                       onClick={() => {
                         navigator.clipboard.writeText(JSON.stringify(result.value, null, 2))
-                        onSnackbar('Result copied to clipboard!')
+                        onSnackbar(t('common.copied', { content: t('query.results') }))
                       }}
                       size="small"
                     >
@@ -839,7 +616,7 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
             <Paper sx={{ p: 2 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
                 <Typography variant="subtitle1">
-                  Recent Queries
+                  {t('query.recentQueries')}
                 </Typography>
                 <IconButton
                   onClick={() => setShowHistory(!showHistory)}
@@ -863,7 +640,7 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
                       onClick={() => {
                         setQuery(item.query)
                         handleQuery()
-                        onSnackbar('Query restored!')
+                        onSnackbar(t('query.executeQuery'))
                       }}
                       size="small"
                     >
@@ -880,26 +657,29 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
         <Grid item xs={12} md={4}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="subtitle1" gutterBottom>
-              Try These Examples
+              {t('query.examples')}
             </Typography>
             <List>
-              {QUERY_EXAMPLES.map((example, index) => (
-                <ListItem
-                  key={index}
-                  button
-                  onClick={() => handleExampleClick(example.path)}
-                  sx={{ mb: 1, border: '1px solid', borderColor: 'divider', borderRadius: 1 }}
-                >
-                  <ListItemText
-                    primary={example.label}
-                    secondary={
-                      <Typography variant="body2" sx={{ fontFamily: 'monospace', mt: 0.5 }}>
-                        {example.path}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              ))}
+              {QUERY_EXAMPLES.map((example, index) => {
+                const translationKey = `query.${example.label}`;
+                return (
+                  <ListItem
+                    key={index}
+                    button
+                    onClick={() => handleExampleClick(example.path)}
+                    sx={{ mb: 1, border: '1px solid', borderColor: 'divider', borderRadius: 1 }}
+                  >
+                    <ListItemText
+                      primary={t(translationKey)}
+                      secondary={
+                        <Typography variant="body2" sx={{ fontFamily: 'monospace', mt: 0.5 }}>
+                          {example.path}
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                );
+              })}
             </List>
           </Paper>
         </Grid>

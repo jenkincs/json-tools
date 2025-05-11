@@ -1,0 +1,10 @@
+# robots.txt for JSON Tools
+
+User-agent: *
+Allow: /
+
+# 允许所有搜索引擎抓取所有内容
+Disallow:
+
+# Sitemap文件路径
+Sitemap: https://yourwebsitedomain.com/sitemap.xml 

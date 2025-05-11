@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import {
   Box,
   Container,
@@ -14,10 +15,10 @@ import {
   Divider,
   Chip,
   IconButton,
-  Tooltip
+  Tooltip,
+  Button
 } from '@mui/material'
-import { Brightness4, Brightness7, QuestionAnswer } from '@mui/icons-material'
-import { HelmetProvider } from 'react-helmet-async'
+import { Brightness4, Brightness7, QuestionAnswer, Home } from '@mui/icons-material'
 import { TabPanel } from './components/TabPanel'
 import { FormatPanel } from './components/FormatPanel'
 import { ComparePanel } from './components/ComparePanel'
@@ -52,7 +53,14 @@ function AppContent() {
   const { t } = useTranslation();
   const { mode, toggleTheme } = useThemeContext();
   const { sharedState, clearSharedState } = useSharedState();
-  const [activeTab, setActiveTab] = useState(0)
+  
+  // 从 localStorage 获取上次使用的标签索引，如果没有则默认为 0
+  const getInitialTabIndex = () => {
+    const savedTab = localStorage.getItem('lastActiveTab');
+    return savedTab ? parseInt(savedTab, 10) : 0;
+  };
+  
+  const [activeTab, setActiveTab] = useState(getInitialTabIndex());
   const [snackbar, setSnackbar] = useState<{
     open: boolean
     message: string
@@ -75,7 +83,8 @@ function AppContent() {
         'validate': 4,
         'query': 5,
         'codeGenerator': 6,
-        'apiMocker': 7
+        'apiMocker': 7,
+        'faq': 8
       };
       
       if (toolTabMap[sharedState.tool] !== undefined) {
@@ -83,6 +92,16 @@ function AppContent() {
       }
     }
   }, [sharedState]);
+
+  // 当标签改变时，保存到 localStorage
+  useEffect(() => {
+    localStorage.setItem('lastActiveTab', activeTab.toString());
+  }, [activeTab]);
+
+  // 当标签改变时，滚动到页面顶部
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeTab]);
 
   // SEO Optimization - Update meta description based on active tab
   useEffect(() => {
@@ -144,6 +163,15 @@ function AppContent() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {t('app.title')}
           </Typography>
+          <Button
+            component={Link}
+            to="/"
+            color="inherit"
+            startIcon={<Home />}
+            sx={{ mr: 2 }}
+          >
+            {t('landingPages.backToHome')}
+          </Button>
           <Tooltip title={t('tabs.faq')}>
             <IconButton 
               color="inherit" 
@@ -275,11 +303,9 @@ function AppContent() {
 // 带有SharedStateProvider的App组件
 function App() {
   return (
-    <HelmetProvider>
-      <SharedStateProvider>
-        <AppContent />
-      </SharedStateProvider>
-    </HelmetProvider>
+    <SharedStateProvider>
+      <AppContent />
+    </SharedStateProvider>
   )
 }
 

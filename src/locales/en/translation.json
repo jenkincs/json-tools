@@ -2,7 +2,8 @@
   "app": {
     "title": "JSON Tools - Comprehensive JSON Utilities",
     "description": "A comprehensive collection of JSON utilities for developers and data professionals. Format, validate, compare, convert, query, and visualize JSON data with these powerful online tools.",
-    "header": "All-in-One JSON Tools Suite"
+    "header": "All-in-One JSON Tools Suite",
+    "backToHome": "Open Tools"
   },
   "theme": {
     "toggleLight": "Switch to Light Mode",
@@ -46,7 +47,16 @@
     "upload": "Upload",
     "enterJson": "Enter JSON...",
     "paste": "Paste",
-    "copy": "Copy"
+    "copy": "Copy",
+    "feature1": "Smart JSON Formatting",
+    "feature1.description": "Automatically detects and formats JSON with configurable indentation",
+    "feature2": "Minification Option",
+    "feature2.description": "Compress JSON to reduce file size for production use",
+    "feature3": "Syntax Highlighting",
+    "feature3.description": "Color-coded output makes JSON structure easier to read",
+    "feature4": "Error Detection",
+    "feature4.description": "Identifies and highlights syntax errors in your JSON with helpful messages",
+    "shortDescription": "Format, beautify and validate your JSON data with configurable options"
   },
   "compare": {
     "title": "JSON Diff & Compare Tool",
@@ -64,7 +74,14 @@
     "firstJson": "Enter first JSON...",
     "secondJson": "Enter second JSON...",
     "compare": "Compare",
-    "result": "Comparison result copied to clipboard!"
+    "result": "Comparison result copied to clipboard!",
+    "feature1": "Side-by-side Comparison",
+    "feature1.description": "View two JSON objects next to each other with clear highlighting",
+    "feature2": "Difference Detection",
+    "feature2.description": "Automatically identify added, removed, and changed values",
+    "feature3": "Nested Object Support",
+    "feature3.description": "Compare complex nested structures with precise difference tracking",
+    "shortDescription": "Compare two JSON objects and visualize the differences between them"
   },
   "convert": {
     "title": "JSON Converter - XML, CSV, YAML Conversion Tool",
@@ -92,7 +109,16 @@
     "enterJson": "Enter JSON...",
     "enterYaml": "Enter YAML...",
     "convert": "Convert",
-    "result": "Converted output copied to clipboard!"
+    "result": "Converted output copied to clipboard!",
+    "feature1": "Multiple Format Support",
+    "feature1.description": "Convert between JSON, YAML, XML, CSV, and other formats",
+    "feature2": "Two-way Conversion",
+    "feature2.description": "Convert to and from JSON with a single click",
+    "feature3": "Customizable Output",
+    "feature3.description": "Configure conversion options to match your requirements",
+    "feature4": "Instant Preview",
+    "feature4.description": "See the conversion results in real-time as you type",
+    "shortDescription": "Convert JSON to and from other formats including YAML, XML and CSV"
   },
   "visualize": {
     "title": "JSON Visualization Tool",
@@ -140,7 +166,14 @@
     "selectFields": "Please select X and Y fields",
     "selectSeries": "Please select at least one data series",
     "noDataPoints": "No valid data points to visualize",
-    "chart": "Chart Results"
+    "chart": "Chart Results",
+    "feature1": "Interactive Tree View",
+    "feature1.description": "Explore JSON hierarchies with an expandable tree structure",
+    "feature2": "Graph Visualization",
+    "feature2.description": "Visualize relationships between JSON elements with interactive graphs",
+    "feature3": "Copy Path Feature",
+    "feature3.description": "Easily get the path to any element in complex JSON structures",
+    "shortDescription": "Visualize JSON data as interactive trees, charts, and graphs"
   },
   "validate": {
     "title": "JSON Schema Validator",
@@ -191,7 +224,14 @@
       "genericObject": "Generic Object",
       "userList": "User List",
       "configObject": "Configuration Object"
-    }
+    },
+    "feature1": "JSON Schema Validation",
+    "feature1.description": "Validate JSON data against JSON Schema (draft-07)",
+    "feature2": "Detailed Error Reports",
+    "feature2.description": "Get precise information about validation failures",
+    "feature3": "Schema Builder",
+    "feature3.description": "Create and edit JSON schemas with an interactive interface",
+    "shortDescription": "Validate JSON data against JSON Schema with detailed error reporting"
   },
   "query": {
     "title": "JSONPath Query Tool - Extract Data from JSON",
@@ -247,7 +287,14 @@
     "type": "Type",
     "recentQueries": "Recent Queries",
     "noResults": "No results found",
-    "invalidQuery": "Invalid JSON or query format"
+    "invalidQuery": "Invalid JSON or query format",
+    "feature1": "JSONPath Support",
+    "feature1.description": "Query JSON using the powerful JSONPath syntax",
+    "feature2": "Live Results",
+    "feature2.description": "See query results update instantly as you type",
+    "feature3": "Query Examples",
+    "feature3.description": "Learn from pre-built example queries for common tasks",
+    "shortDescription": "Extract specific data from JSON using JSONPath queries"
   },
   "codeGenerator": {
     "title": "JSON to Code Generator",
@@ -277,7 +324,14 @@
     "noJsonAnnotations": "No JSON Annotations",
     "jsonInput": "JSON Input",
     "generatedCode": "Generated Code",
-    "noCodeGenerated": "No code has been generated yet. Enter JSON data and click Generate."
+    "noCodeGenerated": "No code has been generated yet. Enter JSON data and click Generate.",
+    "feature1": "Multiple Language Support",
+    "feature1.description": "Generate code for JavaScript, TypeScript, Python, Java, C#, and more",
+    "feature2": "Type Definitions",
+    "feature2.description": "Automatically generate type definitions based on your JSON structure",
+    "feature3": "Customizable Output",
+    "feature3.description": "Configure naming conventions and code style options",
+    "shortDescription": "Generate code classes and types from JSON data in multiple languages"
   },
   "apiMocker": {
     "title": "API Mocker - Create Mock API Responses",
@@ -356,7 +410,14 @@
       "product": "Product Catalog",
       "order": "Order Details",
       "weather": "Weather Forecast"
-    }
+    },
+    "feature1": "Mock API Endpoints",
+    "feature1.description": "Create simulated API endpoints with custom JSON responses",
+    "feature2": "Response Templates",
+    "feature2.description": "Use templates to generate dynamic mock data",
+    "feature3": "Request Validation",
+    "feature3.description": "Validate incoming requests against expected formats",
+    "shortDescription": "Create mock API endpoints with custom JSON responses for testing"
   },
   "faq": {
     "title": "JSON Tools - Frequently Asked Questions",
@@ -438,7 +499,8 @@
       
       "general1": "Yes, our tools run entirely in your browser, and your data is never sent to any server. All processing happens on your device, ensuring data privacy and security. Most functionalities continue to work even in offline mode. This makes the tool suitable for handling sensitive or confidential data.",
       "general2": "The size of JSON files our tools can handle is primarily limited by your browser and device memory. Typically, files of a few MB can be processed easily. For larger files (over 10MB), you may experience performance degradation. If you need to process very large JSON files, consider splitting them into smaller parts or using specialized desktop tools."
-    }
+    },
+    "shortDescription": "Find answers to common questions about JSON and our tools"
   },
   "categories": {
     "format": "Formatting",
@@ -496,5 +558,28 @@
     "socialText": "Check out this JSON data I processed with JSON Tools",
     "emailSubject": "Shared JSON Data Link",
     "qrCodeInfo": "Or scan the QR code below to access on mobile devices"
+  },
+  "home": {
+    "subtitle": "Comprehensive JSON Tools for Developers",
+    "description": "A collection of free online tools for working with JSON data. Format, validate, convert, compare, visualize and query JSON with ease. No signup required.",
+    "openApp": "Open All Tools",
+    "availableTools": "Available Tools",
+    "learnMore": "Learn More",
+    "useTool": "Use Tool",
+    "viewFaq": "View FAQ",
+    "startNow": "Ready to Start?",
+    "allToolsFree": "All tools are completely free to use, no signup required, and work directly in your browser.",
+    "openAllTools": "Open App"
+  },
+  "landingPages": {
+    "tryNow": "Try Now",
+    "allTools": "View All Tools",
+    "keyFeatures": "Key Features",
+    "relatedTopics": "Related Topics",
+    "readyToStart": "Ready to start using this tool?",
+    "noSignup": "No signup required, all tools are free and work directly in your browser.",
+    "startUsing": "Start Using {{tool}}",
+    "backToHome": "Back to Home",
+    "openTool": "Open Tool"
   }
 } 

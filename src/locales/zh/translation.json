@@ -2,7 +2,8 @@
   "app": {
     "title": "JSON工具集 - 全面的JSON实用工具",
     "description": "为开发者和数据专业人员提供的全面JSON工具集。格式化、验证、比较、转换、查询和可视化JSON数据的强大在线工具。",
-    "header": "全能JSON工具套件"
+    "header": "全能JSON工具套件",
+    "backToHome": "进入工具集"
   },
   "theme": {
     "toggleLight": "切换到浅色模式",
@@ -46,7 +47,16 @@
     "upload": "上传",
     "enterJson": "输入JSON...",
     "paste": "粘贴",
-    "copy": "复制"
+    "copy": "复制",
+    "feature1": "智能JSON格式化",
+    "feature1.description": "自动检测并格式化JSON，支持可配置的缩进",
+    "feature2": "压缩选项",
+    "feature2.description": "压缩JSON以减小生产环境下的文件大小",
+    "feature3": "语法高亮",
+    "feature3.description": "彩色编码输出使JSON结构更易于阅读",
+    "feature4": "错误检测",
+    "feature4.description": "识别并突出显示JSON中的语法错误，并提供有用的错误信息",
+    "shortDescription": "格式化、美化和验证您的JSON数据，支持可配置选项"
   },
   "compare": {
     "title": "JSON差异比较工具",
@@ -64,7 +74,14 @@
     "firstJson": "输入第一个JSON...",
     "secondJson": "输入第二个JSON...",
     "compare": "比较",
-    "result": "比较结果已复制到剪贴板！"
+    "result": "比较结果已复制到剪贴板！",
+    "feature1": "并排比较",
+    "feature1.description": "并排查看两个JSON对象，并清晰突出显示差异",
+    "feature2": "差异检测",
+    "feature2.description": "自动识别添加、删除和更改的值",
+    "feature3": "嵌套对象支持",
+    "feature3.description": "精确跟踪复杂嵌套结构的差异",
+    "shortDescription": "比较两个JSON对象并可视化它们之间的差异"
   },
   "convert": {
     "title": "JSON转换器 - XML、CSV、YAML转换工具",
@@ -92,7 +109,16 @@
     "enterJson": "输入JSON...",
     "enterYaml": "输入YAML...",
     "convert": "转换",
-    "result": "转换结果已复制到剪贴板！"
+    "result": "转换结果已复制到剪贴板！",
+    "feature1": "多种格式支持",
+    "feature1.description": "在JSON、YAML、XML、CSV和其他格式之间转换",
+    "feature2": "双向转换",
+    "feature2.description": "一键从JSON转换到其他格式，也可从其他格式转换到JSON",
+    "feature3": "可自定义输出",
+    "feature3.description": "配置转换选项以匹配您的需求",
+    "feature4": "即时预览",
+    "feature4.description": "在您输入时实时查看转换结果",
+    "shortDescription": "在JSON和其他格式（包括YAML、XML和CSV）之间进行转换"
   },
   "visualize": {
     "title": "JSON可视化工具",
@@ -140,7 +166,14 @@
     "selectFields": "请选择X和Y字段",
     "selectSeries": "请至少选择一个数据系列",
     "noDataPoints": "没有有效的数据点可视化",
-    "chart": "图表结果"
+    "chart": "图表结果",
+    "feature1": "交互式树形视图",
+    "feature1.description": "通过可展开的树形结构探索JSON层次结构",
+    "feature2": "图表可视化",
+    "feature2.description": "通过交互式图表可视化JSON元素之间的关系",
+    "feature3": "复制路径功能",
+    "feature3.description": "轻松获取复杂JSON结构中任何元素的路径",
+    "shortDescription": "将JSON数据可视化为交互式树形图、图表和图形"
   },
   "validate": {
     "title": "JSON Schema验证器",
@@ -191,7 +224,14 @@
       "genericObject": "通用对象",
       "userList": "用户列表",
       "configObject": "配置对象"
-    }
+    },
+    "feature1": "JSON Schema验证",
+    "feature1.description": "根据JSON Schema（draft-07）验证JSON数据",
+    "feature2": "详细错误报告",
+    "feature2.description": "获取有关验证失败的精确信息",
+    "feature3": "Schema构建器",
+    "feature3.description": "通过交互式界面创建和编辑JSON schema",
+    "shortDescription": "根据JSON Schema验证JSON数据，提供详细的错误报告"
   },
   "query": {
     "title": "JSONPath查询工具 - 从JSON中提取数据",
@@ -247,7 +287,14 @@
     "type": "类型",
     "recentQueries": "最近查询",
     "noResults": "未找到结果",
-    "invalidQuery": "无效的JSON或查询格式"
+    "invalidQuery": "无效的JSON或查询格式",
+    "feature1": "JSONPath支持",
+    "feature1.description": "使用强大的JSONPath语法查询JSON",
+    "feature2": "实时结果",
+    "feature2.description": "输入时即时查看查询结果更新",
+    "feature3": "查询示例",
+    "feature3.description": "从预构建的示例查询中学习常见任务",
+    "shortDescription": "使用JSONPath查询从JSON中提取特定数据"
   },
   "codeGenerator": {
     "title": "JSON转代码生成器",
@@ -277,7 +324,14 @@
     "noJsonAnnotations": "不使用JSON注解",
     "jsonInput": "JSON输入",
     "generatedCode": "生成的代码",
-    "noCodeGenerated": "尚未生成代码。输入JSON数据并点击生成。"
+    "noCodeGenerated": "尚未生成代码。输入JSON数据并点击生成。",
+    "feature1": "多语言支持",
+    "feature1.description": "为JavaScript、TypeScript、Python、Java、C#等语言生成代码",
+    "feature2": "类型定义",
+    "feature2.description": "根据您的JSON结构自动生成类型定义",
+    "feature3": "可自定义输出",
+    "feature3.description": "配置命名约定和代码风格选项",
+    "shortDescription": "从JSON数据生成多种语言的代码类和类型"
   },
   "apiMocker": {
     "title": "API模拟工具 - 创建模拟API响应",
@@ -356,7 +410,14 @@
       "product": "产品目录",
       "order": "订单详情",
       "weather": "天气预报"
-    }
+    },
+    "feature1": "模拟API端点",
+    "feature1.description": "创建带有自定义JSON响应的模拟API端点",
+    "feature2": "响应模板",
+    "feature2.description": "使用模板生成动态模拟数据",
+    "feature3": "请求验证",
+    "feature3.description": "根据预期格式验证传入的请求",
+    "shortDescription": "创建带有自定义JSON响应的模拟API端点，用于测试"
   },
   "faq": {
     "title": "JSON工具 - 常见问题解答",
@@ -437,7 +498,8 @@
       
       "general1": "是的，我们的工具完全在您的浏览器中运行，您的数据永远不会发送到任何服务器。所有处理都在您的设备上进行，确保数据隐私和安全。大多数功能即使在离线模式下也能继续工作。这使得该工具适合处理敏感或机密数据。",
       "general2": "我们的工具可以处理的JSON文件大小主要受限于您的浏览器和设备内存。通常，几MB的文件可以轻松处理。对于较大的文件（超过10MB），您可能会遇到性能下降。如果您需要处理非常大的JSON文件，请考虑将它们拆分为较小的部分或使用专门的桌面工具。"
-    }
+    },
+    "shortDescription": "查找有关JSON和我们工具的常见问题解答"
   },
   "categories": {
     "format": "格式化",
@@ -495,5 +557,28 @@
     "socialText": "查看我使用JSON工具处理的数据",
     "emailSubject": "分享的JSON数据链接",
     "qrCodeInfo": "或者扫描以下二维码以在移动设备上访问"
+  },
+  "home": {
+    "subtitle": "为开发者提供的全面JSON工具集",
+    "description": "免费在线工具集，用于处理JSON数据。轻松格式化、验证、转换、比较、可视化和查询JSON。无需注册。",
+    "openApp": "打开所有工具",
+    "availableTools": "可用工具",
+    "learnMore": "了解更多",
+    "useTool": "使用工具",
+    "viewFaq": "查看常见问题",
+    "startNow": "准备开始？",
+    "allToolsFree": "所有工具完全免费使用，无需注册，直接在浏览器中运行。",
+    "openAllTools": "打开应用"
+  },
+  "landingPages": {
+    "tryNow": "立即尝试",
+    "allTools": "查看所有工具",
+    "keyFeatures": "核心功能",
+    "relatedTopics": "相关主题",
+    "readyToStart": "准备开始使用此工具？",
+    "noSignup": "无需注册，所有工具均免费且直接在浏览器中运行。",
+    "startUsing": "开始使用{{tool}}",
+    "backToHome": "返回主页",
+    "openTool": "打开工具"
   }
 } 

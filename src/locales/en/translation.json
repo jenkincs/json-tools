@@ -529,6 +529,75 @@
     "privacyPolicy": "Privacy Policy",
     "termsOfUse": "Terms of Use"
   },
+  "policy": {
+    "privacyPolicy": {
+      "title": "Privacy Policy",
+      "dataProcessing": {
+        "title": "Data Processing",
+        "content": "All JSON data processing occurs entirely in your browser and is never sent to any server. We do not collect, store, or process any of the JSON data you upload or input."
+      },
+      "cookies": {
+        "title": "Cookie Usage",
+        "content": "This site only uses necessary local storage (localStorage) to remember your preference settings, such as dark/light theme selection and the last used tool tab. We do not use any tracking cookies or third-party analytics cookies."
+      },
+      "analytics": {
+        "title": "Analytics",
+        "content": "We may use basic analytics tools to collect anonymous usage data, such as visitor numbers and page views, to help us improve our tools. This data does not contain any personally identifiable information and is used solely for internal analysis purposes."
+      },
+      "thirdParty": {
+        "title": "Third-Party Links",
+        "content": "This site may contain links to third-party websites that have their own privacy policies and data handling practices. We are not responsible for the content or privacy practices of these third-party sites and recommend that you review their privacy policies."
+      },
+      "updates": {
+        "title": "Policy Updates",
+        "content": "This privacy policy may be updated periodically, and we encourage you to review it for changes. We will note the last updated date on the page but will not specifically notify you of each change."
+      },
+      "contact": {
+        "title": "Contact Information",
+        "content": "If you have any privacy-related questions, please contact us at: contact@jsontools.example.com"
+      },
+      "lastUpdated": "Last updated: {{date}}"
+    },
+    "termsOfUse": {
+      "title": "Terms of Use",
+      "license": {
+        "title": "License to Use",
+        "content": "We grant you a non-exclusive license to access and use this tool. You may use this tool to process JSON data for personal or business purposes, but you may not redistribute, resell, or package the tool in whole or in part as another product."
+      },
+      "disclaimer": {
+        "title": "Disclaimer",
+        "content": "This tool is provided 'as is' without any warranty of any kind. We are not responsible for any data loss, damage, or other loss that may result from using this tool. Users assume all risk when using the tool and are responsible for their own data."
+      },
+      "intellectualProperty": {
+        "title": "Intellectual Property",
+        "content": "Unless otherwise noted, all content, code, design, and icons of this tool are the intellectual property of JSON Tools. You may not copy, modify, distribute, or use this content except as expressly permitted by these terms or with our written permission."
+      },
+      "prohibitedActivities": {
+        "title": "Prohibited Activities",
+        "content": "When using this tool, you must not:",
+        "items": [
+          "Attempt to interfere with or disrupt the normal operation of the site",
+          "Use automated tools to scrape or make excessive requests to the site",
+          "Circumvent, disable, or otherwise interfere with security-related features of the site",
+          "Use the tool to process or store illegal content",
+          "Excessively consume server resources causing degraded experience for other users"
+        ]
+      },
+      "termination": {
+        "title": "Termination",
+        "content": "We reserve the right to terminate or restrict your access to the service at any time, for any reason (including, but not limited to, violation of these Terms of Use), without notice."
+      },
+      "governingLaw": {
+        "title": "Governing Law",
+        "content": "These terms are governed by the laws of China, and any disputes related to this tool shall be submitted to the courts of China with jurisdiction."
+      },
+      "changes": {
+        "title": "Changes to Terms",
+        "content": "We reserve the right to modify these terms at any time. Significant changes will be notified on the site. Your continued use of this tool will be considered acceptance of the modified terms."
+      },
+      "lastUpdated": "Last updated: {{date}}"
+    }
+  },
   "common": {
     "copied": "{{content}} copied to clipboard!",
     "error": {

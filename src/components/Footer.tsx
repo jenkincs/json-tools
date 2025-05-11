@@ -2,7 +2,7 @@ import { Box, Container, Typography, Link, Divider, IconButton, Stack, Grid, use
 import { GitHub, LinkedIn, Email, Twitter, Code, BugReport } from '@mui/icons-material'
 import { useThemeContext } from '../context/ThemeContext'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -126,24 +126,20 @@ export function Footer() {
           </Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Link 
+              component={RouterLink} 
+              to="/privacy-policy" 
               color="primary" 
               variant="caption" 
-              underline="hover" 
-              onClick={(e) => {
-                e.preventDefault()
-                handleToolClick(8)(e)
-              }}
+              underline="hover"
             >
               {t('footer.privacyPolicy')}
             </Link>
             <Link 
+              component={RouterLink} 
+              to="/terms-of-use" 
               color="primary" 
               variant="caption" 
-              underline="hover" 
-              onClick={(e) => {
-                e.preventDefault()
-                handleToolClick(8)(e)
-              }}
+              underline="hover"
             >
               {t('footer.termsOfUse')}
             </Link>

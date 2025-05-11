@@ -12,6 +12,8 @@ import {
   CodeGeneratorLandingPage,
   ApiMockerLandingPage
 } from './pages/LandingPages';
+import { PrivacyPolicy } from './pages/PrivacyPolicy';
+import { TermsOfUse } from './pages/TermsOfUse';
 
 // 创建一个ScrollToTop组件，确保路由切换时滚动到顶部
 const ScrollToTop: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -99,6 +101,16 @@ const router = createBrowserRouter([
   {
     path: '/app/:tool',
     element: <ScrollToTop><ToolRedirect /></ScrollToTop>,
+  },
+  // 隐私政策页面
+  {
+    path: '/privacy-policy',
+    element: <ScrollToTop><PrivacyPolicy /></ScrollToTop>,
+  },
+  // 使用条款页面
+  {
+    path: '/terms-of-use',
+    element: <ScrollToTop><TermsOfUse /></ScrollToTop>,
   },
   // 重定向根路径
   {

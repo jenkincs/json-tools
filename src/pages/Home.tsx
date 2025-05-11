@@ -28,6 +28,7 @@ import {
   SearchOutlined,
   Code,
   Api,
+  VpnKey,
   QuestionAnswer,
   Apps,
   Brightness4,
@@ -62,7 +63,8 @@ export const Home: React.FC = () => {
     { name: 'validate', icon: <CheckCircle fontSize="large" color="primary" />, path: '/validate' },
     { name: 'query', icon: <SearchOutlined fontSize="large" color="primary" />, path: '/query' },
     { name: 'codeGenerator', icon: <Code fontSize="large" color="primary" />, path: '/code-generator' },
-    { name: 'apiMocker', icon: <Api fontSize="large" color="primary" />, path: '/api-mocker' }
+    { name: 'apiMocker', icon: <Api fontSize="large" color="primary" />, path: '/api-mocker' },
+    { name: 'jwtDecoder', icon: <VpnKey fontSize="large" color="primary" />, path: '/jwt-decoder' }
   ];
   
   return (

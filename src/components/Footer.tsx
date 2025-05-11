@@ -65,7 +65,8 @@ export function Footer() {
               <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(5)}>{t('query.title')}</Link>
               <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(6)}>{t('codeGenerator.title')}</Link>
               <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(7)}>{t('apiMocker.title')}</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(8)}>{t('faq.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(8)}>{t('jwtDecoder.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(9)}>{t('faq.title')}</Link>
             </Stack>
           </Grid>
           

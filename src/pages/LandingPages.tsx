@@ -35,14 +35,15 @@ import {
   Home,
   Apps,
   Brightness4,
-  Brightness7
+  Brightness7,
+  VpnKey
 } from '@mui/icons-material';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { useThemeContext } from '../context/ThemeContext';
 import { Footer } from '../components/Footer';
 
 interface LandingPageProps {
-  toolName: 'format' | 'compare' | 'convert' | 'visualize' | 'validate' | 'query' | 'codeGenerator' | 'apiMocker' | 'faq';
+  toolName: 'format' | 'compare' | 'convert' | 'visualize' | 'validate' | 'query' | 'codeGenerator' | 'apiMocker' | 'jwtDecoder' | 'faq';
 }
 
 // 获取工具图标
@@ -56,6 +57,7 @@ const getToolIcon = (toolName: string) => {
     case 'query': return <SearchOutlined fontSize="large" />;
     case 'codeGenerator': return <Code fontSize="large" />;
     case 'apiMocker': return <Api fontSize="large" />;
+    case 'jwtDecoder': return <VpnKey fontSize="large" />;
     default: return null;
   }
 };
@@ -70,7 +72,8 @@ const getFeaturesList = (toolName: string, t: any) => {
     validate: ['validate.feature1', 'validate.feature2', 'validate.feature3'],
     query: ['query.feature1', 'query.feature2', 'query.feature3'],
     codeGenerator: ['codeGenerator.feature1', 'codeGenerator.feature2', 'codeGenerator.feature3'],
-    apiMocker: ['apiMocker.feature1', 'apiMocker.feature2', 'apiMocker.feature3']
+    apiMocker: ['apiMocker.feature1', 'apiMocker.feature2', 'apiMocker.feature3'],
+    jwtDecoder: ['jwtDecoder.feature1', 'jwtDecoder.feature2', 'jwtDecoder.feature3']
   };
 
   return featuresMap[toolName] || [];
@@ -364,4 +367,5 @@ export const VisualizeLandingPage = () => <ToolLandingPage toolName="visualize" 
 export const ValidateLandingPage = () => <ToolLandingPage toolName="validate" />;
 export const QueryLandingPage = () => <ToolLandingPage toolName="query" />;
 export const CodeGeneratorLandingPage = () => <ToolLandingPage toolName="codeGenerator" />;
-export const ApiMockerLandingPage = () => <ToolLandingPage toolName="apiMocker" />; 
+export const ApiMockerLandingPage = () => <ToolLandingPage toolName="apiMocker" />;
+export const JwtDecoderLandingPage = () => <ToolLandingPage toolName="jwtDecoder" />; 

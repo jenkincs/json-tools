@@ -29,6 +29,7 @@ import { QueryPanel } from './components/QueryPanel'
 import { CodeGeneratorPanel } from './components/CodeGeneratorPanel'
 import { ApiMockerPanel } from './components/ApiMockerPanel'
 import { FaqPanel } from './components/FaqPanel'
+import { JwtDecoderPanel } from './components/JwtDecoderPanel'
 import { Footer } from './components/Footer'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { useThemeContext } from './context/ThemeContext'
@@ -45,6 +46,7 @@ const TOOL_NAMES = [
   'query',
   'codeGenerator',
   'apiMocker',
+  'jwtDecoder',
   'faq'
 ] as const;
 
@@ -84,7 +86,8 @@ function AppContent() {
         'query': 5,
         'codeGenerator': 6,
         'apiMocker': 7,
-        'faq': 8
+        'jwtDecoder': 8,
+        'faq': 9
       };
       
       if (toolTabMap[sharedState.tool] !== undefined) {
@@ -116,6 +119,7 @@ function AppContent() {
       t('query.description'),
       t('codeGenerator.description'),
       t('apiMocker.description'),
+      t('jwtDecoder.description'),
       t('faq.description')
     ];
     
@@ -175,7 +179,7 @@ function AppContent() {
           <Tooltip title={t('tabs.faq')}>
             <IconButton 
               color="inherit" 
-              onClick={() => setActiveTab(8)}
+              onClick={() => setActiveTab(9)}
               aria-label={t('tabs.faq')}
               sx={{ mr: 1 }}
             >
@@ -227,6 +231,7 @@ function AppContent() {
             <Tab label={t('tabs.query')} />
             <Tab label={t('tabs.codeGenerator')} />
             <Tab label={t('tabs.apiMocker')} />
+            <Tab label={t('tabs.jwtDecoder')} />
             <Tab label={t('tabs.faq')} icon={<QuestionAnswer />} iconPosition="start" />
           </Tabs>
 
@@ -275,6 +280,13 @@ function AppContent() {
           </TabPanel>
           
           <TabPanel value={activeTab} index={8}>
+            <JwtDecoderPanel 
+              onSnackbar={handleSnackbar} 
+              initialData={activeTab === 8 && sharedState.tool === 'jwtDecoder' ? sharedState.jsonData : null}
+            />
+          </TabPanel>
+          
+          <TabPanel value={activeTab} index={9}>
             <FaqPanel onSnackbar={handleSnackbar} />
           </TabPanel>
         </Paper>

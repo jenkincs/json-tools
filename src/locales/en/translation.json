@@ -20,7 +20,8 @@
     "convert": "Convert",
     "visualize": "Visualize",
     "validate": "Validate",
-    "query": "Query"
+    "query": "Query",
+    "codeGenerator": "Code Generator"
   },
   "format": {
     "title": "JSON Formatter & Beautifier",
@@ -245,6 +246,36 @@
     "recentQueries": "Recent Queries",
     "noResults": "No results found",
     "invalidQuery": "Invalid JSON or query format"
+  },
+  "codeGenerator": {
+    "title": "JSON to Code Generator",
+    "description": "Generate programming language code from JSON data. Instantly convert JSON into classes, interfaces, or models in TypeScript, Java, C#, Python, Go, or Swift. Save time on data model creation with customizable options for property names, types, and annotations.",
+    "keywords": [
+      "JSON to code",
+      "Code generator",
+      "TypeScript interface",
+      "Java class",
+      "C# model",
+      "Python class",
+      "Swift struct",
+      "Go struct",
+      "Data model",
+      "JSON deserialize"
+    ],
+    "targetLanguage": "Target Language",
+    "rootClassName": "Root Class Name",
+    "generate": "Generate Code",
+    "upload": "Upload JSON",
+    "options": "Code Generation Options",
+    "useInterfaces": "Use Interfaces",
+    "useClasses": "Use Classes",
+    "optionalProps": "Optional Properties",
+    "requiredProps": "Required Properties",
+    "useJsonAnnotations": "Use JSON Annotations",
+    "noJsonAnnotations": "No JSON Annotations",
+    "jsonInput": "JSON Input",
+    "generatedCode": "Generated Code",
+    "noCodeGenerated": "No code has been generated yet. Enter JSON data and click Generate."
   },
   "footer": {
     "description": "A comprehensive suite of JSON utilities for developers and data professionals.",

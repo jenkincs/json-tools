@@ -24,6 +24,7 @@ import { ConvertPanel } from './components/ConvertPanel'
 import { VisualizePanel } from './components/VisualizePanel'
 import { SchemaValidationPanel } from './components/SchemaValidationPanel'
 import { QueryPanel } from './components/QueryPanel'
+import { CodeGeneratorPanel } from './components/CodeGeneratorPanel'
 import { Footer } from './components/Footer'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { useThemeContext } from './context/ThemeContext'
@@ -50,7 +51,8 @@ function App() {
       t('convert.title') + " | JSON Tools",
       t('visualize.title') + " | JSON Tools",
       t('validate.title') + " | JSON Tools",
-      t('query.title') + " | JSON Tools"
+      t('query.title') + " | JSON Tools",
+      t('codeGenerator.title') + " | JSON Tools"
     ];
     
     document.title = tabTitles[activeTab];
@@ -63,7 +65,8 @@ function App() {
       t('convert.description'),
       t('visualize.description'),
       t('validate.description'),
-      t('query.description')
+      t('query.description'),
+      t('codeGenerator.description')
     ];
     
     if (metaDescription) {
@@ -141,6 +144,7 @@ function App() {
             <Tab label={t('tabs.visualize')} />
             <Tab label={t('tabs.validate')} />
             <Tab label={t('tabs.query')} />
+            <Tab label={t('tabs.codeGenerator')} />
           </Tabs>
 
           <TabPanel value={activeTab} index={0}>
@@ -165,6 +169,10 @@ function App() {
 
           <TabPanel value={activeTab} index={5}>
             <QueryPanel onSnackbar={handleSnackbar} />
+          </TabPanel>
+
+          <TabPanel value={activeTab} index={6}>
+            <CodeGeneratorPanel onSnackbar={handleSnackbar} />
           </TabPanel>
         </Paper>
       </Container>

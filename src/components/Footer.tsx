@@ -2,6 +2,7 @@ import { Box, Container, Typography, Link, Divider, IconButton, Stack, Grid, use
 import { GitHub, LinkedIn, Email, Twitter, Code, BugReport } from '@mui/icons-material'
 import { useThemeContext } from '../context/ThemeContext'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -9,6 +10,16 @@ export function Footer() {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
   const { mode } = useThemeContext()
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  
+  // 处理工具链接点击事件
+  const handleToolClick = (tabIndex: number) => (event: React.MouseEvent) => {
+    event.preventDefault()
+    // 保存选择的标签索引到localStorage
+    localStorage.setItem('lastActiveTab', tabIndex.toString())
+    // 导航到app页面
+    navigate('/app')
+  }
   
   return (
     <Box 
@@ -46,12 +57,15 @@ export function Footer() {
               {t('footer.tools')}
             </Typography>
             <Stack spacing={1}>
-              <Link href="#" color="primary" variant="body2" underline="hover">{t('format.title')}</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover">{t('compare.title')}</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover">{t('convert.title')}</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover">{t('visualize.title')}</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover">{t('validate.title')}</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover">{t('query.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(0)}>{t('format.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(1)}>{t('compare.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(2)}>{t('convert.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(3)}>{t('visualize.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(4)}>{t('validate.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(5)}>{t('query.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(6)}>{t('codeGenerator.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(7)}>{t('apiMocker.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(8)}>{t('faq.title')}</Link>
             </Stack>
           </Grid>
           
@@ -111,8 +125,28 @@ export function Footer() {
             {t('footer.privacy')}
           </Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
-            <Link href="#" color="primary" variant="caption" underline="hover">{t('footer.privacyPolicy')}</Link>
-            <Link href="#" color="primary" variant="caption" underline="hover">{t('footer.termsOfUse')}</Link>
+            <Link 
+              color="primary" 
+              variant="caption" 
+              underline="hover" 
+              onClick={(e) => {
+                e.preventDefault()
+                handleToolClick(8)(e)
+              }}
+            >
+              {t('footer.privacyPolicy')}
+            </Link>
+            <Link 
+              color="primary" 
+              variant="caption" 
+              underline="hover" 
+              onClick={(e) => {
+                e.preventDefault()
+                handleToolClick(8)(e)
+              }}
+            >
+              {t('footer.termsOfUse')}
+            </Link>
           </Box>
         </Box>
       </Container>

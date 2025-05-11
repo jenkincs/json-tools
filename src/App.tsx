@@ -16,7 +16,8 @@ import {
   IconButton,
   Tooltip
 } from '@mui/material'
-import { Brightness4, Brightness7 } from '@mui/icons-material'
+import { Brightness4, Brightness7, QuestionAnswer } from '@mui/icons-material'
+import { HelmetProvider } from 'react-helmet-async'
 import { TabPanel } from './components/TabPanel'
 import { FormatPanel } from './components/FormatPanel'
 import { ComparePanel } from './components/ComparePanel'
@@ -26,13 +27,30 @@ import { SchemaValidationPanel } from './components/SchemaValidationPanel'
 import { QueryPanel } from './components/QueryPanel'
 import { CodeGeneratorPanel } from './components/CodeGeneratorPanel'
 import { ApiMockerPanel } from './components/ApiMockerPanel'
+import { FaqPanel } from './components/FaqPanel'
 import { Footer } from './components/Footer'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { useThemeContext } from './context/ThemeContext'
+import { SharedStateProvider, useSharedState } from './context/SharedStateContext'
+import { ToolSeoMetadata } from './components/ToolSeoMetadata'
 
-function App() {
+// 工具标识符映射
+const TOOL_NAMES = [
+  'formatter',
+  'comparer',
+  'converter',
+  'visualizer',
+  'validator',
+  'query',
+  'codegenerator',
+  'apimocker'
+] as const;
+
+// 主应用组件
+function AppContent() {
   const { t } = useTranslation();
   const { mode, toggleTheme } = useThemeContext();
+  const { sharedState, clearSharedState } = useSharedState();
   const [activeTab, setActiveTab] = useState(0)
   const [snackbar, setSnackbar] = useState<{
     open: boolean
@@ -44,6 +62,27 @@ function App() {
     severity: 'success'
   })
 
+  // 处理共享链接，设置初始Tab
+  useEffect(() => {
+    if (sharedState.hasSharedParams && sharedState.tool) {
+      // 根据工具名称设置对应的Tab索引
+      const toolTabMap: Record<string, number> = {
+        'formatter': 0,
+        'comparer': 1,
+        'converter': 2,
+        'visualizer': 3,
+        'validator': 4,
+        'query': 5,
+        'codegenerator': 6,
+        'apimocker': 7
+      };
+      
+      if (toolTabMap[sharedState.tool] !== undefined) {
+        setActiveTab(toolTabMap[sharedState.tool]);
+      }
+    }
+  }, [sharedState]);
+
   // SEO Optimization - Update document title based on active tab
   useEffect(() => {
     const tabTitles = [
@@ -54,7 +93,8 @@ function App() {
       t('validate.title') + " | JSON Tools",
       t('query.title') + " | JSON Tools",
       t('codeGenerator.title') + " | JSON Tools",
-      t('apiMocker.title') + " | JSON Tools"
+      t('apiMocker.title') + " | JSON Tools",
+      t('faq.title') + " | JSON Tools"
     ];
     
     document.title = tabTitles[activeTab];
@@ -69,7 +109,8 @@ function App() {
       t('validate.description'),
       t('query.description'),
       t('codeGenerator.description'),
-      t('apiMocker.description')
+      t('apiMocker.description'),
+      t('faq.description')
     ];
     
     if (metaDescription) {
@@ -98,13 +139,36 @@ function App() {
     setSnackbar(prev => ({ ...prev, open: false }))
   }
 
+  // 获取当前活跃的工具名称
+  const getActiveToolName = () => {
+    return activeTab < 8 ? TOOL_NAMES[activeTab] : null;
+  };
+
   return (
     <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {/* 工具SEO元数据 */}
+      {activeTab < 8 && (
+        <ToolSeoMetadata
+          toolName={TOOL_NAMES[activeTab]}
+          isActive={true}
+        />
+      )}
+
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {t('app.title')}
           </Typography>
+          <Tooltip title={t('tabs.faq')}>
+            <IconButton 
+              color="inherit" 
+              onClick={() => setActiveTab(8)}
+              aria-label={t('tabs.faq')}
+              sx={{ mr: 1 }}
+            >
+              <QuestionAnswer />
+            </IconButton>
+          </Tooltip>
           <LanguageSwitcher />
           <Tooltip title={mode === 'dark' ? t('theme.toggleLight') : t('theme.toggleDark')}>
             <IconButton color="inherit" onClick={toggleTheme} aria-label={t('theme.toggle')}>
@@ -125,7 +189,8 @@ function App() {
           </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
             {['JSON tools', 'JSON formatter', 'JSON validator', 'JSON comparison', 'JSON converter',
-              'JSON visualization', 'JSON query', 'JSON schema', 'developer tools', 'data tools', 'API mocking'].map((keyword) => (
+              'JSON visualization', 'JSON query', 'JSON schema', 'developer tools', 'data tools', 'API mocking',
+              'JSON FAQ', 'JSON help'].map((keyword) => (
               <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
             ))}
           </Box>
@@ -149,10 +214,14 @@ function App() {
             <Tab label={t('tabs.query')} />
             <Tab label={t('tabs.codeGenerator')} />
             <Tab label={t('tabs.apiMocker')} />
+            <Tab label={t('tabs.faq')} icon={<QuestionAnswer />} iconPosition="start" />
           </Tabs>
 
           <TabPanel value={activeTab} index={0}>
-            <FormatPanel onSnackbar={handleSnackbar} />
+            <FormatPanel 
+              onSnackbar={handleSnackbar} 
+              initialData={activeTab === 0 && sharedState.tool === 'formatter' ? sharedState.jsonData : null}
+            />
           </TabPanel>
 
           <TabPanel value={activeTab} index={1}>
@@ -160,7 +229,10 @@ function App() {
           </TabPanel>
 
           <TabPanel value={activeTab} index={2}>
-            <ConvertPanel onSnackbar={handleSnackbar} />
+            <ConvertPanel 
+              onSnackbar={handleSnackbar} 
+              initialData={activeTab === 2 && sharedState.tool === 'converter' ? sharedState.jsonData : null}
+            />
           </TabPanel>
 
           <TabPanel value={activeTab} index={3}>
@@ -168,11 +240,17 @@ function App() {
           </TabPanel>
 
           <TabPanel value={activeTab} index={4}>
-            <SchemaValidationPanel onSnackbar={handleSnackbar} />
+            <SchemaValidationPanel 
+              onSnackbar={handleSnackbar} 
+              initialData={activeTab === 4 && sharedState.tool === 'validator' ? sharedState.jsonData : null}
+            />
           </TabPanel>
 
           <TabPanel value={activeTab} index={5}>
-            <QueryPanel onSnackbar={handleSnackbar} />
+            <QueryPanel 
+              onSnackbar={handleSnackbar} 
+              initialData={activeTab === 5 && sharedState.tool === 'query' ? sharedState.jsonData : null}
+            />
           </TabPanel>
 
           <TabPanel value={activeTab} index={6}>
@@ -181,6 +259,10 @@ function App() {
 
           <TabPanel value={activeTab} index={7}>
             <ApiMockerPanel onSnackbar={handleSnackbar} />
+          </TabPanel>
+          
+          <TabPanel value={activeTab} index={8}>
+            <FaqPanel onSnackbar={handleSnackbar} />
           </TabPanel>
         </Paper>
       </Container>
@@ -202,6 +284,17 @@ function App() {
         </Alert>
       </Snackbar>
     </Box>
+  )
+}
+
+// 带有SharedStateProvider的App组件
+function App() {
+  return (
+    <HelmetProvider>
+      <SharedStateProvider>
+        <AppContent />
+      </SharedStateProvider>
+    </HelmetProvider>
   )
 }
 

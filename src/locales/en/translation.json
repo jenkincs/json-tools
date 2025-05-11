@@ -22,7 +22,8 @@
     "validate": "Validate",
     "query": "Query",
     "codeGenerator": "Code Generator",
-    "apiMocker": "API Mocker"
+    "apiMocker": "API Mocker",
+    "faq": "FAQ"
   },
   "format": {
     "title": "JSON Formatter & Beautifier",
@@ -357,6 +358,89 @@
       "weather": "Weather Forecast"
     }
   },
+  "faq": {
+    "title": "JSON Tools - Frequently Asked Questions",
+    "description": "Find answers to common questions about JSON and our tools. This FAQ page provides detailed guides, troubleshooting tips, and best practices to help you work more effectively with JSON data and our suite of tools.",
+    "searchPlaceholder": "Search FAQ...",
+    "searchResults": "Found {{count}} results",
+    "quickLinks": "Quick Links",
+    "additionalResources": "Additional Resources",
+    "resourcesDescription": "The following resources provide more in-depth information about JSON and related technologies:",
+    "jsonSpecification": "JSON Specification",
+    "jsonSchemaDoc": "JSON Schema Documentation",
+    "jsonPathDoc": "JSONPath Syntax Guide",
+    
+    "questions": {
+      "format1": "How do I format JSON to improve readability?",
+      "format2": "How can I minify JSON to reduce file size?",
+      "format3": "How do I save or share formatted JSON?",
+      
+      "compare1": "How do I compare differences between two JSON objects?",
+      "compare2": "What do the color codes in comparison results mean?",
+      
+      "convert1": "How do I convert JSON to CSV format?",
+      "convert2": "How do I convert JSON to XML format?",
+      "convert3": "How do I convert between YAML and JSON?",
+      
+      "validate1": "What is JSON Schema validation?",
+      "validate2": "What should I do when I encounter validation errors?",
+      
+      "query1": "How do I use JSONPath to query JSON data?",
+      "query2": "How do I create complex JSONPath queries?",
+      
+      "code1": "How do I generate code classes or interfaces from JSON?",
+      "code2": "How do I handle property naming conventions?",
+      
+      "mock1": "How does the API Mocker work?",
+      "mock2": "How do I create custom API mock responses?",
+      
+      "visualize1": "How do I visualize JSON data as charts?",
+      
+      "general1": "Are the JSON tools secure? Is my data sent to servers?",
+      "general2": "How large of a JSON file can the tools handle?"
+    },
+    
+    "answers": {
+      "format1": "Using our formatter tool, you can easily improve JSON readability. Simply paste your JSON into the input box and click the 'Format' button. You can also adjust the number of indent spaces to customize the formatting. The formatting process adds appropriate spacing, line breaks, and indentation to make nested structures clearly visible.",
+      "format2": "To minify JSON (also known as compression), paste your JSON into the formatter tool and click the 'Minify' button. This removes all unnecessary whitespace, line breaks, and indentation, significantly reducing the file size for production use or network transmission.",
+      "format3": "After formatting or minifying, you can click the 'Copy' button to copy the result to your clipboard or click the 'Download' button to save it as a file. To share, you can copy and send via email or messaging, or upload to code sharing platforms like GitHub Gist or Pastebin.",
+      
+      "compare1": "The compare tool makes it easy to find differences between two JSON objects. Paste the first JSON into the left input box and the second JSON into the right input box, then click the 'Compare' button. The tool will highlight added, removed, or modified parts and display the differences in a clear visual format.",
+      "compare2": "In the comparison results, green indicates added content, red indicates removed content, and yellow indicates modified content. Each change is also accompanied by specific change type icons to help you quickly identify the type of difference.",
+      
+      "convert1": "To convert JSON to CSV format: 1) Select the 'JSON → CSV' option in the convert tool; 2) Paste your JSON data; 3) Configure options like whether to include headers, delimiter type, etc.; 4) Click the 'Convert' button. Note that JSON should be in array form, where each array item will be converted to a row in the CSV.",
+      "convert2": "To convert JSON to XML: 1) Select the 'JSON → XML' option in the convert tool; 2) Paste your JSON data; 3) Choose whether to include XML headers; 4) Click the 'Convert' button. After conversion, JSON object properties become XML tags, and values become tag content or attributes.",
+      "convert3": "Converting between YAML and JSON is simple: 1) Select the appropriate conversion direction ('JSON → YAML' or 'YAML → JSON'); 2) Paste your source data; 3) Click the 'Convert' button. YAML is more readable than JSON, especially for complex configuration files, while JSON is more commonly used for data exchange between programs.",
+      
+      "validate1": "JSON Schema validation is a method to ensure JSON data conforms to a predefined structure and rules. You can define property types, required fields, value ranges, and other constraints, and the validator will check whether your JSON meets these rules. This is useful for API interfaces, configuration files, or any scenario where data consistency needs to be guaranteed.",
+      "validate2": "When encountering validation errors: 1) Read the error message carefully, it indicates where the problem is; 2) Check if the data type at the specified path is correct; 3) Ensure all required fields are provided; 4) Verify that values are within allowed ranges; 5) Check if special formats like dates or emails are correctly formatted. You can also use our built-in Schema templates to learn the correct Schema structure.",
+      
+      "query1": "JSONPath is a query language similar to XPath for XML. Basic usage: 1) `$` represents the root object; 2) `.property` accesses a property; 3) `[index]` accesses an array element; 4) `[*]` represents all array elements; 5) `..property` finds a property at any level; 6) `[?(@.property==value)]` filters based on conditions. For example, `$.store.book[*].title` will return all book titles.",
+      "query2": "Creating complex queries: 1) Use filters like `$.store.book[?(@.price<10)]` to find books with price less than 10; 2) Combine multiple conditions like `$.store.book[?(@.price<10 && @.category=='fiction')]`; 3) Use `..` for recursive searches like `$..author` to find all authors; 4) Use wildcards like `$.store.book[*].[title,author]` to get titles and authors simultaneously.",
+      
+      "code1": "Using the Code Generator to convert JSON to code classes/interfaces: 1) Paste your JSON sample data; 2) Select the target language (TypeScript, Java, C#, etc.); 3) Set the root class name; 4) Configure options like whether to use interfaces, whether properties are optional, etc.; 5) Click 'Generate Code'. The generated code can be used directly in your project, saving significant time on manually creating data models.",
+      "code2": "Our code generator supports multiple naming conventions: 1) camelCase (e.g., userName); 2) PascalCase (e.g., UserName); 3) snake_case (e.g., user_name). You can choose the appropriate naming style based on the conventions of your target language. Some languages like Java typically use camelCase, while C# prefers PascalCase.",
+      
+      "mock1": "The API Mocker allows you to create mock API endpoints without a real backend server. How it works: 1) Define an endpoint name and JSON Schema; 2) Set response parameters like delay, error rate, etc.; 3) Start the mock server; 4) Access the mock API through the generated URL. This is especially useful for frontend developers to develop and test when backend APIs are not yet complete.",
+      "mock2": "Creating custom API mock responses: 1) Define your data structure in the Schema editor; 2) Use JSON Schema keywords like type, format, enum, etc. to control the type and range of generated data; 3) Set error rates to simulate occasional errors; 4) Configure response delay to simulate network latency; 5) Define custom response headers. You can also use our provided common data templates to get started quickly.",
+      
+      "visualize1": "To visualize JSON data as charts: 1) Paste JSON containing numerical data; 2) Select chart type (bar chart, line chart, pie chart, etc.); 3) Map data fields to chart axes (specify which fields to use for X-axis, Y-axis, etc.); 4) Enable multi-series data support if needed; 5) Click 'Generate Chart'. Visualization is particularly useful for analyzing data trends, comparing values, or presenting statistics.",
+      
+      "general1": "Yes, our tools run entirely in your browser, and your data is never sent to any server. All processing happens on your device, ensuring data privacy and security. Most functionalities continue to work even in offline mode. This makes the tool suitable for handling sensitive or confidential data.",
+      "general2": "The size of JSON files our tools can handle is primarily limited by your browser and device memory. Typically, files of a few MB can be processed easily. For larger files (over 10MB), you may experience performance degradation. If you need to process very large JSON files, consider splitting them into smaller parts or using specialized desktop tools."
+    }
+  },
+  "categories": {
+    "format": "Formatting",
+    "compare": "Comparison",
+    "convert": "Conversion",
+    "validate": "Validation",
+    "query": "Querying",
+    "code": "Code Generation",
+    "mock": "API Mocking",
+    "visualize": "Visualization",
+    "general": "General Questions"
+  },
   "footer": {
     "description": "A comprehensive suite of JSON utilities for developers and data professionals.",
     "built": "Built with React, TypeScript, and Material-UI.",
@@ -383,5 +467,24 @@
       "clipboard": "Failed to read from clipboard"
     },
     "close": "Close"
+  },
+  "share": {
+    "title": "Share JSON Content",
+    "description": "Create a shareable link containing your current JSON data and tool settings.",
+    "buttonTooltip": "Share this JSON",
+    "buttonAriaLabel": "Share",
+    "linkLabel": "Share Link",
+    "copy": "Copy",
+    "copyLink": "Copy Link",
+    "includeCurrent": "Include Current Content",
+    "includeJson": "Include JSON Data",
+    "includeSettings": "Include Tool Settings",
+    "generateError": "Error generating share link",
+    "linkCopied": "Share link copied to clipboard",
+    "copyError": "Error copying to clipboard",
+    "socialShare": "Share to Social Media",
+    "socialText": "Check out this JSON data I processed with JSON Tools",
+    "emailSubject": "Shared JSON Data Link",
+    "qrCodeInfo": "Or scan the QR code below to access on mobile devices"
   }
 } 

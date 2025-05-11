@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Box,
@@ -25,17 +25,34 @@ import {
 } from '@mui/icons-material'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { ShareButton } from './ShareButton'
 
 interface FormatPanelProps {
   onSnackbar: (message: string) => void
+  initialData?: string | null
 }
 
-export function FormatPanel({ onSnackbar }: FormatPanelProps) {
+export function FormatPanel({ onSnackbar, initialData }: FormatPanelProps) {
   const { t } = useTranslation()
   const [input, setInput] = useState('')
   const [formatted, setFormatted] = useState('')
   const [formatError, setFormatError] = useState<string | null>(null)
   const [indentSize, setIndentSize] = useState('2')
+
+  // 处理分享链接传入的初始数据
+  useEffect(() => {
+    if (initialData) {
+      try {
+        setInput(initialData)
+        const jsonData = JSON.parse(initialData)
+        const formattedJson = JSON.stringify(jsonData, null, parseInt(indentSize))
+        setFormatted(formattedJson)
+        setFormatError(null)
+      } catch (err) {
+        setFormatError(t('common.error.invalidJson'))
+      }
+    }
+  }, [initialData, indentSize, t])
 
   const handleFormat = () => {
     try {
@@ -185,6 +202,13 @@ export function FormatPanel({ onSnackbar }: FormatPanelProps) {
             onChange={handleUpload}
           />
         </Button>
+        {formatted && (
+          <ShareButton 
+            jsonContent={formatted} 
+            currentTool="formatter"
+            onSnackbar={onSnackbar}
+          />
+        )}
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>

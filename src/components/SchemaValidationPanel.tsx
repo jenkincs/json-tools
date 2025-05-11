@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Box,
@@ -34,12 +34,14 @@ import {
   Error as ErrorIcon,
   PlayArrow,
   Article,
-  FormatListBulleted
+  FormatListBulleted,
+  CheckCircle
 } from '@mui/icons-material'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
+import { ShareButton } from './ShareButton'
 
 // Schema templates
 const SCHEMA_TEMPLATES = [
@@ -136,9 +138,10 @@ interface ValidationErrorDetails {
 
 interface SchemaValidationPanelProps {
   onSnackbar: (message: string) => void
+  initialData?: string | null
 }
 
-export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps) {
+export function SchemaValidationPanel({ onSnackbar, initialData }: SchemaValidationPanelProps) {
   const { t } = useTranslation();
   const [input, setInput] = useState('')
   const [schemaInput, setSchemaInput] = useState('')
@@ -151,6 +154,103 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
   const [selectedDataExample, setSelectedDataExample] = useState<number | ''>('')
   const [selectedSchemaTemplate, setSelectedSchemaTemplate] = useState<number | ''>('')
   
+  // 处理分享链接传入的初始数据
+  useEffect(() => {
+    if (initialData) {
+      try {
+        // 尝试解析共享数据，格式应该是 { data: '...', schema: '...' }
+        const sharedData = JSON.parse(initialData);
+        if (sharedData && typeof sharedData === 'object') {
+          if (sharedData.data) {
+            setInput(sharedData.data);
+          }
+          
+          if (sharedData.schema) {
+            setSchemaInput(sharedData.schema);
+          }
+          
+          // 如果同时有数据和schema，自动进行验证
+          if (sharedData.data && sharedData.schema) {
+            validateJsonData(sharedData.data, sharedData.schema);
+          }
+        } else {
+          // 如果只是一个普通的JSON对象，将其作为数据填入
+          setInput(initialData);
+        }
+      } catch (err) {
+        setValidationError(t('common.error.invalidJson'));
+      }
+    }
+  }, [initialData, t]);
+  
+  // 验证JSON数据的函数
+  const validateJsonData = (jsonData: string, schema: string) => {
+    try {
+      const parsedData = JSON.parse(jsonData);
+      const parsedSchema = JSON.parse(schema);
+      
+      const ajv = new Ajv({ 
+        allErrors: true,
+        verbose: true
+      });
+      addFormats(ajv);
+      
+      const validate = ajv.compile(parsedSchema);
+      const valid = validate(parsedData);
+      
+      if (valid) {
+        setValidationErrors([]);
+        setValidationError(null);
+        setIsValid(true);
+      } else {
+        const errors = validate.errors?.map(error => {
+          let dataValue;
+          if (error.instancePath) {
+            try {
+              const path = error.instancePath.split('/').filter(p => p);
+              let current = parsedData;
+              for (const segment of path) {
+                current = current[segment];
+              }
+              dataValue = current;
+            } catch (e) {
+              dataValue = error.data;
+            }
+          } else {
+            dataValue = error.data || parsedData;
+          }
+          
+          return {
+            path: error.instancePath || 'root',
+            message: error.message || t('validate.invalidValue'),
+            keyword: error.keyword,
+            params: error.params,
+            data: dataValue
+          };
+        }) || [];
+        
+        setValidationErrors(errors as ValidationErrorDetails[]);
+        setValidationError(t('validate.jsonInvalid'));
+        setIsValid(false);
+        setShowValidationErrors(true);
+      }
+    } catch (err) {
+      setValidationError(`${t('common.error.invalidJson')}: ${err instanceof Error ? err.message : t('validate.invalidFormat')}`);
+      setValidationErrors([]);
+      setIsValid(false);
+    }
+  };
+
+  // 验证处理逻辑
+  const handleValidate = () => {
+    if (!input.trim() || !schemaInput.trim()) {
+      setValidationError(t('validate.enterBoth'));
+      return;
+    }
+    
+    validateJsonData(input, schemaInput);
+  }
+
   // Load template
   const handleLoadTemplate = (index: number) => {
     setSchemaInput(JSON.stringify(SCHEMA_TEMPLATES[index].schema, null, 2));
@@ -178,75 +278,6 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
       onSnackbar(t('validate.dataTemplateLoaded', { name: t(`validate.templateExamples.${DATA_EXAMPLES[index].id}`) }));
     } else {
       onSnackbar(t('validate.dataLoaded'));
-    }
-  }
-
-  // Validation logic
-  const handleValidate = () => {
-    try {
-      if (!input.trim() || !schemaInput.trim()) {
-        setValidationError(t('validate.enterBoth'));
-        return
-      }
-
-      const jsonData = JSON.parse(input)
-      const schema = JSON.parse(schemaInput)
-
-      const ajv = new Ajv({ 
-        allErrors: true,
-        verbose: true
-      })
-      addFormats(ajv) // Add email, date and other format validations
-      
-      const validate = ajv.compile(schema)
-      const valid = validate(jsonData)
-
-      if (valid) {
-        setValidationErrors([])
-        setValidationError(null)
-        setIsValid(true)
-        onSnackbar(t('validate.jsonValid'));
-      } else {
-        // More detailed error information
-        const errors = validate.errors?.map(error => {
-          // Get actual data value based on error path
-          let dataValue;
-          if (error.instancePath) {
-            try {
-              // Extract the actual value from JSON data at the corresponding path
-              const path = error.instancePath.split('/').filter(p => p);
-              let current = jsonData;
-              for (const segment of path) {
-                current = current[segment];
-              }
-              dataValue = current;
-            } catch (e) {
-              // If path parsing fails, use the data provided by the error object
-              dataValue = error.data;
-            }
-          } else {
-            // If there's no path, it might be the root object or something else
-            dataValue = error.data || jsonData;
-          }
-          
-          return {
-            path: error.instancePath || 'root',
-            message: error.message || t('validate.invalidValue'),
-            keyword: error.keyword,
-            params: error.params,
-            data: dataValue
-          };
-        }) || [];
-        
-        setValidationErrors(errors as ValidationErrorDetails[])
-        setValidationError(t('validate.jsonInvalid'));
-        setIsValid(false)
-        setShowValidationErrors(true)
-      }
-    } catch (err: any) {
-      setValidationError(`${t('common.error.invalidJson')}: ${err.message || t('validate.invalidFormat')}`);
-      setValidationErrors([])
-      setIsValid(false)
     }
   }
 
@@ -562,6 +593,18 @@ export function SchemaValidationPanel({ onSnackbar }: SchemaValidationPanelProps
           {t('validate.validate')}
         </Button>
       </Box>
+      
+      {/* 添加分享按钮 */}
+      {input && schemaInput && (
+        <ShareButton 
+          jsonContent={JSON.stringify({
+            data: input,
+            schema: schemaInput
+          })} 
+          currentTool="validator"
+          onSnackbar={onSnackbar}
+        />
+      )}
       
       {isValid !== null && (
         <Paper sx={{ p: 2, borderLeft: 5, borderColor: isValid ? 'success.main' : 'error.main' }}>

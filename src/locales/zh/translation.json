@@ -279,8 +279,8 @@
     "noCodeGenerated": "尚未生成代码。输入JSON数据并点击生成。"
   },
   "apiMocker": {
-    "title": "接口模拟器 - 创建模拟API响应",
-    "description": "基于JSON Schema创建模拟API响应。定义响应延迟、错误率和其他参数，以模拟真实世界的API行为。非常适合需要使用尚未完成或可用的API的前端开发人员。",
+    "title": "API模拟工具 - 创建模拟API响应",
+    "description": "基于JSON Schema创建模拟API响应。定义响应延迟、错误率和其他参数以模拟真实世界的API行为。非常适合前端开发人员使用尚未完成或可用的API。",
     "keywords": [
       "API模拟",
       "模拟服务器",
@@ -324,20 +324,20 @@
     },
     "placeholders": {
       "enterSchema": "在此输入JSON Schema...",
-      "enterEndpointName": "例如：users, products等"
+      "enterEndpointName": "例如：users、products等"
     },
     "messages": {
       "endpointCreated": "端点创建成功",
-      "endpointUpdated": "端点已更新",
+      "endpointUpdated": "端点更新成功",
       "endpointDeleted": "端点已删除",
       "dataCopied": "模拟响应已复制到剪贴板",
       "serverStarted": "模拟服务器已在端口{{port}}上启动",
       "serverStopped": "模拟服务器已停止",
-      "serverRunning": "服务器运行于http://localhost:{{port}}",
+      "serverRunning": "服务器运行于 http://localhost:{{port}}",
       "noEndpoints": "尚未定义端点。使用下面的表单创建一个。",
       "noMockData": "尚未生成模拟数据。输入JSON Schema并点击生成。",
-      "noEnabledEndpoints": "没有已启用的端点。请启用至少一个端点。",
-      "schemaExampleLoaded": "已加载{{name}}示例Schema",
+      "noEnabledEndpoints": "没有启用的端点。请至少启用一个端点。",
+      "schemaExampleLoaded": "已加载{{name}}示例schema",
       "noPreviewData": "无法生成预览数据"
     },
     "errors": {
@@ -351,24 +351,107 @@
       "loadExampleFailed": "加载示例失败"
     },
     "examples": {
-      "user": "用户档案",
+      "user": "用户资料",
       "product": "产品目录",
       "order": "订单详情",
       "weather": "天气预报"
     }
   },
+  "faq": {
+    "title": "JSON工具 - 常见问题解答",
+    "description": "查找有关JSON和我们工具的常见问题答案。本FAQ页面提供详细指南、故障排除提示和最佳实践，帮助您更有效地使用JSON数据和我们的工具套件。",
+    "searchPlaceholder": "搜索FAQ...",
+    "searchResults": "找到{{count}}个结果",
+    "quickLinks": "快速链接",
+    "additionalResources": "其他资源",
+    "resourcesDescription": "以下资源提供了有关JSON和相关技术的更深入信息：",
+    "jsonSpecification": "JSON规范",
+    "jsonSchemaDoc": "JSON Schema文档",
+    "jsonPathDoc": "JSONPath语法指南",
+    
+    "questions": {
+      "format1": "如何格式化JSON以提高可读性？",
+      "format2": "如何压缩JSON以减小文件大小？",
+      "format3": "如何保存或分享格式化的JSON？",
+      
+      "compare1": "如何比较两个JSON对象之间的差异？",
+      "compare2": "比较结果中的颜色代码表示什么？",
+      
+      "convert1": "如何将JSON转换为CSV格式？",
+      "convert2": "如何将JSON转换为XML格式？",
+      "convert3": "如何在YAML和JSON之间转换？",
+      
+      "validate1": "什么是JSON Schema验证？",
+      "validate2": "遇到验证错误时应该怎么做？",
+      
+      "query1": "如何使用JSONPath查询JSON数据？",
+      "query2": "如何创建复杂的JSONPath查询？",
+      
+      "code1": "如何从JSON生成代码类或接口？",
+      "code2": "如何处理属性命名约定？",
+      
+      "mock1": "API模拟器是如何工作的？",
+      "mock2": "如何创建自定义API模拟响应？",
+      
+      "visualize1": "如何将JSON数据可视化为图表？",
+      
+      "general1": "JSON工具安全吗？我的数据会发送到服务器吗？",
+      "general2": "工具能处理多大的JSON文件？"
+    },
+    
+    "answers": {
+      "format1": "使用我们的格式化工具，您可以轻松提高JSON可读性。只需将JSON粘贴到输入框中并点击\"格式化\"按钮。您还可以调整缩进空格数量来自定义格式。格式化过程会添加适当的间距、换行和缩进，使嵌套结构清晰可见。",
+      "format2": "要压缩JSON（也称为最小化），请将您的JSON粘贴到格式化工具中并点击\"压缩\"按钮。这将删除所有不必要的空格、换行和缩进，显著减小文件大小，适用于生产环境或网络传输。",
+      "format3": "格式化或压缩后，您可以点击\"复制\"按钮将结果复制到剪贴板，或点击\"下载\"按钮将其保存为文件。要分享，您可以复制并通过电子邮件或消息发送，或上传到代码分享平台，如GitHub Gist或Pastebin。",
+      
+      "compare1": "比较工具使查找两个JSON对象之间的差异变得容易。将第一个JSON粘贴到左侧输入框中，将第二个JSON粘贴到右侧输入框中，然后点击\"比较\"按钮。该工具将突出显示添加、删除或修改的部分，并以清晰的可视格式显示差异。",
+      "compare2": "在比较结果中，绿色表示添加的内容，红色表示删除的内容，黄色表示修改的内容。每个变更还伴有特定的变更类型图标，帮助您快速识别差异类型。",
+      
+      "convert1": "将JSON转换为CSV格式：1）在转换工具中选择\"JSON→CSV\"选项；2）粘贴您的JSON数据；3）配置选项，如是否包含标题、分隔符类型等；4）点击\"转换\"按钮。请注意，JSON应为数组形式，每个数组项将转换为CSV中的一行。",
+      "convert2": "将JSON转换为XML：1）在转换工具中选择\"JSON→XML\"选项；2）粘贴您的JSON数据；3）选择是否包含XML头；4）点击\"转换\"按钮。转换后，JSON对象属性成为XML标签，值成为标签内容或属性。",
+      "convert3": "在YAML和JSON之间转换很简单：1）选择适当的转换方向（\"JSON→YAML\"或\"YAML→JSON\"）；2）粘贴您的源数据；3）点击\"转换\"按钮。YAML比JSON更易读，尤其是对于复杂的配置文件，而JSON在程序间数据交换中更常用。",
+      
+      "validate1": "JSON Schema验证是确保JSON数据符合预定义结构和规则的方法。您可以定义属性类型、必需字段、值范围和其他约束，验证器将检查您的JSON是否满足这些规则。这对API接口、配置文件或任何需要保证数据一致性的场景都很有用。",
+      "validate2": "遇到验证错误时：1）仔细阅读错误消息，它指示问题所在；2）检查指定路径的数据类型是否正确；3）确保提供了所有必需字段；4）验证值是否在允许的范围内；5）检查特殊格式如日期或电子邮件是否正确格式化。您还可以使用我们内置的Schema模板来学习正确的Schema结构。",
+      
+      "query1": "JSONPath是类似于XML的XPath的查询语言。基本用法：1）`$`表示根对象；2）`.property`访问属性；3）`[index]`访问数组元素；4）`[*]`表示所有数组元素；5）`..property`在任何级别查找属性；6）`[?(@.property==value)]`基于条件过滤。例如，`$.store.book[*].title`将返回所有书籍标题。",
+      "query2": "创建复杂查询：1）使用过滤器如`$.store.book[?(@.price<10)]`查找价格小于10的书籍；2）组合多个条件如`$.store.book[?(@.price<10 && @.category=='fiction')]`；3）使用`..`进行递归搜索如`$..author`查找所有作者；4）使用通配符如`$.store.book[*].[title,author]`同时获取标题和作者。",
+      
+      "code1": "使用代码生成器将JSON转换为代码类/接口：1）粘贴您的JSON示例数据；2）选择目标语言（TypeScript、Java、C#等）；3）设置根类名称；4）配置选项如是否使用接口、属性是否可选等；5）点击\"生成代码\"。生成的代码可以直接在您的项目中使用，大大节省手动创建数据模型的时间。",
+      "code2": "我们的代码生成器支持多种命名约定：1）驼峰命名（如userName）；2）帕斯卡命名（如UserName）；3）蛇形命名（如user_name）。您可以根据目标语言的约定选择适当的命名风格。一些语言如Java通常使用驼峰命名，而C#则偏好帕斯卡命名。",
+      
+      "mock1": "API模拟器允许您创建模拟API端点，无需真实的后端服务器。工作原理：1）定义端点名称和JSON Schema；2）设置响应参数如延迟、错误率等；3）启动模拟服务器；4）通过生成的URL访问模拟API。这对于前端开发人员在后端API尚未完成时开发和测试特别有用。",
+      "mock2": "创建自定义API模拟响应：1）在Schema编辑器中定义数据结构；2）使用JSON Schema关键字如type、format、enum等控制生成数据的类型和范围；3）设置错误率以模拟偶尔出现的错误；4）配置响应延迟以模拟网络延迟；5）定义自定义响应头。您还可以使用我们提供的常见数据模板快速入门。",
+      
+      "visualize1": "将JSON数据可视化为图表：1）粘贴包含数值数据的JSON；2）选择图表类型（柱状图、折线图、饼图等）；3）映射数据字段到图表轴（指定哪些字段用于X轴、Y轴等）；4）如需要，启用多系列数据支持；5）点击\"生成图表\"。可视化对于分析数据趋势、比较值或展示统计信息特别有用。",
+      
+      "general1": "是的，我们的工具完全在您的浏览器中运行，您的数据永远不会发送到任何服务器。所有处理都在您的设备上进行，确保数据隐私和安全。大多数功能即使在离线模式下也能继续工作。这使得该工具适合处理敏感或机密数据。",
+      "general2": "我们的工具可以处理的JSON文件大小主要受限于您的浏览器和设备内存。通常，几MB的文件可以轻松处理。对于较大的文件（超过10MB），您可能会遇到性能下降。如果您需要处理非常大的JSON文件，请考虑将它们拆分为较小的部分或使用专门的桌面工具。"
+    }
+  },
+  "categories": {
+    "format": "格式化",
+    "compare": "比较",
+    "convert": "转换",
+    "validate": "验证",
+    "query": "查询",
+    "code": "代码生成",
+    "mock": "API模拟",
+    "visualize": "可视化",
+    "general": "常见问题"
+  },
   "footer": {
-    "description": "为开发者和数据专业人员提供的综合JSON工具套件。",
+    "description": "为开发人员和数据专业人士提供全面的JSON实用工具。",
     "built": "使用React、TypeScript和Material-UI构建。",
     "copyright": "© {{year}} JSON工具。保留所有权利。",
     "tools": "工具",
     "resources": "资源",
     "documentation": "文档",
     "apiReference": "API参考",
-    "connect": "与开发者连接",
-    "contactEmail": "联系：your.email@example.com",
+    "connect": "联系开发者",
+    "contactEmail": "联系邮箱: your.email@example.com",
     "sourceCode": "源代码",
-    "reportBug": "报告错误",
+    "reportBug": "报告Bug",
     "privacy": "本站所有工具仅在客户端运行。您的数据永远不会离开您的浏览器。",
     "privacyPolicy": "隐私政策",
     "termsOfUse": "使用条款"
@@ -377,11 +460,30 @@
     "copied": "{{content}}已复制到剪贴板！",
     "error": {
       "invalidJson": "无效的JSON格式",
-      "emptyInput": "请输入一些{{content}}来{{action}}",
+      "emptyInput": "请输入一些{{content}}以{{action}}",
       "noData": "没有{{content}}可下载",
       "fileRead": "读取文件失败",
       "clipboard": "从剪贴板读取失败"
     },
     "close": "关闭"
+  },
+  "share": {
+    "title": "分享JSON内容",
+    "description": "创建包含当前JSON数据和工具设置的可分享链接。",
+    "buttonTooltip": "分享此JSON",
+    "buttonAriaLabel": "分享",
+    "linkLabel": "分享链接",
+    "copy": "复制",
+    "copyLink": "复制链接",
+    "includeCurrent": "包含当前内容",
+    "includeJson": "包含JSON数据",
+    "includeSettings": "包含工具设置",
+    "generateError": "生成分享链接时出错",
+    "linkCopied": "分享链接已复制到剪贴板",
+    "copyError": "复制到剪贴板时出错",
+    "socialShare": "分享到社交媒体",
+    "socialText": "查看我使用JSON工具处理的数据",
+    "emailSubject": "分享的JSON数据链接",
+    "qrCodeInfo": "或者扫描以下二维码以在移动设备上访问"
   }
 } 

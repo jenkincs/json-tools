@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Box,
@@ -34,12 +34,14 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { COMMON_JSONPATH_EXAMPLES, TEST_DATA, QUERY_EXAMPLES } from '../constants'
 import { QueryHistory, QueryResult } from '../types'
+import { ShareButton } from './ShareButton'
 
 interface QueryPanelProps {
   onSnackbar: (message: string) => void
+  initialData?: string | null
 }
 
-export function QueryPanel({ onSnackbar }: QueryPanelProps) {
+export function QueryPanel({ onSnackbar, initialData }: QueryPanelProps) {
   const { t } = useTranslation()
   const [input, setInput] = useState('')
   const [query, setQuery] = useState('')
@@ -49,19 +51,44 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
   const [showGuide, setShowGuide] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
 
-  const handleQuery = () => {
+  useEffect(() => {
+    if (initialData) {
+      try {
+        const sharedData = JSON.parse(initialData);
+        if (sharedData && typeof sharedData === 'object') {
+          if (sharedData.data) {
+            setInput(sharedData.data);
+          }
+          
+          if (sharedData.query) {
+            setQuery(sharedData.query);
+          }
+          
+          if (sharedData.data && sharedData.query) {
+            setTimeout(() => {
+              executeQuery(sharedData.data, sharedData.query);
+            }, 300);
+          }
+        } else {
+          setInput(initialData);
+        }
+      } catch (err) {
+        setQueryError(t('common.error.invalidJson'));
+      }
+    }
+  }, [initialData, t]);
+
+  const executeQuery = (jsonStr: string, queryStr: string) => {
     try {
-      if (!input.trim() || !query.trim()) {
+      if (!jsonStr.trim() || !queryStr.trim()) {
         setQueryError(t('query.invalidQuery'))
         return
       }
 
-      const jsonData = JSON.parse(input)
+      const jsonData = JSON.parse(jsonStr)
       const results: QueryResult[] = []
       
-      // Improved JSONPath implementation
       const evaluateQuery = (data: any, path: string) => {
-        // Simple case for root object
         if (path === '$') {
           results.push({
             path,
@@ -72,7 +99,6 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
         }
 
         if (path.startsWith('$.')) {
-          // Handle simple dot notation paths
           if (!path.includes('[') && !path.includes('*')) {
             const parts = path.slice(2).split('.')
             let current = data
@@ -94,7 +120,6 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
             return
           }
           
-          // Handle array access with [*] wildcard
           if (path.includes('[*]')) {
             const basePath = path.split('[*]')[0].slice(2)
             const remainingPath = path.split('[*]').slice(1).join('[*]')
@@ -107,7 +132,6 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
             }
             
             if (Array.isArray(base)) {
-              // If it's a simple array element access
               if (!remainingPath) {
                 base.forEach((item, index) => {
                   results.push({
@@ -119,7 +143,6 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
                 return
               }
               
-              // If there's a path after the wildcard
               if (remainingPath.startsWith('.')) {
                 const propertyPath = remainingPath.slice(1)
                 base.forEach((item, index) => {
@@ -149,7 +172,6 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
             }
           }
           
-          // Handle specific array indices
           if (path.match(/\[\d+\]/) && !path.includes('*')) {
             let parts = path.slice(2)
             let current = data
@@ -184,7 +206,6 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
               remainder = parts.slice(match[0].length)
             }
             
-            // Process any remaining path segments after array access
             if (current !== undefined && remainder) {
               if (remainder.startsWith('.')) {
                 const props = remainder.slice(1).split('.')
@@ -207,7 +228,6 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
             return
           }
           
-          // Handle simple filter conditions for inStock and price
           const filterRegex = /\$\.(.+?)\[\?\(@\.(.+?)(==|<|>|!=)(.+?)\)\]/
           const match = path.match(filterRegex)
           
@@ -217,7 +237,6 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
             const operator = match[3]
             let value = match[4]
             
-            // Convert string value to appropriate type
             let typedValue: any;
             if (value === 'true') typedValue = true
             else if (value === 'false') typedValue = false
@@ -268,15 +287,14 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
         }
       }
       
-      evaluateQuery(jsonData, query)
+      evaluateQuery(jsonData, queryStr)
       
       if (results.length > 0) {
         setQueryResults(results)
         setQueryError(null)
         
-        // Add to history
         const newHistoryItem: QueryHistory = {
-          query,
+          query: queryStr,
           timestamp: Date.now(),
           resultCount: results.length
         }
@@ -289,6 +307,10 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
       setQueryError(t('query.invalidQuery'))
       setQueryResults([])
     }
+  }
+
+  const handleQuery = () => {
+    executeQuery(input, query);
   }
 
   const handlePaste = async (isQuery: boolean) => {
@@ -542,14 +564,27 @@ export function QueryPanel({ onSnackbar }: QueryPanelProps) {
               </IconButton>
             </Box>
 
-            <Button
-              variant="contained"
-              startIcon={<Search />}
-              onClick={handleQuery}
-              fullWidth
-            >
-              {t('query.executeQuery')}
-            </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+              <Button
+                variant="contained"
+                startIcon={<Search />}
+                onClick={handleQuery}
+                disabled={!input.trim() || !query.trim()}
+              >
+                {t('query.executeQuery')}
+              </Button>
+              
+              {input && query && (
+                <ShareButton 
+                  jsonContent={JSON.stringify({
+                    data: input,
+                    query: query
+                  })} 
+                  currentTool="query"
+                  onSnackbar={onSnackbar}
+                />
+              )}
+            </Box>
           </Paper>
 
           {/* Results Section */}

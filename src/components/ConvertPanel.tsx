@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Box,
@@ -16,12 +16,14 @@ import {
   Switch,
   Typography,
   SelectChangeEvent,
-  Chip
+  Chip,
+  Button
 } from '@mui/material'
 import {
   ContentCopy,
   ContentPaste,
-  SwapHoriz
+  SwapHoriz,
+  Download
 } from '@mui/icons-material'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -30,12 +32,14 @@ import jsontoxml from 'jsontoxml'
 import Papa from 'papaparse'
 import { ConversionOptions } from '../types'
 import { flattenObject, processData } from '../utils/jsonUtils'
+import { ShareButton } from './ShareButton'
 
 interface ConvertPanelProps {
   onSnackbar: (message: string) => void
+  initialData?: string | null
 }
 
-export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
+export function ConvertPanel({ onSnackbar, initialData }: ConvertPanelProps) {
   const { t } = useTranslation();
   const [input, setInput] = useState('')
   const [convertedOutput, setConvertedOutput] = useState('')
@@ -55,55 +59,91 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
     }
   })
 
-  const handleConvert = () => {
+  useEffect(() => {
+    if (initialData) {
+      try {
+        const parsedData = JSON.parse(initialData);
+        
+        if (parsedData && typeof parsedData === 'object') {
+          if (parsedData.source && parsedData.result) {
+            setInput(parsedData.source);
+            setConvertedOutput(parsedData.result);
+            
+            if (parsedData.type && ['json', 'yaml', 'xml', 'csv'].includes(parsedData.type)) {
+              setConversionType(parsedData.type as 'json' | 'yaml' | 'xml' | 'csv');
+            }
+            
+            if (parsedData.options) {
+              setConversionOptions(parsedData.options);
+            }
+            
+            if (parsedData.indentSize) {
+              setIndentSize(parsedData.indentSize);
+            }
+          } else {
+            setInput(initialData);
+            handleConvertWithData(initialData);
+          }
+        } else {
+          setInput(initialData);
+          handleConvertWithData(initialData);
+        }
+      } catch (err) {
+        setInput(initialData);
+        handleConvertWithData(initialData);
+      }
+    }
+  }, [initialData]);
+  
+  const handleConvertWithData = (data: string) => {
     try {
-      if (!input.trim()) {
+      if (!data.trim()) {
         setConversionError(t('common.error.emptyInput', { content: 'content', action: 'convert' }));
-        return
+        return;
       }
 
       if (conversionType === 'json') {
-        // Convert JSON to YAML
-        const jsonData = JSON.parse(input)
+        const jsonData = JSON.parse(data);
         const yamlOutput = yaml.dump(jsonData, {
           indent: parseInt(indentSize),
           lineWidth: -1,
           noRefs: true,
-        })
-        setConvertedOutput(yamlOutput)
+        });
+        setConvertedOutput(yamlOutput);
       } else if (conversionType === 'xml') {
-        // Convert JSON to XML
-        const jsonData = JSON.parse(input)
+        const jsonData = JSON.parse(data);
         const xmlOutput = jsontoxml(jsonData, {
           prettyPrint: conversionOptions.xml.pretty,
           indent: conversionOptions.xml.indent,
           xmlHeader: conversionOptions.xml.header
-        })
-        setConvertedOutput(xmlOutput)
+        });
+        setConvertedOutput(xmlOutput);
       } else if (conversionType === 'csv') {
-        // Convert JSON to CSV
-        const jsonData = JSON.parse(input)
-        const data = conversionOptions.csv.flatten ? 
+        const jsonData = JSON.parse(data);
+        const processedData = conversionOptions.csv.flatten ? 
           [processData(flattenObject(jsonData))] : 
-          Array.isArray(jsonData) ? processData(jsonData) : [processData(jsonData)]
+          Array.isArray(jsonData) ? processData(jsonData) : [processData(jsonData)];
         
-        const csvOutput = Papa.unparse(data, {
+        const csvOutput = Papa.unparse(processedData, {
           delimiter: conversionOptions.csv.delimiter,
           header: conversionOptions.csv.header
-        })
+        });
         
-        setConvertedOutput(csvOutput)
+        setConvertedOutput(csvOutput);
       } else {
-        // Convert YAML to JSON
-        const jsonData = yaml.load(input)
-        const jsonOutput = JSON.stringify(jsonData, null, parseInt(indentSize))
-        setConvertedOutput(jsonOutput)
+        const jsonData = yaml.load(data);
+        const jsonOutput = JSON.stringify(jsonData, null, parseInt(indentSize));
+        setConvertedOutput(jsonOutput);
       }
-      setConversionError(null)
+      setConversionError(null);
     } catch (err) {
       setConversionError(t('common.error.invalidJson'));
-      setConvertedOutput('')
+      setConvertedOutput('');
     }
+  };
+
+  const handleConvert = () => {
+    handleConvertWithData(input);
   }
 
   const handleConversionTypeChange = (
@@ -139,6 +179,25 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
       setConversionError(t('common.error.clipboard'));
     }
   }
+
+  const handleCopyOutput = () => {
+    navigator.clipboard.writeText(convertedOutput)
+    onSnackbar(t('convert.result'))
+  }
+
+  const handleDownloadOutput = () => {
+    // Implementation for downloading the output
+  }
+
+  const handleShare = () => {
+    return {
+      source: input,
+      result: convertedOutput,
+      type: conversionType,
+      options: conversionOptions,
+      indentSize: indentSize
+    };
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -306,10 +365,7 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
               }}
             >
               <IconButton
-                onClick={() => {
-                  navigator.clipboard.writeText(convertedOutput)
-                  onSnackbar(t('convert.result'))
-                }}
+                onClick={handleCopyOutput}
                 sx={{ position: 'absolute', top: 8, right: 8 }}
                 color="primary"
                 title={t('format.copy')}
@@ -344,6 +400,38 @@ export function ConvertPanel({ onSnackbar }: ConvertPanelProps) {
           </Box>
         )}
       </Box>
+
+      {/* 输出结果 */}
+      {convertedOutput && (
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography variant="h6">{t('common.result')}</Typography>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Button
+                variant="contained"
+                size="small"
+                startIcon={<ContentCopy />}
+                onClick={handleCopyOutput}
+              >
+                {t('format.copy')}
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<Download />}
+                onClick={handleDownloadOutput}
+              >
+                {t('format.download')}
+              </Button>
+              <ShareButton 
+                jsonContent={JSON.stringify(handleShare())} 
+                currentTool="converter"
+                onSnackbar={onSnackbar}
+              />
+            </Box>
+          </Box>
+        </Box>
+      )}
     </Box>
   )
 } 

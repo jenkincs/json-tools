@@ -25,6 +25,7 @@ import { VisualizePanel } from './components/VisualizePanel'
 import { SchemaValidationPanel } from './components/SchemaValidationPanel'
 import { QueryPanel } from './components/QueryPanel'
 import { CodeGeneratorPanel } from './components/CodeGeneratorPanel'
+import { ApiMockerPanel } from './components/ApiMockerPanel'
 import { Footer } from './components/Footer'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { useThemeContext } from './context/ThemeContext'
@@ -52,7 +53,8 @@ function App() {
       t('visualize.title') + " | JSON Tools",
       t('validate.title') + " | JSON Tools",
       t('query.title') + " | JSON Tools",
-      t('codeGenerator.title') + " | JSON Tools"
+      t('codeGenerator.title') + " | JSON Tools",
+      t('apiMocker.title') + " | JSON Tools"
     ];
     
     document.title = tabTitles[activeTab];
@@ -66,7 +68,8 @@ function App() {
       t('visualize.description'),
       t('validate.description'),
       t('query.description'),
-      t('codeGenerator.description')
+      t('codeGenerator.description'),
+      t('apiMocker.description')
     ];
     
     if (metaDescription) {
@@ -122,7 +125,7 @@ function App() {
           </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
             {['JSON tools', 'JSON formatter', 'JSON validator', 'JSON comparison', 'JSON converter',
-              'JSON visualization', 'JSON query', 'JSON schema', 'developer tools', 'data tools'].map((keyword) => (
+              'JSON visualization', 'JSON query', 'JSON schema', 'developer tools', 'data tools', 'API mocking'].map((keyword) => (
               <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
             ))}
           </Box>
@@ -145,6 +148,7 @@ function App() {
             <Tab label={t('tabs.validate')} />
             <Tab label={t('tabs.query')} />
             <Tab label={t('tabs.codeGenerator')} />
+            <Tab label={t('tabs.apiMocker')} />
           </Tabs>
 
           <TabPanel value={activeTab} index={0}>
@@ -173,6 +177,10 @@ function App() {
 
           <TabPanel value={activeTab} index={6}>
             <CodeGeneratorPanel onSnackbar={handleSnackbar} />
+          </TabPanel>
+
+          <TabPanel value={activeTab} index={7}>
+            <ApiMockerPanel onSnackbar={handleSnackbar} />
           </TabPanel>
         </Paper>
       </Container>

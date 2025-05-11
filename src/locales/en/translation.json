@@ -21,7 +21,8 @@
     "visualize": "Visualize",
     "validate": "Validate",
     "query": "Query",
-    "codeGenerator": "Code Generator"
+    "codeGenerator": "Code Generator",
+    "apiMocker": "API Mocker"
   },
   "format": {
     "title": "JSON Formatter & Beautifier",
@@ -277,6 +278,85 @@
     "generatedCode": "Generated Code",
     "noCodeGenerated": "No code has been generated yet. Enter JSON data and click Generate."
   },
+  "apiMocker": {
+    "title": "API Mocker - Create Mock API Responses",
+    "description": "Create mock API responses based on JSON Schema. Define response delay, error rate, and other parameters to simulate real-world API behavior. Perfect for frontend developers working with APIs that aren't yet complete or available.",
+    "keywords": [
+      "API mocking",
+      "Mock server",
+      "API testing",
+      "Frontend development",
+      "JSON Schema",
+      "API simulation",
+      "Fake API",
+      "Backend simulation"
+    ],
+    "labels": {
+      "endpoints": "API Endpoints",
+      "selectEndpoint": "Select Endpoint",
+      "createEndpoint": "Create New Endpoint",
+      "editEndpoint": "Edit Endpoint",
+      "endpointName": "Endpoint Name",
+      "jsonSchema": "JSON Schema",
+      "mockResult": "Mock API Response",
+      "responseSettings": "Response Settings",
+      "delay": "Response Delay",
+      "errorRate": "Error Rate",
+      "successStatus": "Success Status Code",
+      "errorStatus": "Error Status Code",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "mockServer": "Mock Server",
+      "serverPort": "Server Port",
+      "headers": "Response Headers",
+      "availableEndpoints": "Available Endpoints",
+      "schemaExamples": "Schema Examples",
+      "responsePreview": "Response Preview",
+      "statusCode": "Status Code"
+    },
+    "buttons": {
+      "saveEndpoint": "Save Endpoint",
+      "generateMock": "Generate Mock Response",
+      "copyMock": "Copy Response",
+      "newEndpoint": "New Endpoint",
+      "startServer": "Start Mock Server",
+      "stopServer": "Stop Server"
+    },
+    "placeholders": {
+      "enterSchema": "Enter JSON Schema here...",
+      "enterEndpointName": "e.g., users, products, etc."
+    },
+    "messages": {
+      "endpointCreated": "Endpoint created successfully",
+      "endpointUpdated": "Endpoint updated successfully",
+      "endpointDeleted": "Endpoint deleted",
+      "dataCopied": "Mock response copied to clipboard",
+      "serverStarted": "Mock server started on port {{port}}",
+      "serverStopped": "Mock server stopped",
+      "serverRunning": "Server running at http://localhost:{{port}}",
+      "noEndpoints": "No endpoints defined yet. Create one using the form below.",
+      "noMockData": "No mock data generated yet. Enter JSON Schema and click Generate.",
+      "noEnabledEndpoints": "No enabled endpoints. Please enable at least one endpoint.",
+      "schemaExampleLoaded": "{{name}} example schema loaded",
+      "noPreviewData": "Unable to generate preview data"
+    },
+    "errors": {
+      "nameRequired": "Endpoint name is required",
+      "invalidSchema": "Invalid JSON Schema format",
+      "saveFailed": "Failed to save endpoint",
+      "generationFailed": "Failed to generate mock data",
+      "noDataToCopy": "No mock data to copy",
+      "invalidPastedSchema": "Invalid JSON format in pasted content",
+      "serverStartFailed": "Failed to start mock server",
+      "loadExampleFailed": "Failed to load example"
+    },
+    "examples": {
+      "user": "User Profile",
+      "product": "Product Catalog",
+      "order": "Order Details",
+      "weather": "Weather Forecast"
+    }
+  },
   "footer": {
     "description": "A comprehensive suite of JSON utilities for developers and data professionals.",
     "built": "Built with React, TypeScript, and Material-UI.",
@@ -301,6 +381,7 @@
       "noData": "No {{content}} to download",
       "fileRead": "Failed to read file",
       "clipboard": "Failed to read from clipboard"
-    }
+    },
+    "close": "Close"
   }
 } 

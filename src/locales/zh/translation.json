@@ -21,7 +21,8 @@
     "visualize": "可视化",
     "validate": "验证",
     "query": "查询",
-    "codeGenerator": "代码生成"
+    "codeGenerator": "代码生成",
+    "apiMocker": "接口模拟"
   },
   "format": {
     "title": "JSON格式化与美化工具",
@@ -277,6 +278,85 @@
     "generatedCode": "生成的代码",
     "noCodeGenerated": "尚未生成代码。输入JSON数据并点击生成。"
   },
+  "apiMocker": {
+    "title": "接口模拟器 - 创建模拟API响应",
+    "description": "基于JSON Schema创建模拟API响应。定义响应延迟、错误率和其他参数，以模拟真实世界的API行为。非常适合需要使用尚未完成或可用的API的前端开发人员。",
+    "keywords": [
+      "API模拟",
+      "模拟服务器",
+      "API测试",
+      "前端开发",
+      "JSON Schema",
+      "API模拟",
+      "假API",
+      "后端模拟"
+    ],
+    "labels": {
+      "endpoints": "API端点",
+      "selectEndpoint": "选择端点",
+      "createEndpoint": "创建新端点",
+      "editEndpoint": "编辑端点",
+      "endpointName": "端点名称",
+      "jsonSchema": "JSON Schema",
+      "mockResult": "模拟API响应",
+      "responseSettings": "响应设置",
+      "delay": "响应延迟",
+      "errorRate": "错误率",
+      "successStatus": "成功状态码",
+      "errorStatus": "错误状态码",
+      "enabled": "已启用",
+      "disabled": "已禁用",
+      "mockServer": "模拟服务器",
+      "serverPort": "服务器端口",
+      "headers": "响应头",
+      "availableEndpoints": "可用端点",
+      "schemaExamples": "Schema示例",
+      "responsePreview": "响应预览",
+      "statusCode": "状态码"
+    },
+    "buttons": {
+      "saveEndpoint": "保存端点",
+      "generateMock": "生成模拟响应",
+      "copyMock": "复制响应",
+      "newEndpoint": "新建端点",
+      "startServer": "启动模拟服务器",
+      "stopServer": "停止服务器"
+    },
+    "placeholders": {
+      "enterSchema": "在此输入JSON Schema...",
+      "enterEndpointName": "例如：users, products等"
+    },
+    "messages": {
+      "endpointCreated": "端点创建成功",
+      "endpointUpdated": "端点已更新",
+      "endpointDeleted": "端点已删除",
+      "dataCopied": "模拟响应已复制到剪贴板",
+      "serverStarted": "模拟服务器已在端口{{port}}上启动",
+      "serverStopped": "模拟服务器已停止",
+      "serverRunning": "服务器运行于http://localhost:{{port}}",
+      "noEndpoints": "尚未定义端点。使用下面的表单创建一个。",
+      "noMockData": "尚未生成模拟数据。输入JSON Schema并点击生成。",
+      "noEnabledEndpoints": "没有已启用的端点。请启用至少一个端点。",
+      "schemaExampleLoaded": "已加载{{name}}示例Schema",
+      "noPreviewData": "无法生成预览数据"
+    },
+    "errors": {
+      "nameRequired": "端点名称是必需的",
+      "invalidSchema": "无效的JSON Schema格式",
+      "saveFailed": "保存端点失败",
+      "generationFailed": "生成模拟数据失败",
+      "noDataToCopy": "没有模拟数据可复制",
+      "invalidPastedSchema": "粘贴内容中的JSON格式无效",
+      "serverStartFailed": "启动模拟服务器失败",
+      "loadExampleFailed": "加载示例失败"
+    },
+    "examples": {
+      "user": "用户档案",
+      "product": "产品目录",
+      "order": "订单详情",
+      "weather": "天气预报"
+    }
+  },
   "footer": {
     "description": "为开发者和数据专业人员提供的综合JSON工具套件。",
     "built": "使用React、TypeScript和Material-UI构建。",
@@ -301,6 +381,7 @@
       "noData": "没有{{content}}可下载",
       "fileRead": "读取文件失败",
       "clipboard": "从剪贴板读取失败"
-    }
+    },
+    "close": "关闭"
   }
 } 

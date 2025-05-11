@@ -1,0 +1,15 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Response restriction
+globs: 
+alwaysApply: true
+---
+
+
+- Always response with Chinese language
+
+- Always consider the i18n feature when implement new feature

@@ -4,7 +4,7 @@ import { Box, Chip, Typography, Paper } from '@mui/material'
 import { Helmet } from 'react-helmet-async'
 
 interface ToolSeoMetadataProps {
-  toolName: 'formatter' | 'comparer' | 'converter' | 'validator' | 'query' | 'visualizer' | 'codegenerator' | 'apimocker'
+  toolName: 'format' | 'compare' | 'convert' | 'validate' | 'query' | 'visualize' | 'codeGenerator' | 'apiMocker' | 'faq'
   isActive: boolean
 }
 
@@ -27,7 +27,7 @@ export function ToolSeoMetadata({ toolName, isActive }: ToolSeoMetadataProps) {
   const getKeywordsKey = () => `${toolName}.keywords`
   
   // 获取翻译内容
-  const title = t(getTitleKey()) + ' | JSON Tools'
+  const title = t(getTitleKey()) + " | JSON Tools"
   const description = t(getDescriptionKey())
   
   // 获取关键词数组并转换为字符串
@@ -40,6 +40,11 @@ export function ToolSeoMetadata({ toolName, isActive }: ToolSeoMetadataProps) {
   } catch (error) {
     console.error('Error getting keywords:', error)
   }
+  
+  // 测试输出当前标题
+  useEffect(() => {
+    console.log(`Setting title for ${toolName} in ${currentLanguage}: ${title}`)
+  }, [toolName, currentLanguage, title])
   
   return (
     <Helmet>

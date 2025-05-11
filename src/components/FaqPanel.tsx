@@ -39,7 +39,7 @@ interface FaqItem {
 }
 
 export function FaqPanel({ onSnackbar }: FaqPanelProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [searchQuery, setSearchQuery] = useState('')
   const [expandedPanel, setExpandedPanel] = useState<string | false>(false)
 
@@ -307,9 +307,14 @@ export function FaqPanel({ onSnackbar }: FaqPanelProps) {
         </Typography>
         
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {['JSON FAQ', 'JSON问题', 'JSON帮助', 'JSON教程', 'JSON指南', 'JSON工具使用'].map((keyword) => (
-            <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
-          ))}
+          {i18n.language === 'en' 
+            ? ['JSON FAQ', 'JSON Questions', 'JSON Help', 'JSON Tutorials', 'JSON Guides', 'JSON Tool Usage'].map((keyword) => (
+                <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
+              ))
+            : ['JSON FAQ', 'JSON问题', 'JSON帮助', 'JSON教程', 'JSON指南', 'JSON工具使用'].map((keyword) => (
+                <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
+              ))
+          }
         </Box>
       </Box>
 

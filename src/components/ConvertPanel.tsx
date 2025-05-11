@@ -425,7 +425,7 @@ export function ConvertPanel({ onSnackbar, initialData }: ConvertPanelProps) {
               </Button>
               <ShareButton 
                 jsonContent={JSON.stringify(handleShare())} 
-                currentTool="converter"
+                currentTool="convert"
                 onSnackbar={onSnackbar}
               />
             </Box>

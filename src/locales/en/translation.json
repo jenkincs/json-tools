@@ -361,6 +361,16 @@
   "faq": {
     "title": "JSON Tools - Frequently Asked Questions",
     "description": "Find answers to common questions about JSON and our tools. This FAQ page provides detailed guides, troubleshooting tips, and best practices to help you work more effectively with JSON data and our suite of tools.",
+    "keywords": [
+      "JSON FAQ",
+      "JSON Questions",
+      "JSON Help",
+      "JSON Tutorial",
+      "JSON Guide",
+      "JSON Tool Usage",
+      "JSON Troubleshooting",
+      "JSON Tips"
+    ],
     "searchPlaceholder": "Search FAQ...",
     "searchResults": "Found {{count}} results",
     "quickLinks": "Quick Links",

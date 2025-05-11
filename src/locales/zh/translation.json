@@ -22,7 +22,8 @@
     "validate": "验证",
     "query": "查询",
     "codeGenerator": "代码生成",
-    "apiMocker": "接口模拟"
+    "apiMocker": "接口模拟",
+    "faq": "常见问题"
   },
   "format": {
     "title": "JSON格式化与美化工具",
@@ -53,7 +54,7 @@
     "keywords": [
       "JSON差异",
       "JSON比较",
-      "JSON差异",
+      "JSON对比",
       "API测试",
       "对象比较",
       "数据比较",
@@ -360,6 +361,16 @@
   "faq": {
     "title": "JSON工具 - 常见问题解答",
     "description": "查找有关JSON和我们工具的常见问题答案。本FAQ页面提供详细指南、故障排除提示和最佳实践，帮助您更有效地使用JSON数据和我们的工具套件。",
+    "keywords": [
+      "JSON常见问题",
+      "JSON问题",
+      "JSON帮助",
+      "JSON教程",
+      "JSON指南",
+      "JSON工具使用",
+      "JSON故障排除",
+      "JSON使用技巧"
+    ],
     "searchPlaceholder": "搜索FAQ...",
     "searchResults": "找到{{count}}个结果",
     "quickLinks": "快速链接",
@@ -368,7 +379,6 @@
     "jsonSpecification": "JSON规范",
     "jsonSchemaDoc": "JSON Schema文档",
     "jsonPathDoc": "JSONPath语法指南",
-    
     "questions": {
       "format1": "如何格式化JSON以提高可读性？",
       "format2": "如何压缩JSON以减小文件大小？",

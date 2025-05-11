@@ -63,7 +63,7 @@ export function ShareLinkDialog({
       
       // 这里可以添加各种工具的特定设置
       // 例如：格式化工具的缩进大小、压缩选项等
-      if (currentTool === 'formatter') {
+      if (currentTool === 'format') {
         toolSettings.indent = '2' // 默认缩进
       }
       

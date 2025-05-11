@@ -601,7 +601,7 @@ export function SchemaValidationPanel({ onSnackbar, initialData }: SchemaValidat
             data: input,
             schema: schemaInput
           })} 
-          currentTool="validator"
+          currentTool="validate"
           onSnackbar={onSnackbar}
         />
       )}

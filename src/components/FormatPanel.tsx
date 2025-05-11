@@ -205,7 +205,7 @@ export function FormatPanel({ onSnackbar, initialData }: FormatPanelProps) {
         {formatted && (
           <ShareButton 
             jsonContent={formatted} 
-            currentTool="formatter"
+            currentTool="format"
             onSnackbar={onSnackbar}
           />
         )}

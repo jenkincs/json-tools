@@ -36,14 +36,15 @@ import { ToolSeoMetadata } from './components/ToolSeoMetadata'
 
 // 工具标识符映射
 const TOOL_NAMES = [
-  'formatter',
-  'comparer',
-  'converter',
-  'visualizer',
-  'validator',
+  'format',
+  'compare',
+  'convert',
+  'visualize',
+  'validate',
   'query',
-  'codegenerator',
-  'apimocker'
+  'codeGenerator',
+  'apiMocker',
+  'faq'
 ] as const;
 
 // 主应用组件
@@ -67,14 +68,14 @@ function AppContent() {
     if (sharedState.hasSharedParams && sharedState.tool) {
       // 根据工具名称设置对应的Tab索引
       const toolTabMap: Record<string, number> = {
-        'formatter': 0,
-        'comparer': 1,
-        'converter': 2,
-        'visualizer': 3,
-        'validator': 4,
+        'format': 0,
+        'compare': 1,
+        'convert': 2,
+        'visualize': 3,
+        'validate': 4,
         'query': 5,
-        'codegenerator': 6,
-        'apimocker': 7
+        'codeGenerator': 6,
+        'apiMocker': 7
       };
       
       if (toolTabMap[sharedState.tool] !== undefined) {
@@ -83,22 +84,8 @@ function AppContent() {
     }
   }, [sharedState]);
 
-  // SEO Optimization - Update document title based on active tab
+  // SEO Optimization - Update meta description based on active tab
   useEffect(() => {
-    const tabTitles = [
-      t('format.title') + " | JSON Tools",
-      t('compare.title') + " | JSON Tools",
-      t('convert.title') + " | JSON Tools",
-      t('visualize.title') + " | JSON Tools",
-      t('validate.title') + " | JSON Tools",
-      t('query.title') + " | JSON Tools",
-      t('codeGenerator.title') + " | JSON Tools",
-      t('apiMocker.title') + " | JSON Tools",
-      t('faq.title') + " | JSON Tools"
-    ];
-    
-    document.title = tabTitles[activeTab];
-    
     // Add meta description based on active tab
     const metaDescription = document.querySelector('meta[name="description"]');
     const descriptions = [
@@ -141,18 +128,16 @@ function AppContent() {
 
   // 获取当前活跃的工具名称
   const getActiveToolName = () => {
-    return activeTab < 8 ? TOOL_NAMES[activeTab] : null;
+    return TOOL_NAMES[activeTab];
   };
 
   return (
     <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       {/* 工具SEO元数据 */}
-      {activeTab < 8 && (
-        <ToolSeoMetadata
-          toolName={TOOL_NAMES[activeTab]}
-          isActive={true}
-        />
-      )}
+      <ToolSeoMetadata
+        toolName={TOOL_NAMES[activeTab]}
+        isActive={true}
+      />
 
       <AppBar position="static">
         <Toolbar>
@@ -220,7 +205,7 @@ function AppContent() {
           <TabPanel value={activeTab} index={0}>
             <FormatPanel 
               onSnackbar={handleSnackbar} 
-              initialData={activeTab === 0 && sharedState.tool === 'formatter' ? sharedState.jsonData : null}
+              initialData={activeTab === 0 && sharedState.tool === 'format' ? sharedState.jsonData : null}
             />
           </TabPanel>
 
@@ -231,7 +216,7 @@ function AppContent() {
           <TabPanel value={activeTab} index={2}>
             <ConvertPanel 
               onSnackbar={handleSnackbar} 
-              initialData={activeTab === 2 && sharedState.tool === 'converter' ? sharedState.jsonData : null}
+              initialData={activeTab === 2 && sharedState.tool === 'convert' ? sharedState.jsonData : null}
             />
           </TabPanel>
 
@@ -242,7 +227,7 @@ function AppContent() {
           <TabPanel value={activeTab} index={4}>
             <SchemaValidationPanel 
               onSnackbar={handleSnackbar} 
-              initialData={activeTab === 4 && sharedState.tool === 'validator' ? sharedState.jsonData : null}
+              initialData={activeTab === 4 && sharedState.tool === 'validate' ? sharedState.jsonData : null}
             />
           </TabPanel>
 

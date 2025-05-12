@@ -11,7 +11,8 @@ import {
   QueryLandingPage,
   CodeGeneratorLandingPage,
   ApiMockerLandingPage,
-  JwtDecoderLandingPage
+  JwtDecoderLandingPage,
+  JsonEditorLandingPage
 } from './pages/LandingPages';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { TermsOfUse } from './pages/TermsOfUse';
@@ -38,7 +39,8 @@ const toolPathsToIndex: Record<string, number> = {
   'codeGenerator': 6,
   'apiMocker': 7,
   'jwtDecoder': 8,
-  'faq': 9
+  'jsonEditor': 9,
+  'faq': 10
 };
 
 // 创建直接跳转到特定工具的路由组件
@@ -99,6 +101,10 @@ const router = createBrowserRouter([
   {
     path: '/jwt-decoder',
     element: <ScrollToTop><JwtDecoderLandingPage /></ScrollToTop>,
+  },
+  {
+    path: '/json-editor',
+    element: <ScrollToTop><JsonEditorLandingPage /></ScrollToTop>,
   },
   {
     path: '/app',

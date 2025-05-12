@@ -23,8 +23,9 @@
     "validate": "验证",
     "query": "查询",
     "codeGenerator": "代码生成",
-    "apiMocker": "接口模拟",
+    "apiMocker": "API模拟",
     "jwtDecoder": "JWT解码器",
+    "jsonEditor": "JSON编辑器",
     "faq": "常见问题"
   },
   "format": {
@@ -526,6 +527,48 @@
     "feature2.description": "使用密钥验证令牌签名是否有效和未被篡改",
     "feature3": "时间戳可视化",
     "feature3.description": "自动将令牌中的时间戳转换为可读格式并显示过期状态"
+  },
+  "jsonEditor": {
+    "title": "高级JSON编辑器",
+    "description": "功能全面的JSON编辑器，提供语法高亮、自动补全和自动格式化功能。通过实时验证和智能代码辅助直接编辑您的JSON数据。",
+    "keywords": [
+      "JSON编辑器",
+      "JSON集成开发环境",
+      "代码编辑器",
+      "语法高亮",
+      "自动补全",
+      "JSON验证器",
+      "JSON开发"
+    ],
+    "loadSample": "加载示例",
+    "format": "格式化JSON",
+    "copy": "复制",
+    "paste": "粘贴",
+    "download": "下载",
+    "upload": "上传",
+    "undo": "撤销",
+    "redo": "重做",
+    "editorSettings": "编辑器设置",
+    "settings": {
+      "autoClosingBrackets": "自动闭合括号",
+      "autoClosingQuotes": "自动闭合引号",
+      "formatOnPaste": "粘贴时格式化",
+      "formatOnType": "输入时格式化"
+    },
+    "formatSuccess": "JSON格式化成功",
+    "pasteSuccess": "已从剪贴板粘贴内容",
+    "uploadSuccess": "JSON文件加载成功",
+    "downloadSuccess": "JSON文件下载成功",
+    "sampleLoaded": "示例JSON已加载",
+    "feature1": "智能编辑器",
+    "feature1.description": "高级编辑功能，包括语法高亮和代码折叠",
+    "feature2": "自动补全",
+    "feature2.description": "针对JSON属性和值的智能建议",
+    "feature3": "实时验证",
+    "feature3.description": "对JSON语法错误立即反馈",
+    "feature4": "可定制编辑器",
+    "feature4.description": "配置编辑器功能以匹配您的工作流程",
+    "shortDescription": "使用语法高亮、自动补全和实时验证功能编辑JSON"
   },
   "faq": {
     "title": "JSON工具 - 常见问题解答",

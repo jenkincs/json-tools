@@ -32,7 +32,8 @@ import {
   QuestionAnswer,
   Apps,
   Brightness4,
-  Brightness7
+  Brightness7,
+  Edit as EditIcon
 } from '@mui/icons-material';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { useThemeContext } from '../context/ThemeContext';
@@ -64,7 +65,8 @@ export const Home: React.FC = () => {
     { name: 'query', icon: <SearchOutlined fontSize="large" color="primary" />, path: '/query' },
     { name: 'codeGenerator', icon: <Code fontSize="large" color="primary" />, path: '/code-generator' },
     { name: 'apiMocker', icon: <Api fontSize="large" color="primary" />, path: '/api-mocker' },
-    { name: 'jwtDecoder', icon: <VpnKey fontSize="large" color="primary" />, path: '/jwt-decoder' }
+    { name: 'jwtDecoder', icon: <VpnKey fontSize="large" color="primary" />, path: '/jwt-decoder' },
+    { name: 'jsonEditor', icon: <EditIcon fontSize="large" color="primary" />, path: '/json-editor' }
   ];
   
   return (

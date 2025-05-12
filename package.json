@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@monaco-editor/react": "^4.6.0",
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
     "@mui/x-tree-view": "^6.17.0",
@@ -27,6 +28,7 @@
     "json-schema-faker": "^0.5.9",
     "jsonpath-plus": "^8.0.0",
     "jsontoxml": "^1.0.1",
+    "monaco-editor": "^0.49.0",
     "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

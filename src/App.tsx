@@ -30,6 +30,7 @@ import { CodeGeneratorPanel } from './components/CodeGeneratorPanel'
 import { ApiMockerPanel } from './components/ApiMockerPanel'
 import { FaqPanel } from './components/FaqPanel'
 import { JwtDecoderPanel } from './components/JwtDecoderPanel'
+import { JsonEditorPanel } from './components/JsonEditorPanel'
 import { Footer } from './components/Footer'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { useThemeContext } from './context/ThemeContext'
@@ -47,6 +48,7 @@ const TOOL_NAMES = [
   'codeGenerator',
   'apiMocker',
   'jwtDecoder',
+  'jsonEditor',
   'faq'
 ] as const;
 
@@ -87,7 +89,8 @@ function AppContent() {
         'codeGenerator': 6,
         'apiMocker': 7,
         'jwtDecoder': 8,
-        'faq': 9
+        'jsonEditor': 9,
+        'faq': 10
       };
       
       if (toolTabMap[sharedState.tool] !== undefined) {
@@ -120,6 +123,7 @@ function AppContent() {
       t('codeGenerator.description'),
       t('apiMocker.description'),
       t('jwtDecoder.description'),
+      t('jsonEditor.description'),
       t('faq.description')
     ];
     
@@ -179,7 +183,7 @@ function AppContent() {
           <Tooltip title={t('tabs.faq')}>
             <IconButton 
               color="inherit" 
-              onClick={() => setActiveTab(9)}
+              onClick={() => setActiveTab(10)}
               aria-label={t('tabs.faq')}
               sx={{ mr: 1 }}
             >
@@ -232,6 +236,7 @@ function AppContent() {
             <Tab label={t('tabs.codeGenerator')} />
             <Tab label={t('tabs.apiMocker')} />
             <Tab label={t('tabs.jwtDecoder')} />
+            <Tab label={t('tabs.jsonEditor')} />
             <Tab label={t('tabs.faq')} icon={<QuestionAnswer />} iconPosition="start" />
           </Tabs>
 
@@ -287,6 +292,13 @@ function AppContent() {
           </TabPanel>
           
           <TabPanel value={activeTab} index={9}>
+            <JsonEditorPanel 
+              onSnackbar={handleSnackbar}
+              initialData={activeTab === 9 && sharedState.tool === 'jsonEditor' ? sharedState.jsonData : null}
+            />
+          </TabPanel>
+          
+          <TabPanel value={activeTab} index={10}>
             <FaqPanel onSnackbar={handleSnackbar} />
           </TabPanel>
         </Paper>

@@ -25,6 +25,7 @@
     "codeGenerator": "Code Generator",
     "apiMocker": "API Mocker",
     "jwtDecoder": "JWT Decoder",
+    "jsonEditor": "JSON Editor",
     "faq": "FAQ"
   },
   "format": {
@@ -527,6 +528,48 @@
     "feature3": "Timestamp Visualization",
     "feature3.description": "Automatically convert token timestamps to readable format and display expiration status",
     "shortDescription": "Decode, verify and analyze JWT tokens with an easy-to-use online tool"
+  },
+  "jsonEditor": {
+    "title": "Advanced JSON Editor",
+    "description": "A full-featured JSON editor with syntax highlighting, auto-completion, and auto-formatting features. Edit your JSON data directly with real-time validation and intelligent code assistance.",
+    "keywords": [
+      "JSON editor",
+      "JSON IDE",
+      "Code editor",
+      "Syntax highlighting",
+      "Auto-completion",
+      "JSON validator",
+      "JSON development"
+    ],
+    "loadSample": "Load Sample",
+    "format": "Format JSON",
+    "copy": "Copy",
+    "paste": "Paste",
+    "download": "Download",
+    "upload": "Upload",
+    "undo": "Undo",
+    "redo": "Redo",
+    "editorSettings": "Editor Settings",
+    "settings": {
+      "autoClosingBrackets": "Auto-close brackets",
+      "autoClosingQuotes": "Auto-close quotes",
+      "formatOnPaste": "Format on paste",
+      "formatOnType": "Format as you type"
+    },
+    "formatSuccess": "JSON formatted successfully",
+    "pasteSuccess": "Content pasted from clipboard",
+    "uploadSuccess": "JSON file loaded successfully",
+    "downloadSuccess": "JSON file downloaded successfully",
+    "sampleLoaded": "Sample JSON loaded",
+    "feature1": "Smart Editor",
+    "feature1.description": "Advanced editing with syntax highlighting and code folding",
+    "feature2": "Auto-completion",
+    "feature2.description": "Intelligent suggestions for JSON properties and values",
+    "feature3": "Real-time Validation",
+    "feature3.description": "Immediate feedback on JSON syntax errors",
+    "feature4": "Customizable Editor",
+    "feature4.description": "Configure editor features to match your workflow",
+    "shortDescription": "Edit JSON with syntax highlighting, auto-completion and real-time validation"
   },
   "faq": {
     "title": "JSON Tools - Frequently Asked Questions",

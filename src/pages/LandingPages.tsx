@@ -36,14 +36,15 @@ import {
   Apps,
   Brightness4,
   Brightness7,
-  VpnKey
+  VpnKey,
+  Edit as EditIcon
 } from '@mui/icons-material';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { useThemeContext } from '../context/ThemeContext';
 import { Footer } from '../components/Footer';
 
 interface LandingPageProps {
-  toolName: 'format' | 'compare' | 'convert' | 'visualize' | 'validate' | 'query' | 'codeGenerator' | 'apiMocker' | 'jwtDecoder' | 'faq';
+  toolName: 'format' | 'compare' | 'convert' | 'visualize' | 'validate' | 'query' | 'codeGenerator' | 'apiMocker' | 'jwtDecoder' | 'jsonEditor' | 'faq';
 }
 
 // 获取工具图标
@@ -58,6 +59,7 @@ const getToolIcon = (toolName: string) => {
     case 'codeGenerator': return <Code fontSize="large" />;
     case 'apiMocker': return <Api fontSize="large" />;
     case 'jwtDecoder': return <VpnKey fontSize="large" />;
+    case 'jsonEditor': return <EditIcon fontSize="large" />;
     default: return null;
   }
 };
@@ -73,7 +75,8 @@ const getFeaturesList = (toolName: string, t: any) => {
     query: ['query.feature1', 'query.feature2', 'query.feature3'],
     codeGenerator: ['codeGenerator.feature1', 'codeGenerator.feature2', 'codeGenerator.feature3'],
     apiMocker: ['apiMocker.feature1', 'apiMocker.feature2', 'apiMocker.feature3'],
-    jwtDecoder: ['jwtDecoder.feature1', 'jwtDecoder.feature2', 'jwtDecoder.feature3']
+    jwtDecoder: ['jwtDecoder.feature1', 'jwtDecoder.feature2', 'jwtDecoder.feature3'],
+    jsonEditor: ['jsonEditor.feature1', 'jsonEditor.feature2', 'jsonEditor.feature3', 'jsonEditor.feature4']
   };
 
   return featuresMap[toolName] || [];
@@ -368,4 +371,5 @@ export const ValidateLandingPage = () => <ToolLandingPage toolName="validate" />
 export const QueryLandingPage = () => <ToolLandingPage toolName="query" />;
 export const CodeGeneratorLandingPage = () => <ToolLandingPage toolName="codeGenerator" />;
 export const ApiMockerLandingPage = () => <ToolLandingPage toolName="apiMocker" />;
-export const JwtDecoderLandingPage = () => <ToolLandingPage toolName="jwtDecoder" />; 
+export const JwtDecoderLandingPage = () => <ToolLandingPage toolName="jwtDecoder" />;
+export const JsonEditorLandingPage = () => <ToolLandingPage toolName="jsonEditor" />; 

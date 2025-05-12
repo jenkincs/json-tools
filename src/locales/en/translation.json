@@ -519,7 +519,14 @@
     "hideHistory": "Hide Token History",
     "standardToken": "Standard Token",
     "expiredToken": "Expired Token",
-    "neverExpiringToken": "Non-expiring Token"
+    "neverExpiringToken": "Non-expiring Token",
+    "feature1": "Simple Token Decoding",
+    "feature1.description": "Instantly parse JWT header, payload, and signature parts",
+    "feature2": "Signature Verification",
+    "feature2.description": "Verify token signatures are valid and untampered using a secret key",
+    "feature3": "Timestamp Visualization",
+    "feature3.description": "Automatically convert token timestamps to readable format and display expiration status",
+    "shortDescription": "Decode, verify and analyze JWT tokens with an easy-to-use online tool"
   },
   "faq": {
     "title": "JSON Tools - Frequently Asked Questions",

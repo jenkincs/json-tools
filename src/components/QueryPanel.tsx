@@ -328,13 +328,15 @@ export function QueryPanel({ onSnackbar, initialData }: QueryPanelProps) {
 
   const handleExampleClick = (path: string) => {
     setQuery(path)
-    if (input) {
-      handleQuery()
-    }
+    // 使用setTimeout确保在状态更新后执行查询
+    setTimeout(() => {
+      executeQuery(input, path)
+    }, 0)
   }
 
   const handleLoadTestData = () => {
-    setInput(JSON.stringify(TEST_DATA, null, 2))
+    const testData = JSON.stringify(TEST_DATA, null, 2)
+    setInput(testData)
     onSnackbar(t('query.guide.loadExample'))
   }
 

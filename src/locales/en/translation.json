@@ -570,7 +570,12 @@
       "visualize1": "How do I visualize JSON data as charts?",
       
       "general1": "Are the JSON tools secure? Is my data sent to servers?",
-      "general2": "How large of a JSON file can the tools handle?"
+      "general2": "How large of a JSON file can the tools handle?",
+      
+      "jwt1": "What is JWT and how does it work?",
+      "jwt2": "What do the three parts of a JWT contain?",
+      "jwt3": "How do I verify a JWT signature?",
+      "jwt4": "When should I use JWT?"
     },
     
     "answers": {
@@ -600,7 +605,15 @@
       "visualize1": "To visualize JSON data as charts: 1) Paste JSON containing numerical data; 2) Select chart type (bar chart, line chart, pie chart, etc.); 3) Map data fields to chart axes (specify which fields to use for X-axis, Y-axis, etc.); 4) Enable multi-series data support if needed; 5) Click 'Generate Chart'. Visualization is particularly useful for analyzing data trends, comparing values, or presenting statistics.",
       
       "general1": "Yes, our tools run entirely in your browser, and your data is never sent to any server. All processing happens on your device, ensuring data privacy and security. Most functionalities continue to work even in offline mode. This makes the tool suitable for handling sensitive or confidential data.",
-      "general2": "The size of JSON files our tools can handle is primarily limited by your browser and device memory. Typically, files of a few MB can be processed easily. For larger files (over 10MB), you may experience performance degradation. If you need to process very large JSON files, consider splitting them into smaller parts or using specialized desktop tools."
+      "general2": "The size of JSON files our tools can handle is primarily limited by your browser and device memory. Typically, files of a few MB can be processed easily. For larger files (over 10MB), you may experience performance degradation. If you need to process very large JSON files, consider splitting them into smaller parts or using specialized desktop tools.",
+      
+      "jwt1": "JSON Web Token (JWT) is an open standard (RFC 7519) used for securely transmitting information between parties. It works like this: after a user authenticates, the server generates a JWT and returns it to the client, which sends it with subsequent requests. The server validates the token to confirm the user's identity without querying the database again. JWTs are compact, making them convenient for transmission in HTTP headers or URL parameters, particularly suitable for distributed systems and microservice architectures.",
+      
+      "jwt2": "A JWT consists of three parts separated by dots (.): 1) Header: Contains the token type and signing algorithm used, such as HMAC SHA256 or RSA; 2) Payload: Contains claims such as user ID, roles, expiration time, etc.; 3) Signature: Created using the algorithm specified in the header, combined with a secret key, to sign the encoded header and payload data. The header and payload parts are Base64Url encoded JSON, not encrypted, so anyone can decode to view the contents. The signature ensures the token hasn't been tampered with during transmission.",
+      
+      "jwt3": "Verifying a JWT signature is a crucial step for ensuring token security, involving: 1) Separating the JWT's three parts (header, payload, and signature); 2) Using the same key and algorithm used when the token was issued to recalculate the signature on the header and payload; 3) Comparing the calculated signature with the signature part of the JWT to check if they match; 4) Checking if the token has expired. With our JWT decoder, you can input the token and secret key to verify the signature. Additionally, you should check other important claims like issuer (iss), audience (aud), etc., to ensure the token is used in the correct application context.",
+      
+      "jwt4": "JWT is best suited for: 1) Authentication: After login, subsequent requests can include the JWT, allowing users to access routes, services, and resources permitted with that token; 2) Information Exchange: JWT is a good way to securely transmit information between parties as you can verify the sender's identity through signatures and ensure content hasn't been tampered with; 3) Stateless APIs: Allowing servers to be stateless, improving scalability. However, JWT isn't appropriate for all scenarios. For situations requiring immediate permission revocation, storing large amounts of data, or high-security requirements, consider other mechanisms or use in combination. Best practices include: using HTTPS, setting reasonable expiration times, not storing sensitive information in the payload, and handling keys carefully."
     },
     "shortDescription": "Find answers to common questions about JSON and our tools"
   },
@@ -613,7 +626,8 @@
     "code": "Code Generation",
     "mock": "API Mocking",
     "visualize": "Visualization",
-    "general": "General Questions"
+    "general": "General Questions",
+    "jwt": "JWT Tokens"
   },
   "footer": {
     "description": "A comprehensive suite of JSON utilities for developers and data professionals.",

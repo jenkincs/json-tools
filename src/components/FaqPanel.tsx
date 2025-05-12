@@ -23,7 +23,8 @@ import {
   Storage,
   Compare,
   BarChart,
-  SchemaOutlined
+  SchemaOutlined,
+  VpnKey
 } from '@mui/icons-material'
 
 interface FaqPanelProps {
@@ -180,6 +181,36 @@ export function FaqPanel({ onSnackbar }: FaqPanelProps) {
       keywords: ['可视化', '图表', '数据展示', '分析', '图形']
     },
     
+    // JWT相关问题
+    {
+      id: 'jwt-1',
+      question: t('faq.questions.jwt1'),
+      answer: t('faq.answers.jwt1'),
+      category: 'jwt',
+      keywords: ['JWT', 'JSON Web Token', '令牌', 'token', '认证', '授权']
+    },
+    {
+      id: 'jwt-2',
+      question: t('faq.questions.jwt2'),
+      answer: t('faq.answers.jwt2'),
+      category: 'jwt',
+      keywords: ['JWT结构', 'header', 'payload', 'signature', '签名', '头部', '有效载荷']
+    },
+    {
+      id: 'jwt-3',
+      question: t('faq.questions.jwt3'),
+      answer: t('faq.answers.jwt3'),
+      category: 'jwt',
+      keywords: ['JWT验证', '签名验证', 'verify', '安全', '密钥']
+    },
+    {
+      id: 'jwt-4',
+      question: t('faq.questions.jwt4'),
+      answer: t('faq.answers.jwt4'),
+      category: 'jwt',
+      keywords: ['JWT使用场景', '最佳实践', 'use case', '应用', '无状态']
+    },
+    
     // 一般问题
     {
       id: 'general-1',
@@ -240,6 +271,8 @@ export function FaqPanel({ onSnackbar }: FaqPanelProps) {
         return <BugReport />
       case 'visualize':
         return <BarChart />
+      case 'jwt':
+        return <VpnKey />
       default:
         return <Help />
     }
@@ -359,6 +392,7 @@ export function FaqPanel({ onSnackbar }: FaqPanelProps) {
             { category: 'code', label: t('categories.code') },
             { category: 'mock', label: t('categories.mock') },
             { category: 'visualize', label: t('categories.visualize') },
+            { category: 'jwt', label: t('categories.jwt') },
             { category: 'general', label: t('categories.general') }
           ].map(({ category, label }) => (
             <Chip
@@ -384,6 +418,7 @@ export function FaqPanel({ onSnackbar }: FaqPanelProps) {
       {renderFaqCategory('code', t('categories.code'))}
       {renderFaqCategory('mock', t('categories.mock'))}
       {renderFaqCategory('visualize', t('categories.visualize'))}
+      {renderFaqCategory('jwt', t('categories.jwt'))}
 
       {/* 其他资源 */}
       <Paper sx={{ p: 3, mt: 4 }}>

@@ -31,6 +31,7 @@ import { ApiMockerPanel } from './components/ApiMockerPanel'
 import { FaqPanel } from './components/FaqPanel'
 import { JwtDecoderPanel } from './components/JwtDecoderPanel'
 import { JsonEditorPanel } from './components/JsonEditorPanel'
+import { JsonCryptoPanel } from './components/JsonCryptoPanel'
 import { Footer } from './components/Footer'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { useThemeContext } from './context/ThemeContext'
@@ -49,6 +50,7 @@ const TOOL_NAMES = [
   'apiMocker',
   'jwtDecoder',
   'jsonEditor',
+  'jsonCrypto',
   'faq'
 ] as const;
 
@@ -90,7 +92,8 @@ function AppContent() {
         'apiMocker': 7,
         'jwtDecoder': 8,
         'jsonEditor': 9,
-        'faq': 10
+        'jsonCrypto': 10,
+        'faq': 11
       };
       
       if (toolTabMap[sharedState.tool] !== undefined) {
@@ -124,6 +127,7 @@ function AppContent() {
       t('apiMocker.description'),
       t('jwtDecoder.description'),
       t('jsonEditor.description'),
+      t('jsonCrypto.description'),
       t('faq.description')
     ];
     
@@ -183,7 +187,7 @@ function AppContent() {
           <Tooltip title={t('tabs.faq')}>
             <IconButton 
               color="inherit" 
-              onClick={() => setActiveTab(10)}
+              onClick={() => setActiveTab(11)}
               aria-label={t('tabs.faq')}
               sx={{ mr: 1 }}
             >
@@ -237,6 +241,7 @@ function AppContent() {
             <Tab label={t('tabs.apiMocker')} />
             <Tab label={t('tabs.jwtDecoder')} />
             <Tab label={t('tabs.jsonEditor')} />
+            <Tab label={t('tabs.jsonCrypto')} />
             <Tab label={t('tabs.faq')} icon={<QuestionAnswer />} iconPosition="start" />
           </Tabs>
 
@@ -299,6 +304,13 @@ function AppContent() {
           </TabPanel>
           
           <TabPanel value={activeTab} index={10}>
+            <JsonCryptoPanel 
+              onSnackbar={handleSnackbar}
+              initialData={activeTab === 10 && sharedState.tool === 'jsonCrypto' ? sharedState.jsonData : null}
+            />
+          </TabPanel>
+          
+          <TabPanel value={activeTab} index={11}>
             <FaqPanel onSnackbar={handleSnackbar} />
           </TabPanel>
         </Paper>

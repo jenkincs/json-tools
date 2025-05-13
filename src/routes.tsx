@@ -12,7 +12,8 @@ import {
   CodeGeneratorLandingPage,
   ApiMockerLandingPage,
   JwtDecoderLandingPage,
-  JsonEditorLandingPage
+  JsonEditorLandingPage,
+  JsonCryptoLandingPage
 } from './pages/LandingPages';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { TermsOfUse } from './pages/TermsOfUse';
@@ -40,7 +41,8 @@ const toolPathsToIndex: Record<string, number> = {
   'apiMocker': 7,
   'jwtDecoder': 8,
   'jsonEditor': 9,
-  'faq': 10
+  'jsonCrypto': 10,
+  'faq': 11
 };
 
 // 创建直接跳转到特定工具的路由组件
@@ -105,6 +107,10 @@ const router = createBrowserRouter([
   {
     path: '/json-editor',
     element: <ScrollToTop><JsonEditorLandingPage /></ScrollToTop>,
+  },
+  {
+    path: '/json-crypto',
+    element: <ScrollToTop><JsonCryptoLandingPage /></ScrollToTop>,
   },
   {
     path: '/app',

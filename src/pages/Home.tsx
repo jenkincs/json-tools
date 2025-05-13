@@ -33,7 +33,8 @@ import {
   Apps,
   Brightness4,
   Brightness7,
-  Edit as EditIcon
+  Edit as EditIcon,
+  Security
 } from '@mui/icons-material';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { useThemeContext } from '../context/ThemeContext';
@@ -66,7 +67,8 @@ export const Home: React.FC = () => {
     { name: 'codeGenerator', icon: <Code fontSize="large" color="primary" />, path: '/code-generator' },
     { name: 'apiMocker', icon: <Api fontSize="large" color="primary" />, path: '/api-mocker' },
     { name: 'jwtDecoder', icon: <VpnKey fontSize="large" color="primary" />, path: '/jwt-decoder' },
-    { name: 'jsonEditor', icon: <EditIcon fontSize="large" color="primary" />, path: '/json-editor' }
+    { name: 'jsonEditor', icon: <EditIcon fontSize="large" color="primary" />, path: '/json-editor' },
+    { name: 'jsonCrypto', icon: <Security fontSize="large" color="primary" />, path: '/json-crypto' }
   ];
   
   return (

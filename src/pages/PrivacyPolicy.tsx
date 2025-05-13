@@ -11,10 +11,7 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Tooltip,
-  List,
-  ListItem,
-  ListItemText
+  Tooltip
 } from '@mui/material';
 import { Home, Brightness4, Brightness7 } from '@mui/icons-material';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="4" y="4" width="56" height="56" rx="8" fill="#2563eb"/>
+  <!-- JSON Curly Braces -->
+  <path d="M20 16c-4 0-6 3-6 6v4c0 3-2 4-4 4 2 0 4 1 4 4v4c0 3 2 6 6 6" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M44 16c4 0 6 3 6 6v4c0 3 2 4 4 4-2 0-4 1-4 4v4c0 3-2 6-6 6" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Format Lines -->
+  <line x1="28" y1="24" x2="36" y2="24" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+  <line x1="28" y1="32" x2="36" y2="32" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+  <line x1="28" y1="40" x2="36" y2="40" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+</svg> 

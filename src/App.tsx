@@ -58,7 +58,7 @@ const TOOL_NAMES = [
 function AppContent() {
   const { t } = useTranslation();
   const { mode, toggleTheme } = useThemeContext();
-  const { sharedState, clearSharedState } = useSharedState();
+  const { sharedState } = useSharedState();
   
   // 从 localStorage 获取上次使用的标签索引，如果没有则默认为 0
   const getInitialTabIndex = () => {
@@ -141,7 +141,7 @@ function AppContent() {
     }
   }, [activeTab, t]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
   }
 
@@ -158,15 +158,12 @@ function AppContent() {
   }
 
   // 获取当前活跃的工具名称
-  const getActiveToolName = () => {
-    return TOOL_NAMES[activeTab];
-  };
 
   return (
     <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       {/* 工具SEO元数据 */}
       <ToolSeoMetadata
-        toolName={TOOL_NAMES[activeTab]}
+        toolName={TOOL_NAMES[activeTab] as 'format' | 'compare' | 'convert' | 'visualize' | 'validate' | 'query' | 'codeGenerator' | 'apiMocker' | 'faq'}
         isActive={true}
       />
 

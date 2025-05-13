@@ -12,7 +12,11 @@ export const parseShareParams = (): {
   toolSettings: Record<string, any> | null;
 } => {
   const params = new URLSearchParams(window.location.search);
-  const result = {
+  const result: {
+    tool: string | null;
+    jsonData: string | null;
+    toolSettings: Record<string, any> | null;
+  } = {
     tool: null,
     jsonData: null,
     toolSettings: null
@@ -28,7 +32,8 @@ export const parseShareParams = (): {
     try {
       // 从Base64解码回JSON字符串
       const base64Data = params.get('data') || '';
-      result.jsonData = decodeURIComponent(atob(base64Data));
+      const decodedData = decodeURIComponent(atob(base64Data));
+      result.jsonData = decodedData;
     } catch (error) {
       console.error('Error parsing shared JSON data:', error);
     }

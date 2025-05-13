@@ -7,16 +7,13 @@ import {
   Typography,
   Button,
   Grid,
-  Divider,
   Alert,
   Tabs,
   Tab,
-  FormControl,
   FormControlLabel,
   Switch,
   Tooltip,
   IconButton,
-  Stack,
   Chip
 } from '@mui/material';
 import {
@@ -27,7 +24,6 @@ import {
   ErrorOutline,
   HelpOutline,
   Info,
-  Code,
   DataObject,
   AccessTime
 } from '@mui/icons-material';
@@ -149,16 +145,15 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
     const now = Math.floor(Date.now() / 1000);
     const info = {
       isExpired: false,
-      expiresIn: undefined,
+      expiresIn: '',
       issuer: payload.iss,
       subject: payload.sub,
       audience: payload.aud,
-      issuedAt: undefined
+      issuedAt: ''
     };
     
     // 检查过期时间
     if (payload.exp) {
-      const expiryDate = new Date(payload.exp * 1000);
       info.isExpired = now > payload.exp;
       
       // 计算剩余时间
@@ -205,7 +200,7 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
     setIsVerified(null); // 重置验证状态
   };
   
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
   
@@ -249,9 +244,6 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
   const timeFields = ['exp', 'iat', 'nbf', 'auth_time', 'updated_at'];
 
   // 检查是否为时间戳字段
-  const isTimeField = (key: string): boolean => {
-    return timeFields.includes(key);
-  };
 
   // 将时间戳转换为本地日期时间字符串
   const formatTimestamp = (timestamp: number): string => {
@@ -517,7 +509,7 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
                     showLineNumbers
                     wrapLongLines={true}
                     customStyle={{position: 'relative'}}
-                    renderer={({ rows, stylesheet, useInlineStyles }) => {
+                    renderer={({ stylesheet }) => {
                       // 使用自定义渲染器来显示带有提示的时间戳
                       return (
                         <pre style={{

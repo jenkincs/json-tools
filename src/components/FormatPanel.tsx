@@ -147,7 +147,7 @@ export function FormatPanel({ onSnackbar, initialData }: FormatPanelProps) {
           {t('format.description')}
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {t('format.keywords', { returnObjects: true }).map((keyword: string) => (
+          {(t('format.keywords', { returnObjects: true }) as string[]).map((keyword: string) => (
             <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
           ))}
         </Box>

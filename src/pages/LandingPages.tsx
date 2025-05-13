@@ -67,7 +67,7 @@ const getToolIcon = (toolName: string) => {
 };
 
 // 生成页面关键特性列表
-const getFeaturesList = (toolName: string, t: any) => {
+const getFeaturesList = (toolName: string) => {
   const featuresMap: Record<string, string[]> = {
     format: ['format.feature1', 'format.feature2', 'format.feature3', 'format.feature4'],
     compare: ['compare.feature1', 'compare.feature2', 'compare.feature3'],
@@ -93,7 +93,7 @@ export const ToolLandingPage: React.FC<LandingPageProps> = ({ toolName }) => {
   const title = t(`${toolName}.title`);
   const description = t(`${toolName}.description`);
   const keywords = t(`${toolName}.keywords`, { returnObjects: true });
-  const features = getFeaturesList(toolName, t);
+  const features = getFeaturesList(toolName);
   
   // 为每个工具页面生成专属ID
   const toolId = `${toolName}-landing-page`;

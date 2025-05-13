@@ -19,9 +19,6 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Divider,
-  FormHelperText,
-  Badge,
   Chip,
   Stack
 } from '@mui/material'
@@ -34,11 +31,7 @@ import {
   Error as ErrorIcon,
   PlayArrow,
   Article,
-  FormatListBulleted,
-  CheckCircle
-} from '@mui/icons-material'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
+  FormatListBulleted} from '@mui/icons-material'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
 import { ShareButton } from './ShareButton'
@@ -147,10 +140,9 @@ export function SchemaValidationPanel({ onSnackbar, initialData }: SchemaValidat
   const [schemaInput, setSchemaInput] = useState('')
   const [validationErrors, setValidationErrors] = useState<ValidationErrorDetails[]>([])
   const [validationError, setValidationError] = useState<string | null>(null)
-  const [showValidationErrors, setShowValidationErrors] = useState(false)
+  const [, setShowValidationErrors] = useState(false)
   const [isValid, setIsValid] = useState<boolean | null>(null)
   const [selectedErrorPath, setSelectedErrorPath] = useState<string | null>(null)
-  const [showExamples, setShowExamples] = useState(false)
   const [selectedDataExample, setSelectedDataExample] = useState<number | ''>('')
   const [selectedSchemaTemplate, setSelectedSchemaTemplate] = useState<number | ''>('')
   
@@ -281,18 +273,6 @@ export function SchemaValidationPanel({ onSnackbar, initialData }: SchemaValidat
     }
   }
 
-  const handlePaste = async (isSchema: boolean) => {
-    try {
-      const text = await navigator.clipboard.readText()
-      if (isSchema) {
-        setSchemaInput(text)
-      } else {
-        setInput(text)
-      }
-    } catch (err) {
-      setValidationError(t('common.error.clipboard'))
-    }
-  }
   
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text)
@@ -300,147 +280,8 @@ export function SchemaValidationPanel({ onSnackbar, initialData }: SchemaValidat
   }
   
   // Helper function for error details
-  const getErrorDetails = (error: ValidationErrorDetails) => {
-    switch (error.keyword) {
-      case 'type': {
-        // Get actual value directly
-        const actualValue = error.data;
-        
-        // Determine actual type
-        let actualType;
-        if (actualValue === undefined) {
-          // Special handling for undefined, which might be due to path issues
-          actualType = 'undefined';
-        } else if (actualValue === null) {
-          actualType = 'null';
-        } else if (Array.isArray(actualValue)) {
-          actualType = 'array';
-        } else {
-          actualType = typeof actualValue;
-        }
-        
-        // Create value representation
-        let displayValue = '';
-        if (actualValue !== undefined) {
-          try {
-            const valueStr = JSON.stringify(actualValue);
-            if (valueStr && valueStr.length < 50) {
-              displayValue = ` (Value: ${valueStr})`;
-            }
-          } catch (e) {
-            // Ignore serialization errors
-          }
-        }
-        
-        return `Expected type '${error.params.type}', got '${actualType}'${displayValue}`;
-      }
-      
-      case 'required':
-        return `Missing required property: '${error.params.missingProperty}'`;
-      
-      case 'enum': {
-        // Handle enum type errors
-        let valueStr = '';
-        const actualValue = error.data;
-        if (actualValue !== undefined) {
-          try {
-            valueStr = JSON.stringify(actualValue);
-            if (valueStr && valueStr.length > 50) {
-              valueStr = valueStr.substring(0, 47) + '...';
-            }
-          } catch (e) {
-            valueStr = String(actualValue);
-          }
-        }
-        
-        return `Value ${valueStr} must be one of: ${error.params.allowedValues?.join(', ')}`;
-      }
-      
-      case 'format': {
-        // Format errors
-        let valueStr = '';
-        try {
-          valueStr = JSON.stringify(error.data);
-          if (valueStr && valueStr.length > 30) {
-            valueStr = valueStr.substring(0, 27) + '...';
-          }
-          return `Value ${valueStr} has invalid format for '${error.params.format}'`;
-        } catch (e) {
-          return `Invalid format for type '${error.params.format}'`;
-        }
-      }
-      
-      case 'minimum': {
-        // Minimum value errors
-        try {
-          return `Value ${error.data} must be >= ${error.params.limit}`;
-        } catch (e) {
-          return `Value must be >= ${error.params.limit}`;
-        }
-      }
-      
-      case 'maximum': {
-        // Maximum value errors
-        try {
-          return `Value ${error.data} must be <= ${error.params.limit}`;
-        } catch (e) {
-          return `Value must be <= ${error.params.limit}`;
-        }
-      }
-      
-      case 'minLength': {
-        // Minimum length errors
-        try {
-          const strValue = String(error.data || '');
-          return `String '${strValue.length > 20 ? strValue.substring(0, 17) + '...' : strValue}' length (${strValue.length}) must be >= ${error.params.limit}`;
-        } catch (e) {
-          return `String length must be >= ${error.params.limit}`;
-        }
-      }
-      
-      case 'maxLength': {
-        // Maximum length errors
-        try {
-          const strValue = String(error.data || '');
-          return `String length (${strValue.length}) must be <= ${error.params.limit}`;
-        } catch (e) {
-          return `String length must be <= ${error.params.limit}`;
-        }
-      }
-      
-      case 'pattern': {
-        // Pattern matching errors
-        try {
-          const strValue = String(error.data || '');
-          return `String '${strValue.length > 15 ? strValue.substring(0, 12) + '...' : strValue}' must match pattern: ${error.params.pattern}`;
-        } catch (e) {
-          return `String must match pattern: ${error.params.pattern}`;
-        }
-      }
-      
-      default:
-        // Return original error message by default
-        return error.message || 'Unknown validation error';
-    }
-  }
   
   // Highlight data with error
-  const highlightDataWithError = () => {
-    if (!selectedErrorPath || !input) return input;
-    
-    try {
-      const jsonData = JSON.parse(input);
-      
-      // Helper function: display JSON string with highlighting
-      const highlightJSON = (obj: any, path: string) => {
-        return JSON.stringify(obj, null, 2);
-      };
-      
-      return highlightJSON(jsonData, selectedErrorPath);
-    } catch {
-      return input;
-    }
-  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -453,7 +294,7 @@ export function SchemaValidationPanel({ onSnackbar, initialData }: SchemaValidat
           {t('validate.description')}
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {t('validate.keywords', { returnObjects: true }).map((keyword: string) => (
+          {(t('validate.keywords', { returnObjects: true }) as string[]).map((keyword: string) => (
             <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
           ))}
         </Box>

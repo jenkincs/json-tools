@@ -13,10 +13,6 @@ import {
   Typography,
   Button,
   SelectChangeEvent,
-  Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   Grid,
   Chip
 } from '@mui/material'
@@ -29,7 +25,6 @@ import {
   DonutLarge as DonutChartIcon,
   StackedBarChart as StackedBarChartIcon,
   BubbleChart as ScatterChartIcon,
-  ExpandMore,
   ShowChart,
   GridOn as TreemapIcon
 } from '@mui/icons-material'
@@ -59,7 +54,6 @@ import {
   Treemap
 } from 'recharts'
 import { ChartData, VisualizationOptions } from '../types'
-import { flattenObject, processData } from '../utils/jsonUtils'
 
 interface VisualizePanelProps {
   onSnackbar: (message: string) => void

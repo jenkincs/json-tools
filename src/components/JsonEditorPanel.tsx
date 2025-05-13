@@ -19,7 +19,6 @@ import {
   PlayArrow,
   Download,
   Upload,
-  Settings,
   FormatPaint,
   Undo,
   Redo
@@ -85,7 +84,7 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
       editorRef.current.setValue(formatted)
       onSnackbar(t('jsonEditor.formatSuccess'))
     } catch (error) {
-      onSnackbar(t('common.error.invalidJson'), 'error')
+      onSnackbar(t('common.error.invalidJson'))
     }
   }
 
@@ -98,7 +97,7 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
         onSnackbar(t('jsonEditor.pasteSuccess'))
       }
     } catch (error) {
-      onSnackbar(t('common.error.clipboard'), 'error')
+      onSnackbar(t('common.error.clipboard'))
     }
   }
 
@@ -117,7 +116,7 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
     
     const content = editorRef.current.getValue()
     if (!content.trim()) {
-      onSnackbar(t('common.error.noData', { content: t('jsonEditor.title') }), 'error')
+      onSnackbar(t('common.error.noData', { content: t('jsonEditor.title') }), )
       return
     }
 
@@ -136,7 +135,7 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
       URL.revokeObjectURL(url)
       onSnackbar(t('jsonEditor.downloadSuccess'))
     } catch (error) {
-      onSnackbar(t('common.error.invalidJson'), 'error')
+      onSnackbar(t('common.error.invalidJson'))
     }
   }
 
@@ -154,7 +153,7 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
         }
         onSnackbar(t('jsonEditor.uploadSuccess'))
       } catch (error) {
-        onSnackbar(t('common.error.fileRead'), 'error')
+        onSnackbar(t('common.error.fileRead'))
       }
     }
     reader.readAsText(file)

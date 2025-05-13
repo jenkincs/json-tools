@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { 
   Button,
-  Tooltip,
-  Box
-} from '@mui/material';
+  Tooltip} from '@mui/material';
 import { Translate } from '@mui/icons-material';
 import { useLanguageContext } from '../context/LanguageContext';
 

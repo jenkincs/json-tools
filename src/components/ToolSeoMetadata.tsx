@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Chip, Typography, Paper } from '@mui/material'
 import { Helmet } from 'react-helmet-async'
 
 interface ToolSeoMetadataProps {
@@ -8,11 +7,6 @@ interface ToolSeoMetadataProps {
   isActive: boolean
 }
 
-interface ToolMetadata {
-  title: string
-  description: string
-  keywords: string[]
-}
 
 export function ToolSeoMetadata({ toolName, isActive }: ToolSeoMetadataProps) {
   const { t, i18n } = useTranslation()

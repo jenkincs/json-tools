@@ -26,7 +26,6 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  SelectChangeEvent,
   CircularProgress
 } from '@mui/material'
 import {
@@ -36,16 +35,11 @@ import {
   Save,
   Delete,
   ExpandMore,
-  Code,
   Warning,
-  Info,
-  Settings,
-  Refresh,
-  OpenInNew
+  Refresh
 } from '@mui/icons-material'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { Link } from '@mui/material'
 
 // 导入随机数据生成器和校验工具
 import { generateMockData } from '../utils/apiMocker'
@@ -198,7 +192,6 @@ export function ApiMockerPanel({ onSnackbar }: ApiMockerPanelProps) {
   const [mockResults, setMockResults] = useState<string>('')
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const [validationError, setValidationError] = useState<string | null>(null)
-  const [showSettings, setShowSettings] = useState<boolean>(false)
   const [serverRunning, setServerRunning] = useState<boolean>(false)
   const [serverPort, setServerPort] = useState<number>(3001)
   

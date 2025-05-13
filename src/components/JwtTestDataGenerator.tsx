@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Box,
@@ -12,7 +12,6 @@ import {
   FormControl,
   InputLabel,
   FormHelperText,
-  Divider,
   IconButton,
   Tooltip,
   Stack,
@@ -52,7 +51,6 @@ interface TokenWithMetadata {
 export function JwtTestDataGenerator({ onSelectToken, onSnackbar }: JwtTestDataGeneratorProps) {
   const { t } = useTranslation();
   const [generatedTokens, setGeneratedTokens] = useState<TokenWithMetadata[]>([]);
-  const [expandedTokenId, setExpandedTokenId] = useState<number | null>(null);
   const [showHistory, setShowHistory] = useState<boolean>(false);
   const [secret, setSecret] = useState('your-256-bit-secret');
   const [options, setOptions] = useState<JwtOptions>({

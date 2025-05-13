@@ -73,7 +73,7 @@ export function ComparePanel({ onSnackbar }: ComparePanelProps) {
           {t('compare.description')}
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {t('compare.keywords', { returnObjects: true }).map((keyword: string) => (
+          {(t('compare.keywords', { returnObjects: true }) as string[]).map((keyword: string) => (
             <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
           ))}
         </Box>

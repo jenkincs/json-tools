@@ -39,7 +39,7 @@ interface FaqItem {
   keywords: string[]
 }
 
-export function FaqPanel({ onSnackbar }: FaqPanelProps) {
+export function FaqPanel({  }: FaqPanelProps) {
   const { t, i18n } = useTranslation()
   const [searchQuery, setSearchQuery] = useState('')
   const [expandedPanel, setExpandedPanel] = useState<string | false>(false)
@@ -248,7 +248,7 @@ export function FaqPanel({ onSnackbar }: FaqPanelProps) {
   }
 
   // 处理面板展开/收起
-  const handlePanelChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+  const handlePanelChange = (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
     setExpandedPanel(isExpanded ? panel : false)
   }
 

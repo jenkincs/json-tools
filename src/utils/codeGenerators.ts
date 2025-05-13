@@ -150,7 +150,7 @@ export const generateTypeScript = (json: any, options: CodeGeneratorOptions): st
 
 // =================== Java 代码生成 ===================
 export const generateJava = (json: any, options: CodeGeneratorOptions): string => {
-  const { className, useOptionalProps = true, usePascalCase = false, useJSONAttributes = true } = options;
+  const { className, useJSONAttributes = true } = options;
   
   // 生成Java类定义
   const generateClass = (obj: any, name: string, indent = 0): string => {
@@ -221,7 +221,7 @@ export const generateJava = (json: any, options: CodeGeneratorOptions): string =
         } else {
           const typeMap: Record<string, string> = {
             'string': 'String',
-            'number': value % 1 === 0 ? 'Integer' : 'Double',
+            'number': typeof value === 'number' ? (Number.isInteger(value) ? 'Integer' : 'Double') : 'Double',
             'boolean': 'Boolean'
           };
           javaType = typeMap[typeof value] || 'Object';
@@ -287,7 +287,7 @@ export const generateJava = (json: any, options: CodeGeneratorOptions): string =
 // =================== C# 代码生成 ===================
 export const generateCSharp = (json: any, options: CodeGeneratorOptions): string => {
   // C#属性名使用帕斯卡命名（首字母大写）
-  const { className, useOptionalProps = true, usePascalCase = true, useJSONAttributes = true } = options;
+  const { className, useJSONAttributes = true } = options;
   
   // 生成C#类定义
   const generateClass = (obj: any, name: string, indent = 0, namespace = ''): string => {
@@ -408,7 +408,7 @@ export const generateCSharp = (json: any, options: CodeGeneratorOptions): string
 // =================== Python 代码生成 ===================
 export const generatePython = (json: any, options: CodeGeneratorOptions): string => {
   // Python通常使用snake_case命名约定，但我们保持驼峰命名以便与JSON字段一致
-  const { className, usePascalCase = false } = options;
+  const { className } = options;
   
   // 生成Python类定义
   const generateClass = (obj: any, name: string, indent = 0): string => {
@@ -505,7 +505,7 @@ export const generatePython = (json: any, options: CodeGeneratorOptions): string
 // =================== Go 代码生成 ===================
 export const generateGo = (json: any, options: CodeGeneratorOptions): string => {
   // Go的字段名使用帕斯卡命名（首字母大写）
-  const { className, usePascalCase = true, useJSONAttributes = true } = options;
+  const { className, useJSONAttributes = true } = options;
   
   // 生成Go结构体定义
   const generateStruct = (obj: any, name: string, indent = 0): string => {
@@ -618,7 +618,7 @@ export const generateGo = (json: any, options: CodeGeneratorOptions): string => 
 // =================== Swift 代码生成 ===================
 export const generateSwift = (json: any, options: CodeGeneratorOptions): string => {
   // Swift的属性名使用驼峰命名（首字母小写）
-  const { className, usePascalCase = false, useOptionalProps = true } = options;
+  const { className, useOptionalProps = true } = options;
   
   // 生成Swift结构体定义
   const generateStruct = (obj: any, name: string, indent = 0): string => {

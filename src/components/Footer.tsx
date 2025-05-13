@@ -1,6 +1,5 @@
 import { Box, Container, Typography, Link, Divider, IconButton, Stack, Grid, useTheme, useMediaQuery } from '@mui/material'
 import { GitHub, LinkedIn, Email, Twitter, Code, BugReport } from '@mui/icons-material'
-import { useThemeContext } from '../context/ThemeContext'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
 
@@ -8,7 +7,6 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-  const { mode } = useThemeContext()
   const { t } = useTranslation()
   const navigate = useNavigate()
   

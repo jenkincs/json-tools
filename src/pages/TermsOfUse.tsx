@@ -93,7 +93,7 @@ export const TermsOfUse: React.FC = () => {
               {t('policy.termsOfUse.prohibitedActivities.content')}
             </Typography>
             <List disablePadding sx={{ pl: 2, mb: 2 }}>
-              {t('policy.termsOfUse.prohibitedActivities.items', { returnObjects: true }).map((item: string, index: number) => (
+              {(t('policy.termsOfUse.prohibitedActivities.items', { returnObjects: true }) as string[]).map((item: string, index: number) => (
                 <ListItem key={index} sx={{ py: 0.5 }}>
                   <ListItemText primary={item} />
                 </ListItem>

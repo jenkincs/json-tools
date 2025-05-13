@@ -147,7 +147,7 @@ export function ConvertPanel({ onSnackbar, initialData }: ConvertPanelProps) {
   }
 
   const handleConversionTypeChange = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newType: 'json' | 'yaml' | 'xml' | 'csv' | null
   ) => {
     if (newType !== null) {
@@ -210,7 +210,7 @@ export function ConvertPanel({ onSnackbar, initialData }: ConvertPanelProps) {
           {t('convert.description')}
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {t('convert.keywords', { returnObjects: true }).map((keyword: string) => (
+          {(t('convert.keywords', { returnObjects: true }) as string[]).map((keyword: string) => (
             <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
           ))}
         </Box>
@@ -405,7 +405,7 @@ export function ConvertPanel({ onSnackbar, initialData }: ConvertPanelProps) {
       {convertedOutput && (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography variant="h6">{t('common.result')}</Typography>
+            <Typography variant="h6"></Typography>
             <Box sx={{ display: 'flex', gap: 1 }}>
               <Button
                 variant="contained"

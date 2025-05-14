@@ -354,6 +354,19 @@ export function ConvertPanel({ onSnackbar, initialData }: ConvertPanelProps) {
           </Box>
         </Box>
 
+        <Box sx={{ display: 'flex', justifyContent: 'center', my: 1 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            startIcon={<SwapHoriz />}
+            onClick={handleConvert}
+            sx={{ px: 4, py: 1 }}
+          >
+            {t('convert.convert')}
+          </Button>
+        </Box>
+
         {convertedOutput && (
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
             <Paper 

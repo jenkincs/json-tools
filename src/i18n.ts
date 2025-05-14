@@ -26,12 +26,17 @@ i18n
         translation: zhTranslation
       }
     },
-    // 检测顺序: localStorage, navigator, query参数, html语言标签
+    // 检测顺序: 先检测浏览器语言(navigator)，再使用本地存储(localStorage)
     detection: {
-      order: ['localStorage', 'navigator'],
+      order: ['navigator', 'localStorage'],
       lookupLocalStorage: 'i18nextLng',
       caches: ['localStorage'],
+      // 自动检测中文变体 (zh-CN, zh-TW, zh-HK) 并映射到 zh
+      convertDetectedLanguage: (lng) => {
+        if (lng.startsWith('zh')) return 'zh';
+        return lng;
+      }
     }
   });
 
-export default i18n; 
+export default i18n;

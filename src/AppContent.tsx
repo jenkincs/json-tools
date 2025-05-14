@@ -37,6 +37,7 @@ import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { useThemeContext } from './context/ThemeContext'
 import { SharedStateProvider, useSharedState } from './context/SharedStateContext'
 import { ToolSeoMetadata } from './components/ToolSeoMetadata'
+import { SEO } from './components/SEO'
 import { trackToolUsage } from './utils/analytics'
 
 // 工具标识符映射
@@ -162,13 +163,35 @@ function AppContentInner() {
   }
 
   // 获取当前活跃的工具名称
+  const activeToolName = TOOL_NAMES[activeTab];
+  
+  // 生成SEO元数据
+  const getSeoMetadata = () => {
+    const title = `${t(`tabs.${activeToolName}`)} | JSONGeeks`;
+    const description = t(`${activeToolName}.description`);
+    let keywords: string[] = [];
+    
+    try {
+      const keywordsArray = t(`${activeToolName}.keywords`, { returnObjects: true });
+      if (Array.isArray(keywordsArray)) {
+        keywords = keywordsArray;
+      }
+    } catch (error) {
+      console.error('Error getting keywords:', error);
+    }
+    
+    return { title, description, keywords };
+  };
+  
+  const seoMetadata = getSeoMetadata();
 
   return (
     <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {/* 工具SEO元数据 */}
-      <ToolSeoMetadata
-        toolName={TOOL_NAMES[activeTab] as 'format' | 'compare' | 'convert' | 'visualize' | 'validate' | 'query' | 'codeGenerator' | 'apiMocker' | 'faq'}
-        isActive={true}
+      {/* 替换旧的ToolSeoMetadata组件为新的SEO组件 */}
+      <SEO
+        title={seoMetadata.title}
+        description={seoMetadata.description}
+        keywords={seoMetadata.keywords}
       />
 
       <AppBar position="static">

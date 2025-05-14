@@ -38,6 +38,7 @@ import {
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { useThemeContext } from '../context/ThemeContext';
 import { Footer } from '../components/Footer';
+import { SEO } from '../components/SEO';
 
 // 工具类型定义
 type Tool = {
@@ -72,6 +73,12 @@ export const Home: React.FC = () => {
   
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', position: 'relative' }}>
+      <SEO 
+        title="JSONGeeks - A Modern Suite of JSON Tools for Developers"
+        description={t('home.description')}
+        keywords={['JSON tools', 'JSON formatter', 'JSON validator', 'JSON converter', 'JSON visualization', 'developer tools']}
+      />
+      
       {/* 顶部导航栏 */}
       <AppBar position="static">
         <Toolbar>

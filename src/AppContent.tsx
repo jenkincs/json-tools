@@ -36,7 +36,6 @@ import { Footer } from './components/Footer'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { useThemeContext } from './context/ThemeContext'
 import { SharedStateProvider, useSharedState } from './context/SharedStateContext'
-import { ToolSeoMetadata } from './components/ToolSeoMetadata'
 import { SEO } from './components/SEO'
 import { trackToolUsage } from './utils/analytics'
 
@@ -172,8 +171,8 @@ function AppContentInner() {
     let keywords: string[] = [];
     
     try {
-      const keywordsArray = t(`${activeToolName}.keywords`, { returnObjects: true });
-      if (Array.isArray(keywordsArray)) {
+      const keywordsArray = t(`${activeToolName}.keywords`, { returnObjects: true }) as string[];
+      if (Array.isArray(keywordsArray) && keywordsArray.every(k => typeof k === 'string')) {
         keywords = keywordsArray;
       }
     } catch (error) {

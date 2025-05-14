@@ -1,8 +1,8 @@
 {
   "app": {
-    "title": "JSON工具集 - 全面的JSON实用工具",
-    "description": "为开发者和数据专业人员提供的全面JSON工具集。格式化、验证、比较、转换、查询和可视化JSON数据的强大在线工具。",
-    "header": "全能JSON工具套件",
+    "title": "JSONGeeks - 专业的JSON开发工具",
+    "description": "为开发者和数据专业人员提供的专业JSON工具集。格式化、验证、比较、转换、查询和可视化JSON数据的强大在线工具。",
+    "header": "JSONGeeks专业工具集",
     "backToHome": "进入工具集"
   },
   "theme": {
@@ -745,15 +745,15 @@
     "jwt": "JWT令牌"
   },
   "footer": {
-    "description": "为开发人员和数据专业人士提供全面的JSON实用工具。",
+    "description": "为开发人员和数据专业人士提供专业的JSON实用工具。",
     "built": "使用React、TypeScript和Material-UI构建。",
-    "copyright": "© {{year}} JSON工具。保留所有权利。",
+    "copyright": "© {{year}} JSONGeeks。保留所有权利。",
     "tools": "工具",
     "resources": "资源",
     "documentation": "文档",
     "apiReference": "API参考",
     "connect": "联系开发者",
-    "contactEmail": "联系邮箱: your.email@example.com",
+    "contactEmail": "联系邮箱: contact@jsongeeks.dev",
     "sourceCode": "源代码",
     "reportBug": "报告Bug",
     "privacy": "本站所有工具仅在客户端运行。您的数据永远不会离开您的浏览器。",

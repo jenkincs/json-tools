@@ -1,4 +1,4 @@
-# robots.txt for JSON Tools
+# robots.txt for JSONGeeks
 
 User-agent: *
 Allow: /
@@ -7,4 +7,4 @@ Allow: /
 Disallow:
 
 # Sitemap文件路径
-Sitemap: https://yourwebsitedomain.com/sitemap.xml 
+Sitemap: https://jsongeeks.dev/sitemap.xml 

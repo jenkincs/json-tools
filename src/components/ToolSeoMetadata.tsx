@@ -21,7 +21,7 @@ export function ToolSeoMetadata({ toolName, isActive }: ToolSeoMetadataProps) {
   const getKeywordsKey = () => `${toolName}.keywords`
   
   // 获取翻译内容
-  const title = t(getTitleKey()) + " | JSON Tools"
+  const title = t(getTitleKey()) + " | JSONGeeks"
   const description = t(getDescriptionKey())
   
   // 获取关键词数组并转换为字符串

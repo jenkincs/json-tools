@@ -1,7 +1,7 @@
 {
-  "name": "JSON Tools",
-  "short_name": "JSON Tools",
-  "description": "Format, validate, compare, convert & visualize JSON",
+  "name": "JSONGeeks",
+  "short_name": "JSONGeeks",
+  "description": "Developer Tools for JSON Processing",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

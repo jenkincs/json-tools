@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- 主页 -->
   <url>
-    <loc>https://yourwebsitedomain.com/</loc>
+    <loc>https://jsongeeks.dev/</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -10,49 +10,49 @@
   
   <!-- 工具着陆页 -->
   <url>
-    <loc>https://yourwebsitedomain.com/format</loc>
+    <loc>https://jsongeeks.dev/format</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourwebsitedomain.com/compare</loc>
+    <loc>https://jsongeeks.dev/compare</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourwebsitedomain.com/convert</loc>
+    <loc>https://jsongeeks.dev/convert</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourwebsitedomain.com/visualize</loc>
+    <loc>https://jsongeeks.dev/visualize</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourwebsitedomain.com/validate</loc>
+    <loc>https://jsongeeks.dev/validate</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourwebsitedomain.com/query</loc>
+    <loc>https://jsongeeks.dev/query</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourwebsitedomain.com/code-generator</loc>
+    <loc>https://jsongeeks.dev/code-generator</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourwebsitedomain.com/api-mocker</loc>
+    <loc>https://jsongeeks.dev/api-mocker</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -60,7 +60,7 @@
   
   <!-- 主应用 -->
   <url>
-    <loc>https://yourwebsitedomain.com/app</loc>
+    <loc>https://jsongeeks.dev/app</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -68,13 +68,13 @@
   
   <!-- 法律页面 -->
   <url>
-    <loc>https://yourwebsitedomain.com/privacy-policy</loc>
+    <loc>https://jsongeeks.dev/privacy-policy</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://yourwebsitedomain.com/terms-of-use</loc>
+    <loc>https://jsongeeks.dev/terms-of-use</loc>
     <lastmod>2025-05-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>

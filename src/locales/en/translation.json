@@ -1,8 +1,8 @@
 {
   "app": {
-    "title": "JSON Tools - Comprehensive JSON Utilities",
-    "description": "A comprehensive collection of JSON utilities for developers and data professionals. Format, validate, compare, convert, query, and visualize JSON data with these powerful online tools.",
-    "header": "All-in-One JSON Tools Suite",
+    "title": "JSONGeeks - Developer Tools for JSON Processing",
+    "description": "Professional JSON utilities built by developers for developers. Format, validate, compare, convert, query, and visualize JSON data with these powerful online tools.",
+    "header": "JSONGeeks Professional Tools",
     "backToHome": "Open Tools"
   },
   "theme": {
@@ -639,7 +639,7 @@
     "readyToDecrypt": "Data ready for decryption"
   },
   "faq": {
-    "title": "JSON Tools - Frequently Asked Questions",
+    "title": "JSONGeeks - Frequently Asked Questions",
     "description": "Find answers to common questions about JSON and our tools. This FAQ page provides detailed guides, troubleshooting tips, and best practices to help you work more effectively with JSON data and our suite of tools.",
     "keywords": [
       "JSON FAQ",
@@ -749,13 +749,13 @@
   "footer": {
     "description": "A comprehensive suite of JSON utilities for developers and data professionals.",
     "built": "Built with React, TypeScript, and Material-UI.",
-    "copyright": "© {{year}} JSON Tools. All rights reserved.",
+    "copyright": "© {{year}} JSONGeeks. All rights reserved.",
     "tools": "Tools",
     "resources": "Resources",
     "documentation": "Documentation",
     "apiReference": "API Reference",
     "connect": "Connect with the Developer",
-    "contactEmail": "Contact: your.email@example.com",
+    "contactEmail": "Contact: contact@jsongeeks.dev",
     "sourceCode": "Source Code",
     "reportBug": "Report Bug",
     "privacy": "All tools on this site are client-side only. Your data never leaves your browser.",
@@ -787,7 +787,7 @@
       },
       "contact": {
         "title": "Contact Information",
-        "content": "If you have any privacy-related questions, please contact us at: contact@jsontools.example.com"
+        "content": "If you have any privacy-related questions, please contact us at: contact@jsongeeks.dev"
       },
       "lastUpdated": "Last updated: {{date}}"
     },
@@ -803,7 +803,7 @@
       },
       "intellectualProperty": {
         "title": "Intellectual Property",
-        "content": "Unless otherwise noted, all content, code, design, and icons of this tool are the intellectual property of JSON Tools. You may not copy, modify, distribute, or use this content except as expressly permitted by these terms or with our written permission."
+        "content": "Unless otherwise noted, all content, code, design, and icons of this tool are the intellectual property of JSONGeeks. You may not copy, modify, distribute, or use this content except as expressly permitted by these terms or with our written permission."
       },
       "prohibitedActivities": {
         "title": "Prohibited Activities",
@@ -857,7 +857,7 @@
     "linkCopied": "Share link copied to clipboard",
     "copyError": "Error copying to clipboard",
     "socialShare": "Share to Social Media",
-    "socialText": "Check out this JSON data I processed with JSON Tools",
+    "socialText": "Check out this JSON data I processed with JSONGeeks",
     "emailSubject": "Shared JSON Data Link",
     "qrCodeInfo": "Or scan the QR code below to access on mobile devices"
   },

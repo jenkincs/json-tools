@@ -76,7 +76,7 @@ export const Home: React.FC = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            JSON Tools
+            JSONGeeks
           </Typography>
           <LanguageSwitcher />
           <Tooltip title={mode === 'dark' ? t('theme.toggleLight') : t('theme.toggleDark')}>
@@ -113,7 +113,7 @@ export const Home: React.FC = () => {
                   textShadow: mode === 'dark' ? '1px 1px 3px rgba(0,0,0,0.3)' : 'none'
                 }}
               >
-                JSON Tools
+                JSONGeeks
               </Typography>
               <Typography 
                 variant="h5" 

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { createBrowserRouter, Navigate, useParams, useLocation } from 'react-router-dom';
-import App from './App';
+import { App } from './App';
+import AppContent from './AppContent';
 import { Home } from './pages/Home';
 import {
   FormatLandingPage,
@@ -66,69 +67,75 @@ const ToolRedirect: React.FC = () => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <ScrollToTop><Home /></ScrollToTop>,
-  },
-  {
-    path: '/format',
-    element: <ScrollToTop><FormatLandingPage /></ScrollToTop>,
-  },
-  {
-    path: '/compare',
-    element: <ScrollToTop><CompareLandingPage /></ScrollToTop>,
-  },
-  {
-    path: '/convert',
-    element: <ScrollToTop><ConvertLandingPage /></ScrollToTop>,
-  },
-  {
-    path: '/visualize',
-    element: <ScrollToTop><VisualizeLandingPage /></ScrollToTop>,
-  },
-  {
-    path: '/validate',
-    element: <ScrollToTop><ValidateLandingPage /></ScrollToTop>,
-  },
-  {
-    path: '/query',
-    element: <ScrollToTop><QueryLandingPage /></ScrollToTop>,
-  },
-  {
-    path: '/code-generator',
-    element: <ScrollToTop><CodeGeneratorLandingPage /></ScrollToTop>,
-  },
-  {
-    path: '/api-mocker',
-    element: <ScrollToTop><ApiMockerLandingPage /></ScrollToTop>,
-  },
-  {
-    path: '/jwt-decoder',
-    element: <ScrollToTop><JwtDecoderLandingPage /></ScrollToTop>,
-  },
-  {
-    path: '/json-editor',
-    element: <ScrollToTop><JsonEditorLandingPage /></ScrollToTop>,
-  },
-  {
-    path: '/json-crypto',
-    element: <ScrollToTop><JsonCryptoLandingPage /></ScrollToTop>,
-  },
-  {
-    path: '/app',
-    element: <ScrollToTop><App /></ScrollToTop>,
-  },
-  {
-    path: '/app/:tool',
-    element: <ScrollToTop><ToolRedirect /></ScrollToTop>,
-  },
-  // 隐私政策页面
-  {
-    path: '/privacy-policy',
-    element: <ScrollToTop><PrivacyPolicy /></ScrollToTop>,
-  },
-  // 使用条款页面
-  {
-    path: '/terms-of-use',
-    element: <ScrollToTop><TermsOfUse /></ScrollToTop>,
+    element: <App />,
+    children: [
+      {
+        index: true,
+        element: <ScrollToTop><Home /></ScrollToTop>,
+      },
+      {
+        path: 'format',
+        element: <ScrollToTop><FormatLandingPage /></ScrollToTop>,
+      },
+      {
+        path: 'compare',
+        element: <ScrollToTop><CompareLandingPage /></ScrollToTop>,
+      },
+      {
+        path: 'convert',
+        element: <ScrollToTop><ConvertLandingPage /></ScrollToTop>,
+      },
+      {
+        path: 'visualize',
+        element: <ScrollToTop><VisualizeLandingPage /></ScrollToTop>,
+      },
+      {
+        path: 'validate',
+        element: <ScrollToTop><ValidateLandingPage /></ScrollToTop>,
+      },
+      {
+        path: 'query',
+        element: <ScrollToTop><QueryLandingPage /></ScrollToTop>,
+      },
+      {
+        path: 'code-generator',
+        element: <ScrollToTop><CodeGeneratorLandingPage /></ScrollToTop>,
+      },
+      {
+        path: 'api-mocker',
+        element: <ScrollToTop><ApiMockerLandingPage /></ScrollToTop>,
+      },
+      {
+        path: 'jwt-decoder',
+        element: <ScrollToTop><JwtDecoderLandingPage /></ScrollToTop>,
+      },
+      {
+        path: 'json-editor',
+        element: <ScrollToTop><JsonEditorLandingPage /></ScrollToTop>,
+      },
+      {
+        path: 'json-crypto',
+        element: <ScrollToTop><JsonCryptoLandingPage /></ScrollToTop>,
+      },
+      {
+        path: 'app',
+        element: <ScrollToTop><AppContent /></ScrollToTop>,
+      },
+      {
+        path: 'app/:tool',
+        element: <ScrollToTop><ToolRedirect /></ScrollToTop>,
+      },
+      // 隐私政策页面
+      {
+        path: 'privacy-policy',
+        element: <ScrollToTop><PrivacyPolicy /></ScrollToTop>,
+      },
+      // 使用条款页面
+      {
+        path: 'terms-of-use',
+        element: <ScrollToTop><TermsOfUse /></ScrollToTop>,
+      },
+    ]
   },
   // 重定向根路径
   {

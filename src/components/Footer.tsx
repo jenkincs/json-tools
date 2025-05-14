@@ -1,5 +1,5 @@
 import { Box, Container, Typography, Link, Divider, IconButton, Stack, Grid, useTheme, useMediaQuery } from '@mui/material'
-import { GitHub, LinkedIn, Email, Twitter as X, Code, BugReport } from '@mui/icons-material'
+import { GitHub, Email, Twitter as X, Code, BugReport } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
 

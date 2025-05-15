@@ -52,21 +52,21 @@ export function FaqPanel({  }: FaqPanelProps) {
       question: t('faq.questions.format1'),
       answer: t('faq.answers.format1'),
       category: 'format',
-      keywords: ['格式化', '缩进', '美化', '空格', 'prettify', '易读性']
+      keywords: t('faq.keywords.format1', { returnObjects: true }) as string[]
     },
     {
       id: 'format-2',
       question: t('faq.questions.format2'),
       answer: t('faq.answers.format2'),
       category: 'format',
-      keywords: ['压缩', '最小化', 'minify', '移除空格', '文件大小']
+      keywords: t('faq.keywords.format2', { returnObjects: true }) as string[]
     },
     {
       id: 'format-3',
       question: t('faq.questions.format3'),
       answer: t('faq.answers.format3'),
       category: 'format',
-      keywords: ['保存', '下载', '复制', '分享', '文件']
+      keywords: t('faq.keywords.format3', { returnObjects: true }) as string[]
     },
     
     // 比较相关
@@ -75,14 +75,14 @@ export function FaqPanel({  }: FaqPanelProps) {
       question: t('faq.questions.compare1'),
       answer: t('faq.answers.compare1'),
       category: 'compare',
-      keywords: ['比较', '差异', 'diff', '区别', '文件对比']
+      keywords: t('faq.keywords.compare1', { returnObjects: true }) as string[]
     },
     {
       id: 'compare-2',
       question: t('faq.questions.compare2'),
       answer: t('faq.answers.compare2'),
       category: 'compare',
-      keywords: ['颜色代码', '添加', '删除', '修改', '变更']
+      keywords: t('faq.keywords.compare2', { returnObjects: true }) as string[]
     },
     
     // 转换相关
@@ -91,21 +91,21 @@ export function FaqPanel({  }: FaqPanelProps) {
       question: t('faq.questions.convert1'),
       answer: t('faq.answers.convert1'),
       category: 'convert',
-      keywords: ['JSON转CSV', '转换', '表格', '电子表格', 'Excel']
+      keywords: t('faq.keywords.convert1', { returnObjects: true }) as string[]
     },
     {
       id: 'convert-2',
       question: t('faq.questions.convert2'),
       answer: t('faq.answers.convert2'),
       category: 'convert',
-      keywords: ['JSON转XML', 'XML', '标记语言', '嵌套']
+      keywords: t('faq.keywords.convert2', { returnObjects: true }) as string[]
     },
     {
       id: 'convert-3',
       question: t('faq.questions.convert3'),
       answer: t('faq.answers.convert3'),
       category: 'convert',
-      keywords: ['YAML', 'YAML转JSON', '配置文件', '易读性']
+      keywords: t('faq.keywords.convert3', { returnObjects: true }) as string[]
     },
     
     // 验证相关
@@ -114,14 +114,14 @@ export function FaqPanel({  }: FaqPanelProps) {
       question: t('faq.questions.validate1'),
       answer: t('faq.answers.validate1'),
       category: 'validate',
-      keywords: ['验证', 'JSON Schema', '模式', '规则', '数据结构']
+      keywords: t('faq.keywords.validate1', { returnObjects: true }) as string[]
     },
     {
       id: 'validate-2',
       question: t('faq.questions.validate2'),
       answer: t('faq.answers.validate2'),
       category: 'validate',
-      keywords: ['错误', '无效JSON', '故障排除', '调试', '语法']
+      keywords: t('faq.keywords.validate2', { returnObjects: true }) as string[]
     },
     
     // 查询相关
@@ -130,14 +130,14 @@ export function FaqPanel({  }: FaqPanelProps) {
       question: t('faq.questions.query1'),
       answer: t('faq.answers.query1'),
       category: 'query',
-      keywords: ['JSONPath', '查询', '提取', '搜索', '选择器']
+      keywords: t('faq.keywords.query1', { returnObjects: true }) as string[]
     },
     {
       id: 'query-2',
       question: t('faq.questions.query2'),
       answer: t('faq.answers.query2'),
       category: 'query',
-      keywords: ['复杂查询', '过滤器', '数组', '条件', '嵌套数据']
+      keywords: t('faq.keywords.query2', { returnObjects: true }) as string[]
     },
     
     // 代码生成器相关
@@ -146,14 +146,14 @@ export function FaqPanel({  }: FaqPanelProps) {
       question: t('faq.questions.code1'),
       answer: t('faq.answers.code1'),
       category: 'code',
-      keywords: ['代码生成', '类', '接口', 'TypeScript', 'Java', 'C#']
+      keywords: t('faq.keywords.code1', { returnObjects: true }) as string[]
     },
     {
       id: 'code-2',
       question: t('faq.questions.code2'),
       answer: t('faq.answers.code2'),
       category: 'code',
-      keywords: ['命名惯例', '驼峰命名', '蛇形命名', '帕斯卡命名', '属性名']
+      keywords: t('faq.keywords.code2', { returnObjects: true }) as string[]
     },
     
     // API模拟器相关
@@ -162,14 +162,14 @@ export function FaqPanel({  }: FaqPanelProps) {
       question: t('faq.questions.mock1'),
       answer: t('faq.answers.mock1'),
       category: 'mock',
-      keywords: ['API模拟', '测试', '模拟数据', '端点', '假数据']
+      keywords: t('faq.keywords.mock1', { returnObjects: true }) as string[]
     },
     {
       id: 'mock-2',
       question: t('faq.questions.mock2'),
       answer: t('faq.answers.mock2'),
       category: 'mock',
-      keywords: ['Schema', '模板', '数据生成', '随机', '测试']
+      keywords: t('faq.keywords.mock2', { returnObjects: true }) as string[]
     },
     
     // 可视化相关
@@ -178,7 +178,7 @@ export function FaqPanel({  }: FaqPanelProps) {
       question: t('faq.questions.visualize1'),
       answer: t('faq.answers.visualize1'),
       category: 'visualize',
-      keywords: ['可视化', '图表', '数据展示', '分析', '图形']
+      keywords: t('faq.keywords.visualize1', { returnObjects: true }) as string[]
     },
     
     // JWT相关问题
@@ -187,28 +187,28 @@ export function FaqPanel({  }: FaqPanelProps) {
       question: t('faq.questions.jwt1'),
       answer: t('faq.answers.jwt1'),
       category: 'jwt',
-      keywords: ['JWT', 'JSON Web Token', '令牌', 'token', '认证', '授权']
+      keywords: t('faq.keywords.jwt1', { returnObjects: true }) as string[]
     },
     {
       id: 'jwt-2',
       question: t('faq.questions.jwt2'),
       answer: t('faq.answers.jwt2'),
       category: 'jwt',
-      keywords: ['JWT结构', 'header', 'payload', 'signature', '签名', '头部', '有效载荷']
+      keywords: t('faq.keywords.jwt2', { returnObjects: true }) as string[]
     },
     {
       id: 'jwt-3',
       question: t('faq.questions.jwt3'),
       answer: t('faq.answers.jwt3'),
       category: 'jwt',
-      keywords: ['JWT验证', '签名验证', 'verify', '安全', '密钥']
+      keywords: t('faq.keywords.jwt3', { returnObjects: true }) as string[]
     },
     {
       id: 'jwt-4',
       question: t('faq.questions.jwt4'),
       answer: t('faq.answers.jwt4'),
       category: 'jwt',
-      keywords: ['JWT使用场景', '最佳实践', 'use case', '应用', '无状态']
+      keywords: t('faq.keywords.jwt4', { returnObjects: true }) as string[]
     },
     
     // 一般问题
@@ -217,14 +217,14 @@ export function FaqPanel({  }: FaqPanelProps) {
       question: t('faq.questions.general1'),
       answer: t('faq.answers.general1'),
       category: 'general',
-      keywords: ['安全', '隐私', '数据保护', '客户端', '服务器']
+      keywords: t('faq.keywords.general1', { returnObjects: true }) as string[]
     },
     {
       id: 'general-2',
       question: t('faq.questions.general2'),
       answer: t('faq.answers.general2'),
       category: 'general',
-      keywords: ['大文件', '性能', '处理', '限制', '浏览器']
+      keywords: t('faq.keywords.general2', { returnObjects: true }) as string[]
     }
   ]
 
@@ -311,7 +311,7 @@ export function FaqPanel({  }: FaqPanelProps) {
               )}
               
               <Box sx={{ mt: 2, display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {faq.keywords.map(keyword => (
+                {Array.isArray(faq.keywords) && faq.keywords.map(keyword => (
                   <Chip
                     key={keyword}
                     label={keyword}
@@ -340,13 +340,10 @@ export function FaqPanel({  }: FaqPanelProps) {
         </Typography>
         
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {i18n.language === 'en' 
-            ? ['JSON FAQ', 'JSON Questions', 'JSON Help', 'JSON Tutorials', 'JSON Guides', 'JSON Tool Usage'].map((keyword) => (
-                <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
-              ))
-            : ['JSON FAQ', 'JSON问题', 'JSON帮助', 'JSON教程', 'JSON指南', 'JSON工具使用'].map((keyword) => (
-                <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
-              ))
+          {Array.isArray(t('faq.pageKeywords', { returnObjects: true })) && 
+            (t('faq.pageKeywords', { returnObjects: true }) as string[]).map((keyword) => (
+              <Chip key={keyword} label={keyword} size="small" variant="outlined" sx={{ borderRadius: 1 }} />
+            ))
           }
         </Box>
       </Box>

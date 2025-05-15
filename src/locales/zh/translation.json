@@ -1,9 +1,9 @@
 {
   "app": {
-    "title": "JSONGeeks - 专业的JSON开发工具",
-    "description": "为开发者和数据专业人员提供的专业JSON工具集。格式化、验证、比较、转换、查询和可视化JSON数据的强大在线工具。",
-    "header": "JSONGeeks专业工具集",
-    "backToHome": "进入工具集"
+    "title": "JSONGeeks - JSON处理开发者工具",
+    "description": "由开发者为开发者构建的专业JSON工具。使用这些强大的在线工具格式化、验证、比较、转换、查询和可视化JSON数据。",
+    "header": "JSONGeeks专业工具",
+    "backToHome": "打开工具"
   },
   "theme": {
     "toggleLight": "切换到浅色模式",
@@ -13,7 +13,8 @@
   "language": {
     "toggle": "切换语言",
     "english": "English",
-    "chinese": "中文"
+    "chinese": "中文",
+    "german": "Deutsch"
   },
   "tabs": {
     "format": "格式化",
@@ -640,16 +641,32 @@
   "faq": {
     "title": "JSON工具 - 常见问题解答",
     "description": "查找有关JSON和我们工具的常见问题答案。本FAQ页面提供详细指南、故障排除提示和最佳实践，帮助您更有效地使用JSON数据和我们的工具套件。",
-    "keywords": [
-      "JSON常见问题",
-      "JSON问题",
-      "JSON帮助",
-      "JSON教程",
-      "JSON指南",
-      "JSON工具使用",
-      "JSON故障排除",
-      "JSON使用技巧"
-    ],
+    "keywords": {
+      "format1": ["格式化", "缩进", "可读性", "美化", "空格"],
+      "format2": ["压缩", "最小化", "文件大小", "去除空白"],
+      "format3": ["保存", "下载", "复制", "分享", "文件"],
+      "compare1": ["比较", "差异", "对比", "文件对比"],
+      "compare2": ["颜色代码", "添加", "删除", "修改", "变更"],
+      "convert1": ["JSON转CSV", "转换", "表格", "Excel"],
+      "convert2": ["JSON转XML", "XML", "标记语言", "嵌套"],
+      "convert3": ["YAML", "YAML转JSON", "配置文件", "可读性"],
+      "validate1": ["验证", "JSON Schema", "模式", "规则", "结构"],
+      "validate2": ["错误", "无效JSON", "故障排除", "调试", "语法"],
+      "query1": ["JSONPath", "查询", "提取", "搜索", "选择器"],
+      "query2": ["复杂查询", "过滤器", "数组", "条件", "嵌套数据"],
+      "code1": ["代码生成", "类", "接口", "TypeScript", "Java", "C#"],
+      "code2": ["命名规范", "驼峰命名", "蛇形命名", "帕斯卡命名", "属性名"],
+      "mock1": ["API模拟", "测试", "模拟数据", "端点", "假数据"],
+      "mock2": ["Schema", "模板", "数据生成", "随机", "测试"],
+      "visualize1": ["可视化", "图表", "数据展示", "分析", "图形"],
+      "jwt1": ["JWT", "JSON Web Token", "令牌", "认证", "授权"],
+      "jwt2": ["JWT结构", "头部", "有效载荷", "签名", "签署"],
+      "jwt3": ["JWT验证", "签名验证", "校验", "安全", "密钥"],
+      "jwt4": ["JWT用例", "最佳实践", "应用场景", "应用", "无状态"],
+      "general1": ["安全", "隐私", "数据", "客户端", "服务器"],
+      "general2": ["大文件", "性能", "处理", "限制", "浏览器"]
+    },
+    "pageKeywords": ["JSON FAQ", "JSON问题", "JSON帮助", "JSON教程", "JSON指南", "JSON工具使用"],
     "searchPlaceholder": "搜索FAQ...",
     "searchResults": "找到{{count}}个结果",
     "quickLinks": "快速链接",

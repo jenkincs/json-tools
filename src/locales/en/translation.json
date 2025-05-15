@@ -13,7 +13,8 @@
   "language": {
     "toggle": "Change Language",
     "english": "English",
-    "chinese": "中文"
+    "chinese": "中文",
+    "german": "Deutsch"
   },
   "tabs": {
     "format": "Format",
@@ -641,16 +642,32 @@
   "faq": {
     "title": "JSONGeeks - Frequently Asked Questions",
     "description": "Find answers to common questions about JSON and our tools. This FAQ page provides detailed guides, troubleshooting tips, and best practices to help you work more effectively with JSON data and our suite of tools.",
-    "keywords": [
-      "JSON FAQ",
-      "JSON Questions",
-      "JSON Help",
-      "JSON Tutorial",
-      "JSON Guide",
-      "JSON Tool Usage",
-      "JSON Troubleshooting",
-      "JSON Tips"
-    ],
+    "keywords": {
+      "format1": ["Format", "Indentation", "Readability", "Prettify", "Spaces"],
+      "format2": ["Minify", "Compress", "File Size", "Remove Whitespace"],
+      "format3": ["Save", "Download", "Copy", "Share", "File"],
+      "compare1": ["Compare", "Difference", "Diff", "File Comparison"],
+      "compare2": ["Color Code", "Add", "Remove", "Change", "Modification"],
+      "convert1": ["JSON to CSV", "Convert", "Table", "Excel"],
+      "convert2": ["JSON to XML", "XML", "Markup", "Nested"],
+      "convert3": ["YAML", "YAML to JSON", "Config File", "Readability"],
+      "validate1": ["Validate", "JSON Schema", "Schema", "Rules", "Structure"],
+      "validate2": ["Error", "Invalid JSON", "Troubleshooting", "Debug", "Syntax"],
+      "query1": ["JSONPath", "Query", "Extract", "Search", "Selector"],
+      "query2": ["Complex Query", "Filter", "Array", "Condition", "Nested Data"],
+      "code1": ["Code Generation", "Class", "Interface", "TypeScript", "Java", "C#"],
+      "code2": ["Naming Convention", "camelCase", "snake_case", "PascalCase", "Property Name"],
+      "mock1": ["API Mocking", "Testing", "Mock Data", "Endpoint", "Fake Data"],
+      "mock2": ["Schema", "Template", "Data Generation", "Random", "Test"],
+      "visualize1": ["Visualization", "Chart", "Data Display", "Analysis", "Graph"],
+      "jwt1": ["JWT", "JSON Web Token", "Token", "Authentication", "Authorization"],
+      "jwt2": ["JWT Structure", "Header", "Payload", "Signature", "Sign"],
+      "jwt3": ["JWT Validation", "Signature Verification", "Verify", "Security", "Key"],
+      "jwt4": ["JWT Use Case", "Best Practice", "Use Case", "Application", "Stateless"],
+      "general1": ["Security", "Privacy", "Data", "Client", "Server"],
+      "general2": ["Large File", "Performance", "Processing", "Limit", "Browser"]
+    },
+    "pageKeywords": ["JSON FAQ", "JSON Questions", "JSON Help", "JSON Tutorial", "JSON Guide", "JSON Tool Usage"],
     "searchPlaceholder": "Search FAQ...",
     "searchResults": "Found {{count}} results",
     "quickLinks": "Quick Links",

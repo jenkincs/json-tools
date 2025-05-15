@@ -268,7 +268,8 @@
       "returnAllBooks": "返回books数组中的所有对象",
       "returnFirstBook": "返回关于第一本书的所有信息",
       "returnAllTitles": "返回所有书名，例如，[\"哈利波特\",...]",
-      "returnInStock": "返回所有库存为true的书"
+      "returnInStock": "返回所有库存为true的书",
+      "filterExample": "[?(条件)]"
     },
     "examples": "试试这些例子",
     "example1": "获取整个数据",
@@ -472,7 +473,6 @@
     "signatureInvalid": "签名无效！令牌可能已被篡改或使用了错误的密钥。",
     "expired": "已过期",
     "valid": "有效",
-    "expiresIn": "过期时间",
     "issuer": "发行者",
     "subject": "主题",
     "audience": "受众",

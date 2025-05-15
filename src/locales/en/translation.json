@@ -268,7 +268,8 @@
       "returnAllBooks": "Returns all objects in the books array",
       "returnFirstBook": "Returns all information about the first book",
       "returnAllTitles": "Returns all book titles, e.g., [\"Harry Potter\",...]",
-      "returnInStock": "Returns all books where inStock is true"
+      "returnInStock": "Returns all books where inStock is true",
+      "filterExample": "[?(condition)]"
     },
     "examples": "Try These Examples",
     "example1": "Get entire data",
@@ -472,7 +473,6 @@
     "signatureInvalid": "Invalid signature! The token may have been tampered with or the wrong secret key was used.",
     "expired": "Expired",
     "valid": "Valid",
-    "expiresIn": "Expires In",
     "issuer": "Issuer",
     "subject": "Subject",
     "audience": "Audience",

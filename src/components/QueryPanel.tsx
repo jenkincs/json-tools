@@ -505,7 +505,7 @@ export function QueryPanel({ onSnackbar, initialData }: QueryPanelProps) {
                   </ListItem>
                   <ListItem>
                     <ListItemText
-                      primary="[?(条件)]"
+                      primary={t('query.guide.filterExample')}
                       secondary={t('query.guide.filter')}
                     />
                   </ListItem>

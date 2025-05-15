@@ -450,7 +450,8 @@
       "jwt3": ["JWT-Validierung", "Signaturprüfung", "Verifizieren", "Sicherheit", "Schlüssel"],
       "jwt4": ["JWT-Anwendungsfall", "Best Practice", "Use Case", "Anwendung", "Stateless"],
       "general1": ["Sicherheit", "Datenschutz", "Daten", "Client", "Server"],
-      "general2": ["Große Datei", "Performance", "Verarbeitung", "Limit", "Browser"]
+      "general2": ["Große Datei", "Performance", "Verarbeitung", "Limit", "Browser"],
+      "filterExample": "[?(Bedingung)]"
     },
     "questions": {
       "format1": "Wie kann ich JSON formatieren, um die Lesbarkeit zu verbessern?",

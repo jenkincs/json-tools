@@ -40,7 +40,7 @@ interface FaqItem {
 }
 
 export function FaqPanel({  }: FaqPanelProps) {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [searchQuery, setSearchQuery] = useState('')
   const [expandedPanel, setExpandedPanel] = useState<string | false>(false)
 

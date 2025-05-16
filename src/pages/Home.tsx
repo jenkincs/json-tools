@@ -33,7 +33,8 @@ import {
   Brightness4,
   Brightness7,
   Edit as EditIcon,
-  Security
+  Security,
+  Sort
 } from '@mui/icons-material';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { useThemeContext } from '../context/ThemeContext';
@@ -68,7 +69,8 @@ export const Home: React.FC = () => {
     { name: 'apiMocker', icon: <Api fontSize="large" color="primary" />, path: '/api-mocker' },
     { name: 'jwtDecoder', icon: <VpnKey fontSize="large" color="primary" />, path: '/jwt-decoder' },
     { name: 'jsonEditor', icon: <EditIcon fontSize="large" color="primary" />, path: '/json-editor' },
-    { name: 'jsonCrypto', icon: <Security fontSize="large" color="primary" />, path: '/json-crypto' }
+    { name: 'jsonCrypto', icon: <Security fontSize="large" color="primary" />, path: '/json-crypto' },
+    { name: 'sort', icon: <Sort fontSize="large" color="primary" />, path: '/sort' }
   ];
   
   return (

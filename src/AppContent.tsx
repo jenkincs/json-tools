@@ -32,6 +32,7 @@ import { FaqPanel } from './components/FaqPanel'
 import { JwtDecoderPanel } from './components/JwtDecoderPanel'
 import { JsonEditorPanel } from './components/JsonEditorPanel'
 import { JsonCryptoPanel } from './components/JsonCryptoPanel'
+import { SortPanel } from './components/SortPanel'
 import { Footer } from './components/Footer'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { useThemeContext } from './context/ThemeContext'
@@ -52,6 +53,7 @@ const TOOL_NAMES = [
   'jwtDecoder',
   'jsonEditor',
   'jsonCrypto',
+  'sort',
   'faq'
 ] as const;
 
@@ -94,7 +96,8 @@ function AppContentInner() {
         'jwtDecoder': 8,
         'jsonEditor': 9,
         'jsonCrypto': 10,
-        'faq': 11
+        'sort': 11,
+        'faq': 12
       };
       
       if (toolTabMap[sharedState.tool] !== undefined) {
@@ -132,6 +135,7 @@ function AppContentInner() {
       t('jwtDecoder.description'),
       t('jsonEditor.description'),
       t('jsonCrypto.description'),
+      t('sort.description'),
       t('faq.description')
     ];
     
@@ -210,7 +214,7 @@ function AppContentInner() {
           <Tooltip title={t('tabs.faq')}>
             <IconButton 
               color="inherit" 
-              onClick={() => setActiveTab(11)}
+              onClick={() => setActiveTab(12)}
               aria-label={t('tabs.faq')}
               sx={{ mr: 1 }}
             >
@@ -265,6 +269,7 @@ function AppContentInner() {
             <Tab label={t('tabs.jwtDecoder')} />
             <Tab label={t('tabs.jsonEditor')} />
             <Tab label={t('tabs.jsonCrypto')} />
+            <Tab label={t('tabs.sort')} />
             <Tab label={t('tabs.faq')} icon={<QuestionAnswer />} iconPosition="start" />
           </Tabs>
 
@@ -334,6 +339,13 @@ function AppContentInner() {
           </TabPanel>
           
           <TabPanel value={activeTab} index={11}>
+            <SortPanel 
+              onSnackbar={handleSnackbar}
+              initialData={activeTab === 11 && sharedState.tool === 'sort' ? sharedState.jsonData : null}
+            />
+          </TabPanel>
+          
+          <TabPanel value={activeTab} index={12}>
             <FaqPanel onSnackbar={handleSnackbar} />
           </TabPanel>
         </Paper>

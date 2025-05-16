@@ -38,14 +38,15 @@ import {
   Brightness7,
   VpnKey,
   Edit as EditIcon,
-  Security
+  Security,
+  Sort
 } from '@mui/icons-material';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { useThemeContext } from '../context/ThemeContext';
 import { Footer } from '../components/Footer';
 
 interface LandingPageProps {
-  toolName: 'format' | 'compare' | 'convert' | 'visualize' | 'validate' | 'query' | 'codeGenerator' | 'apiMocker' | 'jwtDecoder' | 'jsonEditor' | 'jsonCrypto' | 'faq';
+  toolName: 'format' | 'compare' | 'convert' | 'visualize' | 'validate' | 'query' | 'codeGenerator' | 'apiMocker' | 'jwtDecoder' | 'jsonEditor' | 'jsonCrypto' | 'sort' | 'faq';
 }
 
 // 获取工具图标
@@ -62,6 +63,7 @@ const getToolIcon = (toolName: string) => {
     case 'jwtDecoder': return <VpnKey fontSize="large" />;
     case 'jsonEditor': return <EditIcon fontSize="large" />;
     case 'jsonCrypto': return <Security fontSize="large" />;
+    case 'sort': return <Sort fontSize="large" />;
     default: return null;
   }
 };
@@ -79,7 +81,8 @@ const getFeaturesList = (toolName: string) => {
     apiMocker: ['apiMocker.feature1', 'apiMocker.feature2', 'apiMocker.feature3'],
     jwtDecoder: ['jwtDecoder.feature1', 'jwtDecoder.feature2', 'jwtDecoder.feature3'],
     jsonEditor: ['jsonEditor.feature1', 'jsonEditor.feature2', 'jsonEditor.feature3', 'jsonEditor.feature4'],
-    jsonCrypto: ['jsonCrypto.feature1', 'jsonCrypto.feature2', 'jsonCrypto.feature3', 'jsonCrypto.feature4']
+    jsonCrypto: ['jsonCrypto.feature1', 'jsonCrypto.feature2', 'jsonCrypto.feature3', 'jsonCrypto.feature4'],
+    sort: ['sort.feature1', 'sort.feature2', 'sort.feature3', 'sort.feature4', 'sort.feature5']
   };
 
   return featuresMap[toolName] || [];
@@ -376,4 +379,5 @@ export const CodeGeneratorLandingPage = () => <ToolLandingPage toolName="codeGen
 export const ApiMockerLandingPage = () => <ToolLandingPage toolName="apiMocker" />;
 export const JwtDecoderLandingPage = () => <ToolLandingPage toolName="jwtDecoder" />;
 export const JsonEditorLandingPage = () => <ToolLandingPage toolName="jsonEditor" />;
-export const JsonCryptoLandingPage = () => <ToolLandingPage toolName="jsonCrypto" />; 
+export const JsonCryptoLandingPage = () => <ToolLandingPage toolName="jsonCrypto" />;
+export const SortLandingPage = () => <ToolLandingPage toolName="sort" />; 

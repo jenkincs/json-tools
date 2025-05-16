@@ -58,9 +58,9 @@ export function SortPanel({ onSnackbar, initialData }: SortPanelProps) {
   const editorOptions = {
     readOnly: true,
     folding: true,
-    foldingStrategy: 'indentation',
+    foldingStrategy: 'indentation' as const,
     minimap: { enabled: false },
-    lineNumbers: 'on',
+    lineNumbers: 'on' as const,
     scrollBeyondLastLine: false,
     automaticLayout: true,
     formatOnPaste: true

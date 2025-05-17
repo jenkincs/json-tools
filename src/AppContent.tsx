@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
   Box,
   Container,
@@ -62,9 +62,18 @@ function AppContentInner() {
   const { t } = useTranslation();
   const { mode, toggleTheme } = useThemeContext();
   const { sharedState } = useSharedState();
+  const location = useLocation();
   
   // 从 localStorage 获取上次使用的标签索引，如果没有则默认为 0
   const getInitialTabIndex = () => {
+    // 首先检查URL参数中是否有tab
+    const params = new URLSearchParams(location.search);
+    const tabParam = params.get('tab');
+    if (tabParam !== null && !isNaN(Number(tabParam))) {
+      return Number(tabParam);
+    }
+    
+    // 否则从localStorage中获取
     const savedTab = localStorage.getItem('lastActiveTab');
     return savedTab ? parseInt(savedTab, 10) : 0;
   };
@@ -118,6 +127,16 @@ function AppContentInner() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [activeTab]);
+
+  // 监听URL参数变化，更新activeTab
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tabParam = params.get('tab');
+    if (tabParam !== null && !isNaN(Number(tabParam))) {
+      setActiveTab(Number(tabParam));
+      window.scrollTo(0, 0);
+    }
+  }, [location.search]);
 
   // SEO Optimization - Update meta description based on active tab
   useEffect(() => {

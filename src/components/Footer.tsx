@@ -15,8 +15,16 @@ export function Footer() {
     event.preventDefault()
     // 保存选择的标签索引到localStorage
     localStorage.setItem('lastActiveTab', tabIndex.toString())
-    // 导航到app页面
-    navigate('/app')
+    
+    // 检查当前路径是否已经在/app页面
+    const currentPath = window.location.pathname
+    if (currentPath.includes('/app')) {
+      // 如果已经在app页面，添加时间戳参数强制刷新
+      window.location.href = `/app?tab=${tabIndex}&t=${Date.now()}`
+    } else {
+      // 如果不在app页面，则正常导航
+      navigate('/app')
+    }
   }
   
   return (
@@ -66,7 +74,8 @@ export function Footer() {
               <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(8)}>{t('jwtDecoder.title')}</Link>
               <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(9)}>{t('jsonEditor.title')}</Link>
               <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(10)}>{t('jsonCrypto.title')}</Link>
-              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(11)}>{t('faq.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(11)}>{t('sort.title')}</Link>
+              <Link href="#" color="primary" variant="body2" underline="hover" onClick={handleToolClick(12)}>{t('faq.title')}</Link>
             </Stack>
           </Grid>
           

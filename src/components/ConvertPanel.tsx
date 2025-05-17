@@ -17,13 +17,20 @@ import {
   Typography,
   SelectChangeEvent,
   Chip,
-  Button
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle
 } from '@mui/material'
 import {
   ContentCopy,
   ContentPaste,
   SwapHoriz,
-  Download
+  Download,
+  ZoomIn,
+  ZoomOut,
+  Fullscreen,
+  Close
 } from '@mui/icons-material'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -58,6 +65,9 @@ export function ConvertPanel({ onSnackbar, initialData }: ConvertPanelProps) {
       flatten: true
     }
   })
+  const [zoomLevel, setZoomLevel] = useState(1)
+  const [fullscreenOpen, setFullscreenOpen] = useState(false)
+  const [fullscreenZoom, setFullscreenZoom] = useState(1)
 
   useEffect(() => {
     if (initialData) {
@@ -198,6 +208,31 @@ export function ConvertPanel({ onSnackbar, initialData }: ConvertPanelProps) {
       indentSize: indentSize
     };
   };
+
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 0.2, 2))
+  }
+  
+  const handleZoomOut = () => {
+    setZoomLevel(prev => Math.max(prev - 0.2, 0.6))
+  }
+  
+  const handleFullscreenZoomIn = () => {
+    setFullscreenZoom(prev => Math.min(prev + 0.2, 2))
+  }
+  
+  const handleFullscreenZoomOut = () => {
+    setFullscreenZoom(prev => Math.max(prev - 0.2, 0.6))
+  }
+  
+  const handleOpenFullscreen = () => {
+    setFullscreenZoom(zoomLevel)
+    setFullscreenOpen(true)
+  }
+  
+  const handleCloseFullscreen = () => {
+    setFullscreenOpen(false)
+  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -384,21 +419,18 @@ export function ConvertPanel({ onSnackbar, initialData }: ConvertPanelProps) {
                 overflow: 'hidden'
               }}
             >
-              <IconButton
-                onClick={handleCopyOutput}
-                sx={{ position: 'absolute', top: 8, right: 8 }}
-                color="primary"
-                title={t('format.copy')}
-              >
-                <ContentCopy />
-              </IconButton>
               <Box sx={{ 
+                maxHeight: '500px',
+                overflowY: 'auto',
                 overflowX: 'auto',
                 '& pre': {
                   margin: 0,
                   whiteSpace: 'pre-wrap',
                   wordBreak: 'break-word',
-                  maxWidth: '100%'
+                  maxWidth: '100%',
+                  transform: `scale(${zoomLevel})`,
+                  transformOrigin: 'top left',
+                  transition: 'transform 0.2s ease'
                 }
               }}>
                 <SyntaxHighlighter
@@ -416,10 +448,113 @@ export function ConvertPanel({ onSnackbar, initialData }: ConvertPanelProps) {
                 </SyntaxHighlighter>
               </Box>
             </Paper>
-            <Box sx={{ width: 48 }} />
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <Tooltip title={t('format.zoomIn')}>
+                <IconButton
+                  onClick={handleZoomIn}
+                  color="primary"
+                >
+                  <ZoomIn />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={t('format.zoomOut')}>
+                <IconButton
+                  onClick={handleZoomOut}
+                  color="primary"
+                >
+                  <ZoomOut />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={t('format.copy')}>
+                <IconButton
+                  onClick={handleCopyOutput}
+                  color="primary"
+                >
+                  <ContentCopy />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={t('format.fullscreen')}>
+                <IconButton
+                  onClick={handleOpenFullscreen}
+                  color="primary"
+                >
+                  <Fullscreen />
+                </IconButton>
+              </Tooltip>
+            </Box>
           </Box>
         )}
       </Box>
+
+      {/* Fullscreen Dialog */}
+      <Dialog
+        open={fullscreenOpen}
+        onClose={handleCloseFullscreen}
+        fullScreen
+        PaperProps={{
+          sx: {
+            bgcolor: 'background.default',
+            backgroundImage: 'none'
+          }
+        }}
+      >
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="h6">{t('convert.title')}</Typography>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Tooltip title={t('format.zoomIn')}>
+              <IconButton onClick={handleFullscreenZoomIn} color="primary">
+                <ZoomIn />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={t('format.zoomOut')}>
+              <IconButton onClick={handleFullscreenZoomOut} color="primary">
+                <ZoomOut />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={t('format.copy')}>
+              <IconButton 
+                onClick={handleCopyOutput}
+                color="primary"
+              >
+                <ContentCopy />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={t('common.close')}>
+              <IconButton onClick={handleCloseFullscreen} color="primary">
+                <Close />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </DialogTitle>
+        <DialogContent dividers sx={{ p: 2 }}>
+          <Box sx={{ 
+            height: '100%',
+            overflow: 'auto',
+            '& pre': {
+              margin: 0,
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              transform: `scale(${fullscreenZoom})`,
+              transformOrigin: 'top left',
+              transition: 'transform 0.2s ease'
+            }
+          }}>
+            <SyntaxHighlighter
+              language={conversionType === 'yaml' ? 'yaml' : 
+                       conversionType === 'xml' ? 'xml' : 
+                       conversionType === 'csv' ? 'text' : 'json'}
+              style={vscDarkPlus}
+              customStyle={{ 
+                margin: 0, 
+                borderRadius: 4,
+                minWidth: '100%'
+              }}
+            >
+              {convertedOutput}
+            </SyntaxHighlighter>
+          </Box>
+        </DialogContent>
+      </Dialog>
 
       {/* 输出结果 */}
       {convertedOutput && (
@@ -427,14 +562,6 @@ export function ConvertPanel({ onSnackbar, initialData }: ConvertPanelProps) {
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Typography variant="h6"></Typography>
             <Box sx={{ display: 'flex', gap: 1 }}>
-              <Button
-                variant="contained"
-                size="small"
-                startIcon={<ContentCopy />}
-                onClick={handleCopyOutput}
-              >
-                {t('format.copy')}
-              </Button>
               <Button
                 variant="outlined"
                 size="small"

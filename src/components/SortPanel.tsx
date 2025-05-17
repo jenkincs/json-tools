@@ -33,8 +33,8 @@ import {
 import { ShareButton } from './ShareButton'
 // 导入 Monaco 编辑器
 import Editor from '@monaco-editor/react'
-// 导入 react-json-view 组件
-import ReactJson from 'react-json-view'
+// 导入 JSON Viewer 组件
+import { JsonViewer } from '@textea/json-viewer'
 
 interface SortPanelProps {
   onSnackbar: (message: string) => void
@@ -502,7 +502,7 @@ export function SortPanel({ onSnackbar, initialData }: SortPanelProps) {
                 {useJsonView && parsedJson ? (
                   <Box sx={{ 
                     overflowX: 'auto',
-                    '& .react-json-view': {
+                    '& .json-viewer-container': {
                       wordBreak: 'break-word',
                       maxWidth: '100%',
                       borderRadius: 1,
@@ -510,14 +510,15 @@ export function SortPanel({ onSnackbar, initialData }: SortPanelProps) {
                       p: 1
                     }
                   }}>
-                    <ReactJson 
-                      src={parsedJson}
-                      theme="monokai" 
+                    <JsonViewer 
+                      value={parsedJson}
+                      theme="dark" 
                       displayDataTypes={false}
                       enableClipboard={false}
-                      collapsed={collapseLevel}
+                      defaultInspectDepth={collapseLevel === 99 ? 99 : collapseLevel - 1}
+                      rootName={false}
                       key={`json-view-${collapseLevel}-${jsonViewKey}`}
-                      name={null}
+                      style={{ backgroundColor: '#272822' }} // 匹配 monokai 主题
                     />
                   </Box>
                 ) : (

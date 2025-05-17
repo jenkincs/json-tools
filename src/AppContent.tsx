@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 import {
@@ -16,23 +16,26 @@ import {
   Chip,
   IconButton,
   Tooltip,
-  Button
+  Button,
+  CircularProgress
 } from '@mui/material'
 import { Brightness4, Brightness7, QuestionAnswer, Home } from '@mui/icons-material'
 import { TabPanel } from './components/TabPanel'
-import { FormatPanel } from './components/FormatPanel'
-import { ComparePanel } from './components/ComparePanel'
-import { ConvertPanel } from './components/ConvertPanel'
-import { VisualizePanel } from './components/VisualizePanel'
-import { SchemaValidationPanel } from './components/SchemaValidationPanel'
-import { QueryPanel } from './components/QueryPanel'
-import { CodeGeneratorPanel } from './components/CodeGeneratorPanel'
-import { ApiMockerPanel } from './components/ApiMockerPanel'
-import { FaqPanel } from './components/FaqPanel'
-import { JwtDecoderPanel } from './components/JwtDecoderPanel'
-import { JsonEditorPanel } from './components/JsonEditorPanel'
-import { JsonCryptoPanel } from './components/JsonCryptoPanel'
-import { SortPanel } from './components/SortPanel'
+// 懒加载组件
+const FormatPanel = lazy(() => import('./components/FormatPanel').then(module => ({ default: module.FormatPanel })))
+const ComparePanel = lazy(() => import('./components/ComparePanel').then(module => ({ default: module.ComparePanel })))
+const ConvertPanel = lazy(() => import('./components/ConvertPanel').then(module => ({ default: module.ConvertPanel })))
+const VisualizePanel = lazy(() => import('./components/VisualizePanel').then(module => ({ default: module.VisualizePanel })))
+const SchemaValidationPanel = lazy(() => import('./components/SchemaValidationPanel').then(module => ({ default: module.SchemaValidationPanel })))
+const QueryPanel = lazy(() => import('./components/QueryPanel').then(module => ({ default: module.QueryPanel })))
+const CodeGeneratorPanel = lazy(() => import('./components/CodeGeneratorPanel').then(module => ({ default: module.CodeGeneratorPanel })))
+const ApiMockerPanel = lazy(() => import('./components/ApiMockerPanel').then(module => ({ default: module.ApiMockerPanel })))
+const FaqPanel = lazy(() => import('./components/FaqPanel').then(module => ({ default: module.FaqPanel })))
+const JwtDecoderPanel = lazy(() => import('./components/JwtDecoderPanel').then(module => ({ default: module.JwtDecoderPanel })))
+const JsonEditorPanel = lazy(() => import('./components/JsonEditorPanel').then(module => ({ default: module.JsonEditorPanel })))
+const JsonCryptoPanel = lazy(() => import('./components/JsonCryptoPanel').then(module => ({ default: module.JsonCryptoPanel })))
+const SortPanel = lazy(() => import('./components/SortPanel').then(module => ({ default: module.SortPanel })))
+
 import { Footer } from './components/Footer'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { useThemeContext } from './context/ThemeContext'
@@ -293,79 +296,105 @@ function AppContentInner() {
           </Tabs>
 
           <TabPanel value={activeTab} index={0}>
-            <FormatPanel 
-              onSnackbar={handleSnackbar} 
-              initialData={activeTab === 0 && sharedState.tool === 'format' ? sharedState.jsonData : null}
-            />
+            <Suspense fallback={<CircularProgress />}>
+              <FormatPanel 
+                onSnackbar={handleSnackbar} 
+                initialData={activeTab === 0 && sharedState.tool === 'format' ? sharedState.jsonData : null}
+              />
+            </Suspense>
           </TabPanel>
 
           <TabPanel value={activeTab} index={1}>
-            <ComparePanel onSnackbar={handleSnackbar} />
+            <Suspense fallback={<CircularProgress />}>
+              <ComparePanel onSnackbar={handleSnackbar} />
+            </Suspense>
           </TabPanel>
 
           <TabPanel value={activeTab} index={2}>
-            <ConvertPanel 
-              onSnackbar={handleSnackbar} 
-              initialData={activeTab === 2 && sharedState.tool === 'convert' ? sharedState.jsonData : null}
-            />
+            <Suspense fallback={<CircularProgress />}>
+              <ConvertPanel 
+                onSnackbar={handleSnackbar} 
+                initialData={activeTab === 2 && sharedState.tool === 'convert' ? sharedState.jsonData : null}
+              />
+            </Suspense>
           </TabPanel>
 
           <TabPanel value={activeTab} index={3}>
-            <VisualizePanel onSnackbar={handleSnackbar} />
+            <Suspense fallback={<CircularProgress />}>
+              <VisualizePanel onSnackbar={handleSnackbar} />
+            </Suspense>
           </TabPanel>
 
           <TabPanel value={activeTab} index={4}>
-            <SchemaValidationPanel 
-              onSnackbar={handleSnackbar} 
-              initialData={activeTab === 4 && sharedState.tool === 'validate' ? sharedState.jsonData : null}
-            />
+            <Suspense fallback={<CircularProgress />}>
+              <SchemaValidationPanel 
+                onSnackbar={handleSnackbar} 
+                initialData={activeTab === 4 && sharedState.tool === 'validate' ? sharedState.jsonData : null}
+              />
+            </Suspense>
           </TabPanel>
 
           <TabPanel value={activeTab} index={5}>
-            <QueryPanel 
-              onSnackbar={handleSnackbar} 
-              initialData={activeTab === 5 && sharedState.tool === 'query' ? sharedState.jsonData : null}
-            />
+            <Suspense fallback={<CircularProgress />}>
+              <QueryPanel 
+                onSnackbar={handleSnackbar} 
+                initialData={activeTab === 5 && sharedState.tool === 'query' ? sharedState.jsonData : null}
+              />
+            </Suspense>
           </TabPanel>
 
           <TabPanel value={activeTab} index={6}>
-            <CodeGeneratorPanel onSnackbar={handleSnackbar} />
+            <Suspense fallback={<CircularProgress />}>
+              <CodeGeneratorPanel onSnackbar={handleSnackbar} />
+            </Suspense>
           </TabPanel>
 
           <TabPanel value={activeTab} index={7}>
-            <ApiMockerPanel onSnackbar={handleSnackbar} />
+            <Suspense fallback={<CircularProgress />}>
+              <ApiMockerPanel onSnackbar={handleSnackbar} />
+            </Suspense>
           </TabPanel>
           
           <TabPanel value={activeTab} index={8}>
-            <JwtDecoderPanel 
-              onSnackbar={handleSnackbar} 
-              initialData={activeTab === 8 && sharedState.tool === 'jwtDecoder' ? sharedState.jsonData : null}
-            />
+            <Suspense fallback={<CircularProgress />}>
+              <JwtDecoderPanel 
+                onSnackbar={handleSnackbar} 
+                initialData={activeTab === 8 && sharedState.tool === 'jwtDecoder' ? sharedState.jsonData : null}
+              />
+            </Suspense>
           </TabPanel>
           
           <TabPanel value={activeTab} index={9}>
-            <JsonEditorPanel 
-              onSnackbar={handleSnackbar}
-              initialData={activeTab === 9 && sharedState.tool === 'jsonEditor' ? sharedState.jsonData : null}
-            />
+            <Suspense fallback={<CircularProgress />}>
+              <JsonEditorPanel 
+                onSnackbar={handleSnackbar}
+                initialData={activeTab === 9 && sharedState.tool === 'jsonEditor' ? sharedState.jsonData : null}
+              />
+            </Suspense>
           </TabPanel>
           
           <TabPanel value={activeTab} index={10}>
-            <JsonCryptoPanel 
-              onSnackbar={handleSnackbar}
-              initialData={activeTab === 10 && sharedState.tool === 'jsonCrypto' ? sharedState.jsonData : null}
-            />
+            <Suspense fallback={<CircularProgress />}>
+              <JsonCryptoPanel 
+                onSnackbar={handleSnackbar}
+                initialData={activeTab === 10 && sharedState.tool === 'jsonCrypto' ? sharedState.jsonData : null}
+              />
+            </Suspense>
           </TabPanel>
           
           <TabPanel value={activeTab} index={11}>
-            <SortPanel 
-              onSnackbar={handleSnackbar}
-              initialData={activeTab === 11 && sharedState.tool === 'sort' ? sharedState.jsonData : null}
-            />
+            <Suspense fallback={<CircularProgress />}>
+              <SortPanel 
+                onSnackbar={handleSnackbar}
+                initialData={activeTab === 11 && sharedState.tool === 'sort' ? sharedState.jsonData : null}
+              />
+            </Suspense>
           </TabPanel>
           
           <TabPanel value={activeTab} index={12}>
-            <FaqPanel onSnackbar={handleSnackbar} />
+            <Suspense fallback={<CircularProgress />}>
+              <FaqPanel onSnackbar={handleSnackbar} />
+            </Suspense>
           </TabPanel>
         </Paper>
       </Container>

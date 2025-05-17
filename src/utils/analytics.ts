@@ -1,15 +1,21 @@
 import ReactGA from 'react-ga4';
+import { inject } from '@vercel/analytics';
 
 // GA4测量ID
 const MEASUREMENT_ID = 'G-71PPDWRFM8'; // 替换为你的GA4测量ID
 
-// 初始化GA
+// 初始化GA和Vercel Analytics
 export const initGA = () => {
+  // 初始化Google Analytics
   if (process.env.NODE_ENV === 'production') {
     ReactGA.initialize(MEASUREMENT_ID);
     console.log('Google Analytics initialized');
+    
+    // 手动注入Vercel Analytics
+    inject();
+    console.log('Vercel Analytics initialized');
   } else {
-    console.log('Google Analytics not initialized in development mode');
+    console.log('Analytics not initialized in development mode');
   }
 };
 

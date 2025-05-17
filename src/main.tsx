@@ -6,6 +6,7 @@ import { CssBaseline } from '@mui/material'
 import { ThemeProvider } from './context/ThemeContext'
 import { LanguageProvider } from './context/LanguageContext'
 import { HelmetProvider } from 'react-helmet-async'
+import { Analytics } from '@vercel/analytics/react'
 import './i18n' // 导入i18n配置
 import './index.css'
 import { initGA } from './utils/analytics' // 导入GA初始化函数
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <LanguageProvider>
           <CssBaseline />
           <RouterProvider router={router} />
+          <Analytics />
         </LanguageProvider>
       </ThemeProvider>
     </HelmetProvider>

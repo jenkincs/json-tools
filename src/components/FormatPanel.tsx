@@ -16,9 +16,7 @@ import {
   Chip,
   Dialog,
   DialogContent,
-  DialogTitle,
-  DialogActions
-} from '@mui/material'
+  DialogTitle} from '@mui/material'
 import {
   ContentCopy,
   ContentPaste,

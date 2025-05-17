@@ -17,9 +17,7 @@ import {
   Switch,
   FormControlLabel,
   Dialog,
-  DialogContent,
-  DialogActions
-} from '@mui/material'
+  DialogContent} from '@mui/material'
 import {
   ContentCopy,
   ContentPaste,

@@ -15,7 +15,10 @@ import {
   Typography,
   Chip,
   Switch,
-  FormControlLabel
+  FormControlLabel,
+  Dialog,
+  DialogContent,
+  DialogActions
 } from '@mui/material'
 import {
   ContentCopy,
@@ -25,7 +28,9 @@ import {
   Upload,
   Code,
   ScienceRounded,
-  RestartAlt
+  RestartAlt,
+  Fullscreen,
+  Close
 } from '@mui/icons-material'
 // 移除 SyntaxHighlighter 导入
 // import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -50,9 +55,10 @@ export function SortPanel({ onSnackbar, initialData }: SortPanelProps) {
   const [sortMethod, setSortMethod] = useState('asc') // 'asc' | 'desc' | 'keys'
   const [sortArrays, setSortArrays] = useState(true)
   const [parsedJson, setParsedJson] = useState<any>(null)
-  const [useJsonView, setUseJsonView] = useState(true)
-  const [collapseLevel, setCollapseLevel] = useState(1)
+  const [useJsonView, setUseJsonView] = useState(false)
+  const [collapseLevel, setCollapseLevel] = useState(99)
   const [jsonViewKey, setJsonViewKey] = useState(0)
+  const [fullscreenOpen, setFullscreenOpen] = useState(false)
   
   // Monaco 编辑器选项
   const editorOptions = {
@@ -290,6 +296,16 @@ export function SortPanel({ onSnackbar, initialData }: SortPanelProps) {
     }, 100)
   }
 
+  // 打开全屏查看
+  const handleOpenFullscreen = () => {
+    setFullscreenOpen(true)
+  }
+
+  // 关闭全屏查看
+  const handleCloseFullscreen = () => {
+    setFullscreenOpen(false)
+  }
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       {/* SEO Enhancement - Page Description */}
@@ -476,6 +492,30 @@ export function SortPanel({ onSnackbar, initialData }: SortPanelProps) {
                   </>
                 )}
               </Box>
+              
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                {!useJsonView && (
+                  <Tooltip title={t('sort.fullscreen') || '全屏查看'}>
+                    <IconButton 
+                      onClick={handleOpenFullscreen} 
+                      color="primary"
+                    >
+                      <Fullscreen />
+                    </IconButton>
+                  </Tooltip>
+                )}
+                <Tooltip title={t('sort.copy')}>
+                  <IconButton
+                    onClick={() => {
+                      navigator.clipboard.writeText(sorted)
+                      onSnackbar(t('common.copied', { content: t('sort.title') }))
+                    }}
+                    color="primary"
+                  >
+                    <ContentCopy />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
             
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
@@ -487,18 +527,6 @@ export function SortPanel({ onSnackbar, initialData }: SortPanelProps) {
                   overflow: 'hidden'
                 }}
               >
-                <IconButton
-                  onClick={() => {
-                    navigator.clipboard.writeText(sorted)
-                    onSnackbar(t('common.copied', { content: t('sort.title') }))
-                  }}
-                  sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}
-                  color="primary"
-                  title={t('sort.copy')}
-                >
-                  <ContentCopy />
-                </IconButton>
-                
                 {useJsonView && parsedJson ? (
                   <Box sx={{ 
                     overflowX: 'auto',
@@ -544,6 +572,50 @@ export function SortPanel({ onSnackbar, initialData }: SortPanelProps) {
           </>
         )}
       </Box>
+
+      {/* 全屏显示对话框 */}
+      <Dialog 
+        open={fullscreenOpen} 
+        onClose={handleCloseFullscreen}
+        maxWidth="xl"
+        fullScreen
+        PaperProps={{
+          sx: { 
+            bgcolor: 'background.default',
+            backgroundImage: 'none'
+          }
+        }}
+      >
+        <DialogContent sx={{ p: 0, height: '100vh', display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'flex-end', 
+            p: 1, 
+            borderBottom: '1px solid', 
+            borderColor: 'divider'
+          }}>
+            <Tooltip title={t('common.close') || '关闭'}>
+              <IconButton onClick={handleCloseFullscreen} color="primary">
+                <Close />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box sx={{ flex: 1, overflow: 'hidden' }}>
+            <Editor 
+              height="100%"
+              language="json"
+              value={sorted}
+              options={{
+                ...editorOptions,
+                fontSize: 16, // 放大字体，提高可读性
+                lineHeight: 1.5, // 增加行高
+              }}
+              theme="vs-dark"
+              onMount={handleEditorDidMount}
+            />
+          </Box>
+        </DialogContent>
+      </Dialog>
     </Box>
   )
 } 

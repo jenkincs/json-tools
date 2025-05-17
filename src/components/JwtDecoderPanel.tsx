@@ -14,7 +14,8 @@ import {
   Switch,
   Tooltip,
   IconButton,
-  Chip
+  Chip,
+  Divider
 } from '@mui/material';
 import {
   ContentCopy,
@@ -25,7 +26,8 @@ import {
   HelpOutline,
   Info,
   DataObject,
-  AccessTime
+  AccessTime,
+  Article
 } from '@mui/icons-material';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -480,6 +482,7 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
                 <Tab label={t('jwtDecoder.headerTab')} />
                 <Tab label={t('jwtDecoder.payloadTab')} />
                 <Tab label={t('jwtDecoder.signatureTab')} />
+                <Tab label={t('jwtDecoder.allTab')} icon={<Article fontSize="small" />} />
               </Tabs>
               
               <TabPanel value={activeTab} index={0}>
@@ -556,6 +559,110 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
                 </Box>
                 <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
                   {t('jwtDecoder.signatureDescription')}
+                </Typography>
+              </TabPanel>
+              
+              <TabPanel value={activeTab} index={3}>
+                <Box sx={{ position: 'relative' }}>
+                  <Box sx={{ mb: 3 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                      <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', mb: 0 }}>
+                        {t('jwtDecoder.headerTab')}
+                      </Typography>
+                      <Tooltip title={t('jwtDecoder.copyTooltip')}>
+                        <IconButton 
+                          onClick={() => copyToClipboard(formatJson(decodedJwt.header), 'header')}
+                          size="small"
+                          color="primary"
+                        >
+                          <ContentCopy fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                    <Box sx={{ mb: 2 }}>
+                      <SyntaxHighlighter language="json" style={vscDarkPlus} showLineNumbers>
+                        {formatJson(decodedJwt.header)}
+                      </SyntaxHighlighter>
+                    </Box>
+                    
+                    <Divider sx={{ my: 3 }} />
+                    
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                      <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', mb: 0 }}>
+                        {t('jwtDecoder.payloadTab')}
+                      </Typography>
+                      <Tooltip title={t('jwtDecoder.copyTooltip')}>
+                        <IconButton 
+                          onClick={() => copyToClipboard(formatJson(decodedJwt.payload), 'payload')}
+                          size="small"
+                          color="primary"
+                        >
+                          <ContentCopy fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                    <Box sx={{ mb: 2 }}>
+                      <SyntaxHighlighter 
+                        language="json" 
+                        style={vscDarkPlus} 
+                        showLineNumbers
+                        wrapLongLines={true}
+                        customStyle={{position: 'relative'}}
+                        renderer={({ stylesheet }) => {
+                          return (
+                            <pre style={{
+                              ...stylesheet['pre'], 
+                              padding: '1em', 
+                              margin: 0, 
+                              backgroundColor: 'rgb(30, 30, 30)',
+                              color: 'white'
+                            }}>
+                              {renderJsonWithTimeTooltips(decodedJwt.payload)}
+                            </pre>
+                          );
+                        }}
+                      >
+                        {formatJson(decodedJwt.payload)}
+                      </SyntaxHighlighter>
+                    </Box>
+                    
+                    <Divider sx={{ my: 3 }} />
+                    
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                      <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', mb: 0 }}>
+                        {t('jwtDecoder.signatureTab')}
+                      </Typography>
+                      <Tooltip title={t('jwtDecoder.copyTooltip')}>
+                        <IconButton 
+                          onClick={() => copyToClipboard(decodedJwt.signature, 'signature')}
+                          size="small"
+                          color="primary"
+                        >
+                          <ContentCopy fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                    <Box>
+                      <SyntaxHighlighter language="text" style={vscDarkPlus}>
+                        {decodedJwt.signature}
+                      </SyntaxHighlighter>
+                    </Box>
+                  </Box>
+                  <Tooltip title={t('jwtDecoder.copyAllTooltip')}>
+                    <IconButton 
+                      onClick={() => copyToClipboard(JSON.stringify({
+                        header: decodedJwt.header,
+                        payload: decodedJwt.payload,
+                        signature: decodedJwt.signature
+                      }, null, 2), 'token')}
+                      sx={{ position: 'absolute', top: 8, right: 8, color: 'white', zIndex: 1 }}
+                    >
+                      <ContentCopy />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
+                  {t('jwtDecoder.allDescription')}
                 </Typography>
               </TabPanel>
             </Paper>

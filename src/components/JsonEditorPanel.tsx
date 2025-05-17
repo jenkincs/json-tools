@@ -8,10 +8,12 @@ import {
   Typography,
   Button,
   Stack,
-  Chip,
   Divider,
   FormControlLabel,
-  Switch
+  Switch,
+  Dialog,
+  DialogTitle,
+  DialogContent
 } from '@mui/material'
 import {
   ContentCopy,
@@ -21,7 +23,9 @@ import {
   Upload,
   FormatPaint,
   Undo,
-  Redo
+  Redo,
+  Fullscreen,
+  Close
 } from '@mui/icons-material'
 import { ShareButton } from './ShareButton'
 
@@ -46,7 +50,9 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
     tabCompletion: 'on'
   })
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
+  const fullscreenEditorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
   const monacoRef = useRef<Monaco | null>(null)
+  const [fullscreenOpen, setFullscreenOpen] = useState(false)
 
   // 初始化编辑器内容
   useEffect(() => {
@@ -73,6 +79,34 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
     })
   }
 
+  // 全屏编辑器挂载
+  const handleFullscreenEditorDidMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
+    fullscreenEditorRef.current = editor
+    
+    // 同步配置
+    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+      validate: true,
+      allowComments: true,
+      schemas: []
+    })
+  }
+
+  // 打开全屏编辑器
+  const handleOpenFullscreen = () => {
+    setFullscreenOpen(true)
+  }
+
+  // 关闭全屏编辑器
+  const handleCloseFullscreen = () => {
+    // 将全屏编辑器的内容同步回主编辑器
+    if (fullscreenEditorRef.current && editorRef.current) {
+      const updatedContent = fullscreenEditorRef.current.getValue()
+      editorRef.current.setValue(updatedContent)
+      setEditorContent(updatedContent)
+    }
+    setFullscreenOpen(false)
+  }
+
   // JSON格式化功能
   const formatJson = () => {
     if (!editorRef.current) return
@@ -82,6 +116,21 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
       const parsedJson = JSON.parse(currentValue)
       const formatted = JSON.stringify(parsedJson, null, 2)
       editorRef.current.setValue(formatted)
+      onSnackbar(t('jsonEditor.formatSuccess'))
+    } catch (error) {
+      onSnackbar(t('common.error.invalidJson'))
+    }
+  }
+
+  // 在全屏模式下格式化JSON
+  const formatJsonFullscreen = () => {
+    if (!fullscreenEditorRef.current) return
+
+    try {
+      const currentValue = fullscreenEditorRef.current.getValue()
+      const parsedJson = JSON.parse(currentValue)
+      const formatted = JSON.stringify(parsedJson, null, 2)
+      fullscreenEditorRef.current.setValue(formatted)
       onSnackbar(t('jsonEditor.formatSuccess'))
     } catch (error) {
       onSnackbar(t('common.error.invalidJson'))
@@ -166,6 +215,13 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
     }
   }, [])
 
+  // 全屏编辑器内容变更处理
+  const handleFullscreenEditorChange = useCallback((value: string | undefined) => {
+    if (value !== undefined) {
+      setEditorContent(value)
+    }
+  }, [])
+
   // 撤销操作
   const handleUndo = () => {
     if (editorRef.current) {
@@ -217,39 +273,7 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      {/* SEO Enhancement - Page Description */}
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="h5" component="h1" gutterBottom>
-          {t('jsonEditor.title')}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          {t('jsonEditor.description')}
-        </Typography>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-          {(() => {
-            try {
-              const keywords = t('jsonEditor.keywords', { returnObjects: true });
-              if (Array.isArray(keywords)) {
-                return keywords.map((keyword, index) => (
-                  <Chip 
-                    key={index} 
-                    label={String(keyword)} 
-                    size="small" 
-                    variant="outlined" 
-                    sx={{ borderRadius: 1 }} 
-                  />
-                ));
-              }
-            } catch (error) {
-              console.error('Error rendering keywords:', error);
-            }
-            return null;
-          })()}
-        </Box>
-      </Box>
-
-      {/* 工具栏 */}
+    <Box>
       <Paper sx={{ p: 2, mb: 2 }}>
         <Stack direction="row" spacing={1} alignItems="center" sx={{ flexWrap: 'wrap', gap: 1 }}>
           <Button
@@ -359,16 +383,23 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
       </Paper>
 
       {/* Monaco Editor */}
-      <Paper sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-        <Box sx={{ p: 1, display: 'flex', justifyContent: 'flex-end', borderBottom: 1, borderColor: 'divider' }}>
-          <Tooltip title={t('jsonEditor.undo')}>
-            <IconButton onClick={handleUndo} size="small">
-              <Undo fontSize="small" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={t('jsonEditor.redo')}>
-            <IconButton onClick={handleRedo} size="small">
-              <Redo fontSize="small" />
+      <Paper>
+        <Box sx={{ p: 1, display: 'flex', justifyContent: 'space-between', borderBottom: 1, borderColor: 'divider' }}>
+          <Box>
+            <Tooltip title={t('jsonEditor.undo')}>
+              <IconButton onClick={handleUndo} size="small">
+                <Undo fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={t('jsonEditor.redo')}>
+              <IconButton onClick={handleRedo} size="small">
+                <Redo fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Tooltip title={t('format.fullscreen')}>
+            <IconButton onClick={handleOpenFullscreen} size="small">
+              <Fullscreen fontSize="small" />
             </IconButton>
           </Tooltip>
         </Box>
@@ -395,6 +426,62 @@ export function JsonEditorPanel({ onSnackbar, initialData }: JsonEditorPanelProp
           />
         </Box>
       </Paper>
+
+      {/* 全屏编辑器对话框 */}
+      <Dialog
+        open={fullscreenOpen}
+        onClose={handleCloseFullscreen}
+        fullScreen
+        PaperProps={{
+          sx: {
+            bgcolor: 'background.default',
+            backgroundImage: 'none'
+          }
+        }}
+      >
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 1 }}>
+          <Typography variant="h6">{t('jsonEditor.title')}</Typography>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Button
+              variant="outlined"
+              startIcon={<FormatPaint />}
+              onClick={formatJsonFullscreen}
+              size="small"
+            >
+              {t('jsonEditor.format')}
+            </Button>
+            <Tooltip title={t('common.close')}>
+              <IconButton onClick={handleCloseFullscreen} color="primary">
+                <Close />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </DialogTitle>
+        <DialogContent sx={{ p: 0, height: 'calc(100vh - 64px)' }}>
+          <Editor
+            height="100%"
+            defaultLanguage="json"
+            value={editorContent}
+            onChange={handleFullscreenEditorChange}
+            onMount={handleFullscreenEditorDidMount}
+            options={{
+              minimap: { enabled: true },
+              lineNumbers: 'on',
+              folding: true,
+              autoIndent: 'advanced',
+              formatOnPaste: editorOptions.formatOnPaste,
+              formatOnType: editorOptions.formatOnType,
+              autoClosingBrackets: editorOptions.autoClosingBrackets ? 'always' : 'never',
+              autoClosingQuotes: editorOptions.autoClosingQuotes ? 'always' : 'never',
+              tabCompletion: 'on',
+              scrollBeyondLastLine: false,
+              wordWrap: 'on',
+              fontSize: 16, // 放大字体，提高可读性
+              lineHeight: 1.5, // 增加行高
+            }}
+          />
+        </DialogContent>
+      </Dialog>
     </Box>
   )
 } 

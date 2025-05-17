@@ -15,7 +15,11 @@ import {
   CardContent,
   Collapse,
   Chip,
-  Stack
+  Stack,
+  Tooltip,
+  Dialog,
+  DialogContent,
+  DialogTitle
 } from '@mui/material'
 import {
   ContentCopy,
@@ -25,7 +29,11 @@ import {
   Info,
   ExpandMore,
   ExpandLess,
-  PlayArrow
+  PlayArrow,
+  ZoomIn,
+  ZoomOut,
+  Fullscreen,
+  Close
 } from '@mui/icons-material'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -47,6 +55,10 @@ export function QueryPanel({ onSnackbar, initialData }: QueryPanelProps) {
   const [queryHistory, setQueryHistory] = useState<QueryHistory[]>([])
   const [showGuide, setShowGuide] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
+  const [zoomLevel, setZoomLevel] = useState(1)
+  const [fullscreenOpen, setFullscreenOpen] = useState(false)
+  const [fullscreenZoom, setFullscreenZoom] = useState(1)
+  const [selectedResult, setSelectedResult] = useState<QueryResult | null>(null)
 
   useEffect(() => {
     if (initialData) {
@@ -337,6 +349,37 @@ export function QueryPanel({ onSnackbar, initialData }: QueryPanelProps) {
     onSnackbar(t('query.guide.loadExample'))
   }
 
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 0.2, 2))
+  }
+  
+  const handleZoomOut = () => {
+    setZoomLevel(prev => Math.max(prev - 0.2, 0.6))
+  }
+  
+  const handleFullscreenZoomIn = () => {
+    setFullscreenZoom(prev => Math.min(prev + 0.2, 2))
+  }
+  
+  const handleFullscreenZoomOut = () => {
+    setFullscreenZoom(prev => Math.max(prev - 0.2, 0.6))
+  }
+  
+  const handleOpenFullscreen = (result: QueryResult) => {
+    setSelectedResult(result)
+    setFullscreenZoom(zoomLevel)
+    setFullscreenOpen(true)
+  }
+  
+  const handleCloseFullscreen = () => {
+    setFullscreenOpen(false)
+  }
+  
+  const handleCopyResult = (result: QueryResult) => {
+    navigator.clipboard.writeText(JSON.stringify(result.value, null, 2))
+    onSnackbar(t('common.copied', { content: t('query.results') }))
+  }
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       {/* SEO Enhancement - Page Description */}
@@ -606,39 +649,84 @@ export function QueryPanel({ onSnackbar, initialData }: QueryPanelProps) {
                           <Typography variant="caption" color="text.secondary" sx={{ mr: 1 }}>
                             {t('query.type')}: {result.type}
                           </Typography>
-                          <Box sx={{ 
-                            overflowX: 'auto',
-                            '& pre': {
-                              margin: 0,
-                              whiteSpace: 'pre-wrap',
-                              wordBreak: 'break-word',
-                              maxWidth: '100%'
-                            }
-                          }}>
-                            <SyntaxHighlighter
-                              language="json"
-                              style={vscDarkPlus}
-                              customStyle={{ 
-                                margin: 0, 
-                                borderRadius: 4,
-                                minWidth: '100%'
+                          <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+                            <Paper 
+                              sx={{ 
+                                p: 2, 
+                                position: 'relative', 
+                                flex: 1,
+                                overflow: 'hidden'
                               }}
                             >
-                              {JSON.stringify(result.value, null, 2)}
-                            </SyntaxHighlighter>
+                              <Box sx={{ 
+                                maxHeight: '300px',
+                                overflowY: 'auto',
+                                overflowX: 'auto',
+                                '& pre': {
+                                  margin: 0,
+                                  whiteSpace: 'pre-wrap',
+                                  wordBreak: 'break-word',
+                                  maxWidth: '100%',
+                                  transform: `scale(${zoomLevel})`,
+                                  transformOrigin: 'top left',
+                                  transition: 'transform 0.2s ease'
+                                }
+                              }}>
+                                <SyntaxHighlighter
+                                  language="json"
+                                  style={vscDarkPlus}
+                                  customStyle={{ 
+                                    margin: 0, 
+                                    borderRadius: 4,
+                                    minWidth: '100%'
+                                  }}
+                                >
+                                  {JSON.stringify(result.value, null, 2)}
+                                </SyntaxHighlighter>
+                              </Box>
+                            </Paper>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                              <Tooltip title={t('format.zoomIn')}>
+                                <IconButton
+                                  onClick={handleZoomIn}
+                                  color="primary"
+                                  size="small"
+                                >
+                                  <ZoomIn />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title={t('format.zoomOut')}>
+                                <IconButton
+                                  onClick={handleZoomOut}
+                                  color="primary"
+                                  size="small"
+                                >
+                                  <ZoomOut />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title={t('format.copy')}>
+                                <IconButton
+                                  onClick={() => handleCopyResult(result)}
+                                  color="primary"
+                                  size="small"
+                                >
+                                  <ContentCopy />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title={t('format.fullscreen')}>
+                                <IconButton
+                                  onClick={() => handleOpenFullscreen(result)}
+                                  color="primary"
+                                  size="small"
+                                >
+                                  <Fullscreen />
+                                </IconButton>
+                              </Tooltip>
+                            </Box>
                           </Box>
                         </Box>
                       }
                     />
-                    <IconButton
-                      onClick={() => {
-                        navigator.clipboard.writeText(JSON.stringify(result.value, null, 2))
-                        onSnackbar(t('common.copied', { content: t('query.results') }))
-                      }}
-                      size="small"
-                    >
-                      <ContentCopy />
-                    </IconButton>
                   </ListItem>
                 ))}
               </List>
@@ -718,6 +806,76 @@ export function QueryPanel({ onSnackbar, initialData }: QueryPanelProps) {
           </Paper>
         </Grid>
       </Grid>
+      
+      {/* Fullscreen Dialog */}
+      <Dialog
+        open={fullscreenOpen}
+        onClose={handleCloseFullscreen}
+        fullScreen
+        PaperProps={{
+          sx: {
+            bgcolor: 'background.default',
+            backgroundImage: 'none'
+          }
+        }}
+      >
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="h6">{selectedResult?.path || t('query.results')}</Typography>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Tooltip title={t('format.zoomIn')}>
+              <IconButton onClick={handleFullscreenZoomIn} color="primary">
+                <ZoomIn />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={t('format.zoomOut')}>
+              <IconButton onClick={handleFullscreenZoomOut} color="primary">
+                <ZoomOut />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={t('format.copy')}>
+              <IconButton 
+                onClick={() => selectedResult && handleCopyResult(selectedResult)}
+                color="primary"
+              >
+                <ContentCopy />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={t('common.close')}>
+              <IconButton onClick={handleCloseFullscreen} color="primary">
+                <Close />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </DialogTitle>
+        <DialogContent dividers sx={{ p: 2 }}>
+          {selectedResult && (
+            <Box sx={{ 
+              height: '100%',
+              overflow: 'auto',
+              '& pre': {
+                margin: 0,
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-word',
+                transform: `scale(${fullscreenZoom})`,
+                transformOrigin: 'top left',
+                transition: 'transform 0.2s ease'
+              }
+            }}>
+              <SyntaxHighlighter
+                language="json"
+                style={vscDarkPlus}
+                customStyle={{ 
+                  margin: 0, 
+                  borderRadius: 4,
+                  minWidth: '100%'
+                }}
+              >
+                {JSON.stringify(selectedResult.value, null, 2)}
+              </SyntaxHighlighter>
+            </Box>
+          )}
+        </DialogContent>
+      </Dialog>
     </Box>
   )
 } 

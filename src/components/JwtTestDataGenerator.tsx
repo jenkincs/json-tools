@@ -29,8 +29,10 @@ import { ContentCopy, Refresh, ExpandMore, AccessTime } from '@mui/icons-materia
 import * as jose from 'jose';
 
 interface JwtTestDataGeneratorProps {
-  onSelectToken: (token: string) => void;
-  onSnackbar: (message: string, severity?: 'success' | 'error' | 'info' | 'warning') => void;
+  onSelect: (token: string) => void;
+  onClose: () => void;
+  open: boolean;
+  onSnackbar?: (message: string, severity?: 'success' | 'error' | 'info' | 'warning') => void;
 }
 
 interface JwtOptions {
@@ -48,7 +50,7 @@ interface TokenWithMetadata {
   type: 'standard' | 'expired' | 'neverExpiring';
 }
 
-export function JwtTestDataGenerator({ onSelectToken, onSnackbar }: JwtTestDataGeneratorProps) {
+export function JwtTestDataGenerator({ onSelect, onSnackbar }: JwtTestDataGeneratorProps) {
   const { t } = useTranslation();
   const [generatedTokens, setGeneratedTokens] = useState<TokenWithMetadata[]>([]);
   const [showHistory, setShowHistory] = useState<boolean>(false);
@@ -125,7 +127,7 @@ export function JwtTestDataGenerator({ onSelectToken, onSnackbar }: JwtTestDataG
           ? 'jwtDecoder.messages.expiredTokenGenerated'
           : 'jwtDecoder.messages.neverExpiringTokenGenerated';
       
-      onSnackbar(t(messageKey), 'success');
+      onSnackbar && onSnackbar(t(messageKey), 'success');
     } catch (err) {
       console.error('JWT generation error:', err);
       setError(err instanceof Error ? err.message : String(err));
@@ -146,19 +148,19 @@ export function JwtTestDataGenerator({ onSelectToken, onSnackbar }: JwtTestDataG
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(
       () => {
-        onSnackbar(t('jwtDecoder.messages.tokenCopied'), 'success');
+        onSnackbar && onSnackbar(t('jwtDecoder.messages.tokenCopied'), 'success');
       },
       (err) => {
         console.error('Failed to copy:', err);
-        onSnackbar(t('common.error.clipboard'), 'error');
+        onSnackbar && onSnackbar(t('common.error.clipboard'), 'error');
       }
     );
   };
 
   // 使用令牌
   const useToken = (token: string) => {
-    onSelectToken(token);
-    onSnackbar(t('jwtDecoder.messages.tokenSelected'), 'info');
+    onSelect(token);
+    onSnackbar && onSnackbar(t('jwtDecoder.messages.tokenSelected'), 'info');
   };
 
   // 处理选项变更

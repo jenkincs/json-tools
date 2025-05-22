@@ -6,33 +6,55 @@ import {
   TextField,
   Typography,
   Button,
-  Grid,
   Alert,
   Tabs,
   Tab,
-  FormControlLabel,
-  Switch,
   Tooltip,
   IconButton,
-  Chip,
-  Divider
+  styled
 } from '@mui/material';
 import {
   ContentCopy,
   Delete,
   SecurityOutlined,
-  CheckCircleOutline,
-  ErrorOutline,
-  HelpOutline,
   Info,
   DataObject,
   AccessTime,
-  Article
+  Article,
+  ContentPaste
 } from '@mui/icons-material';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import * as jose from 'jose';
 import { JwtTestDataGenerator } from './JwtTestDataGenerator';
+import { JwtEncoderPanel } from './JwtEncoderPanel';
+import { useTheme } from '@mui/material/styles';
+
+// 自定义样式组件
+const JwtContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(2),
+  height: '100%',
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column'
+  }
+}));
+
+const JwtColumn = styled(Paper)(({ theme }) => ({
+  flex: 1,
+  padding: theme.spacing(2),
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'auto'
+}));
+
+const TokenInput = styled(TextField)(() => ({
+  '& .MuiInputBase-root': {
+    fontFamily: 'monospace',
+    fontSize: '0.9rem'
+  }
+}));
 
 interface JwtDecoderPanelProps {
   onSnackbar: (message: string, severity?: 'success' | 'error' | 'info' | 'warning') => void;
@@ -45,15 +67,16 @@ interface DecodedJwt {
   signature: string;
 }
 
-export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProps) {
+export function JwtDecoderPanel(props: JwtDecoderPanelProps) {
   const { t } = useTranslation();
-  const [jwtToken, setJwtToken] = useState<string>(initialData || '');
+  const theme = useTheme();
+  const [mode, setMode] = useState<'decode' | 'encode'>('decode');
+  const [jwtToken, setJwtToken] = useState<string>(props.initialData || '');
   const [decodedJwt, setDecodedJwt] = useState<DecodedJwt | null>(null);
   const [verificationSecret, setVerificationSecret] = useState<string>('');
-  const [isVerified, setIsVerified] = useState<boolean | null>(null);
+  const [, setIsVerified] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState(0);
-  const [showVerification, setShowVerification] = useState(false);
   const [showTestDataGenerator, setShowTestDataGenerator] = useState(false);
   const [tokenInfo, setTokenInfo] = useState<{
     isExpired: boolean;
@@ -67,10 +90,10 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
   });
 
   useEffect(() => {
-    if (initialData) {
-      decodeToken(initialData);
+    if (props.initialData) {
+      decodeToken(props.initialData);
     }
-  }, [initialData]);
+  }, [props.initialData]);
 
   // 解码JWT令牌而不验证签名
   const decodeToken = (token: string) => {
@@ -133,12 +156,12 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
       await jose.jwtVerify(jwtToken, secretKey);
       
       setIsVerified(true);
-      onSnackbar(t('jwtDecoder.messages.verificationSuccess'), 'success');
+      props.onSnackbar(t('jwtDecoder.messages.verificationSuccess'), 'success');
     } catch (err) {
       console.error('JWT verification error:', err);
       setIsVerified(false);
       setError(err instanceof Error ? err.message : String(err));
-      onSnackbar(t('jwtDecoder.messages.verificationFailed'), 'error');
+      props.onSnackbar(t('jwtDecoder.messages.verificationFailed'), 'error');
     }
   };
   
@@ -147,40 +170,20 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
     const now = Math.floor(Date.now() / 1000);
     const info = {
       isExpired: false,
-      expiresIn: '',
       issuer: payload.iss,
       subject: payload.sub,
       audience: payload.aud,
       issuedAt: ''
     };
-    
-    // 检查过期时间
+    // 检查过期状态
     if (payload.exp) {
       info.isExpired = now > payload.exp;
-      
-      // 计算剩余时间
-      if (!info.isExpired) {
-        const diffSeconds = payload.exp - now;
-        if (diffSeconds < 60) {
-          info.expiresIn = `${diffSeconds} ${t('jwtDecoder.seconds')}`;
-        } else if (diffSeconds < 3600) {
-          info.expiresIn = `${Math.floor(diffSeconds / 60)} ${t('jwtDecoder.minutes')}`;
-        } else if (diffSeconds < 86400) {
-          info.expiresIn = `${Math.floor(diffSeconds / 3600)} ${t('jwtDecoder.hours')}`;
-        } else {
-          info.expiresIn = `${Math.floor(diffSeconds / 86400)} ${t('jwtDecoder.days')}`;
-        }
-      } else {
-        info.expiresIn = t('jwtDecoder.expired');
-      }
     }
-    
     // 发行时间
     if (payload.iat) {
       const issuedDate = new Date(payload.iat * 1000);
       info.issuedAt = issuedDate.toLocaleString();
     }
-    
     setTokenInfo(info);
   };
 
@@ -217,11 +220,11 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
   const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text).then(
       () => {
-        onSnackbar(t('jwtDecoder.messages.copied', { type }), 'success');
+        props.onSnackbar(t('jwtDecoder.messages.copied', { type }), 'success');
       },
       (err) => {
         console.error('Failed to copy:', err);
-        onSnackbar(t('common.error.clipboard'), 'error');
+        props.onSnackbar(t('common.error.clipboard'), 'error');
       }
     );
   };
@@ -233,7 +236,7 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
       decodeToken(text);
     } catch (err) {
       console.error('Failed to paste:', err);
-      onSnackbar(t('common.error.clipboard'), 'error');
+      props.onSnackbar(t('common.error.clipboard'), 'error');
     }
   };
   
@@ -244,8 +247,6 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
 
   // 时间戳字段列表
   const timeFields = ['exp', 'iat', 'nbf', 'auth_time', 'updated_at'];
-
-  // 检查是否为时间戳字段
 
   // 将时间戳转换为本地日期时间字符串
   const formatTimestamp = (timestamp: number): string => {
@@ -259,58 +260,111 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
     }
   };
 
-  // 渲染带有时间戳提示的JSON
-  const renderJsonWithTimeTooltips = (json: any): JSX.Element => {
+  // 统一输出区域样式
+  const outputStyle = {
+    margin: 0,
+    borderRadius: '4px',
+    background: theme.palette.mode === 'dark' ? theme.palette.background.paper : '#f5f8ff',
+    color: theme.palette.mode === 'dark' ? theme.palette.text.primary : '#000000',
+    border: `1px solid ${theme.palette.mode === 'dark' ? theme.palette.divider : '#c0d0e0'}`,
+    fontFamily: 'monospace',
+    fontSize: '0.9rem',
+    padding: '16px',
+    minHeight: 120,
+    fontWeight: 400,
+    boxShadow: theme.palette.mode === 'dark' ? 'none' : '0 2px 4px rgba(0,0,0,0.08)'
+  };
+
+  // 自定义语法高亮主题
+  const customSyntaxTheme = {
+    ...(theme.palette.mode === 'dark' ? vscDarkPlus : vs),
+    'property': {
+      color: theme.palette.mode === 'dark' ? '#9cdcfe' : '#2e86de',
+    }
+  };
+
+  // 渲染JSON
+  const renderJson = (json: any): JSX.Element => {
     const jsonString = formatJson(json);
-    const lines = jsonString.split('\n');
+    
+    // 查找并收集时间戳字段
+    const timeValues: {field: string, timestamp: number, localTime: string}[] = [];
+    
+    // 检查是否有时间戳字段
+    timeFields.forEach(field => {
+      if (json[field] && typeof json[field] === 'number') {
+        timeValues.push({
+          field,
+          timestamp: json[field],
+          localTime: formatTimestamp(json[field])
+        });
+      }
+    });
     
     return (
-      <>
-        {lines.map((line, index) => {
-          // 检查该行是否包含时间戳字段
-          const timeFieldMatch = timeFields.some(field => 
-            line.includes(`"${field}": `) || line.includes(`"${field}":`));
-          
-          if (timeFieldMatch) {
-            // 提取时间戳值
-            const valueMatch = line.match(/: (\d+)(,?)$/);
-            if (valueMatch && valueMatch[1]) {
-              const timestamp = parseInt(valueMatch[1], 10);
-              const formattedTime = formatTimestamp(timestamp);
-              
-              if (formattedTime) {
-                // 将行分割为前半部分（包含字段名）和后半部分（值）
-                const parts = line.split(': ');
-                if (parts.length === 2) {
-                  return (
-                    <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                      <span>{parts[0]}: </span>
-                      <Tooltip 
-                        title={
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <AccessTime sx={{ mr: 1, fontSize: 'small' }} />
-                            {formattedTime}
-                          </Box>
-                        }
-                        arrow
-                      >
-                        <span style={{ 
-                          borderBottom: '1px dotted #888',
-                          cursor: 'help'
-                        }}>
-                          {valueMatch[1]}{valueMatch[2] || ''}
-                        </span>
-                      </Tooltip>
-                    </div>
-                  );
-                }
-              }
-            }
-          }
-          
-          return <div key={index}>{line}</div>;
-        })}
-      </>
+      <Box>
+        <Box sx={{ position: 'relative' }}>
+          <SyntaxHighlighter
+            language="json"
+            style={customSyntaxTheme}
+            customStyle={outputStyle}
+          >
+            {jsonString}
+          </SyntaxHighlighter>
+          <IconButton
+            size="small"
+            onClick={() => copyToClipboard(jsonString, t('common.json'))}
+            sx={{
+              position: 'absolute',
+              top: 8,
+              right: 8,
+              bgcolor: 'background.paper',
+              color: 'text.secondary',
+              '&:hover': {
+                bgcolor: 'primary.main',
+                color: 'primary.contrastText',
+              },
+            }}
+          >
+            <ContentCopy fontSize="small" />
+          </IconButton>
+        </Box>
+        
+        {/* 时间字段本地时间展示 */}
+        {timeValues.length > 0 && (
+          <Paper 
+            variant="outlined" 
+            sx={{ 
+              mt: 2,
+              p: 1.5,
+              bgcolor: 'background.default'
+            }}
+          >
+            <Typography variant="subtitle2" gutterBottom>
+              {t('jwtDecoder.timestamps')}
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              {timeValues.map((item, index) => (
+                <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <AccessTime fontSize="small" color="action" />
+                  <Typography variant="body2" color="text.secondary" sx={{ mr: 1, minWidth: 60 }}>
+                    {item.field}:
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
+                    {item.timestamp}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mx: 1 }}>
+                    →
+                  </Typography>
+                  <Typography variant="body2">
+                    {item.localTime}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </Paper>
+        )}
+      </Box>
     );
   };
 
@@ -320,402 +374,241 @@ export function JwtDecoderPanel({ onSnackbar, initialData }: JwtDecoderPanelProp
     decodeToken(token);
   };
 
-  return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h5" gutterBottom>
-        {t('jwtDecoder.title')}
-      </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
-        {t('jwtDecoder.description')}
-      </Typography>
+  // 生成样例数据
+  const generateSampleToken = async () => {
+    const sampleSecret = 'your-256-bit-secret';
+    const currentTime = Math.floor(Date.now() / 1000);
+    
+    const claims = {
+      sub: 'test-user',
+      name: 'Test User',
+      role: 'admin',
+      iat: currentTime,
+      exp: currentTime + 3600 // 1小时后过期
+    };
+
+    try {
+      const encoder = new TextEncoder();
+      const secretKey = encoder.encode(sampleSecret);
       
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-            <Button
-              variant="outlined"
-              startIcon={<DataObject />}
-              onClick={() => setShowTestDataGenerator(!showTestDataGenerator)}
-            >
-              {showTestDataGenerator 
-                ? t('jwtDecoder.hideTestData') 
-                : t('jwtDecoder.showTestData')
-              }
-            </Button>
-          </Box>
-          
-          {showTestDataGenerator && (
-            <Paper sx={{ p: 2, mb: 3 }}>
-              <JwtTestDataGenerator 
-                onSelectToken={handleSelectToken} 
-                onSnackbar={onSnackbar} 
-              />
-            </Paper>
-          )}
-          
-          <Paper sx={{ p: 2 }}>
-            <Typography variant="subtitle1" gutterBottom>
-              {t('jwtDecoder.inputLabel')}
-            </Typography>
-            
-            <TextField
-              label={t('jwtDecoder.tokenInputLabel')}
-              value={jwtToken}
-              onChange={handleTokenChange}
-              fullWidth
-              multiline
-              rows={4}
-              variant="outlined"
-              placeholder={t('jwtDecoder.tokenPlaceholder')}
-              sx={{ mb: 2, fontFamily: 'monospace' }}
-            />
-            
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-              <Box>
-                <Button 
-                  onClick={handlePaste} 
-                  variant="outlined" 
-                  sx={{ mr: 1 }}
-                >
-                  {t('jwtDecoder.paste')}
-                </Button>
-                <Button 
-                  onClick={handleClear} 
-                  variant="outlined" 
-                  color="secondary" 
-                  startIcon={<Delete />}
-                >
-                  {t('jwtDecoder.clear')}
-                </Button>
-              </Box>
-              <FormControlLabel
-                control={
-                  <Switch 
-                    checked={showVerification} 
-                    onChange={(e) => setShowVerification(e.target.checked)} 
-                  />
-                }
-                label={t('jwtDecoder.showVerification')}
-              />
+      const jwt = await new jose.SignJWT(claims)
+        .setProtectedHeader({ alg: 'HS256' })
+        .sign(secretKey);
+
+      setJwtToken(jwt);
+      setVerificationSecret(sampleSecret);
+      decodeToken(jwt);
+      props.onSnackbar(t('jwtDecoder.messages.sampleTokenGenerated'), 'success');
+    } catch (err) {
+      console.error('Sample token generation error:', err);
+      props.onSnackbar(t('jwtDecoder.messages.sampleTokenError'), 'error');
+    }
+  };
+
+  // TabPanel 组件定义
+  function TabPanel(props: { children?: React.ReactNode; index: number; value: number }) {
+    const { children, value, index, ...other } = props;
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`jwt-tabpanel-${index}`}
+        aria-labelledby={`jwt-tab-${index}`}
+        {...other}
+      >
+        {value === index && <Box>{children}</Box>}
+      </div>
+    );
+  }
+
+  return (
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* 顶部切换按钮 */}
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 3 }}>
+        <Typography
+          variant="h5"
+          component="span"
+          sx={{
+            fontWeight: mode === 'decode' ? 700 : 400,
+            color: mode === 'decode' ? 'text.primary' : 'text.disabled',
+            cursor: mode === 'decode' ? 'default' : 'pointer',
+            borderRight: '2px solid',
+            borderColor: mode === 'decode' ? 'primary.main' : 'transparent',
+            pr: 2,
+            mr: 2
+          }}
+          onClick={() => setMode('decode')}
+        >
+          {t('jwtPage.decoder')}
+        </Typography>
+        <Typography
+          variant="h5"
+          component="span"
+          sx={{
+            fontWeight: mode === 'encode' ? 700 : 400,
+            color: mode === 'encode' ? 'text.primary' : 'text.disabled',
+            cursor: mode === 'encode' ? 'default' : 'pointer',
+          }}
+          onClick={() => setMode('encode')}
+        >
+          {t('jwtPage.encoder')}
+        </Typography>
+        <Tooltip title={t('jwtDecoder.info')}>
+          <IconButton size="small">
+            <Info fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      {/* 内容区 */}
+      {mode === 'decode' ? (
+        <JwtContainer>
+          <JwtColumn elevation={2}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+              <Typography variant="subtitle2">
+                {t('jwtDecoder.encoded')}
+              </Typography>
+              <Button
+                size="small"
+                onClick={generateSampleToken}
+                startIcon={<DataObject />}
+              >
+                {t('jwtDecoder.generateSample')}
+              </Button>
             </Box>
             
-            {showVerification && (
-              <Box sx={{ my: 2 }}>
-                <Typography variant="subtitle1" gutterBottom>
-                  {t('jwtDecoder.verificationSection')}
-                  <Tooltip title={t('jwtDecoder.verificationHelp')}>
-                    <IconButton size="small">
-                      <HelpOutline fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
+            <TokenInput
+              multiline
+              rows={8}
+              fullWidth
+              variant="outlined"
+              value={jwtToken}
+              onChange={handleTokenChange}
+              placeholder={t('jwtDecoder.placeholder')}
+              error={!!error}
+              sx={{ mb: 2 }}
+            />
+
+            <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+              <Button
+                variant="outlined"
+                startIcon={<ContentPaste />}
+                onClick={handlePaste}
+              >
+                {t('common.paste')}
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<Delete />}
+                onClick={handleClear}
+              >
+                {t('common.clear')}
+              </Button>
+            </Box>
+
+            {/* 验证部分 */}
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="subtitle2" gutterBottom>
+                {t('jwtDecoder.verification.title')}
+              </Typography>
+              <TextField
+                fullWidth
+                variant="outlined"
+                value={verificationSecret}
+                onChange={handleSecretChange}
+                placeholder={t('jwtDecoder.verification.placeholder')}
+                sx={{ mb: 2 }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={verifyToken}
+                startIcon={<SecurityOutlined />}
+                disabled={!jwtToken || !verificationSecret}
+              >
+                {t('jwtDecoder.verification.verify')}
+              </Button>
+            </Box>
+          </JwtColumn>
+
+          {/* 右侧列 - 解码结果 */}
+          <JwtColumn elevation={2}>
+            {error ? (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            ) : decodedJwt ? (
+              <>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
+                  <Tabs value={activeTab} onChange={handleTabChange}>
+                    <Tab label={t('jwtDecoder.tabs.decoded')} />
+                    <Tab label={t('jwtDecoder.tabs.payload')} />
+                    <Tab label={t('jwtDecoder.tabs.header')} />
+                  </Tabs>
+                </Box>
+
+                <TabPanel value={activeTab} index={0}>
+                  {tokenInfo.issuer ? (
+                    <Paper 
+                      variant="outlined" 
+                      sx={{ 
+                        p: 1.5, 
+                        mb: 2,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2,
+                        bgcolor: 'background.default'
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
+                        <Article fontSize="small" color="action" />
+                        <Typography variant="body2" color="text.secondary">
+                          {t('jwtDecoder.tokenInfo.issuer')}:
+                        </Typography>
+                        <Typography variant="body2" sx={{ ml: 0.5 }}>
+                          {tokenInfo.issuer}
+                        </Typography>
+                      </Box>
+                    </Paper>
+                  ) : null}
+                  {renderJson(decodedJwt.payload)}
+                </TabPanel>
+
+                <TabPanel value={activeTab} index={1}>
+                  {renderJson(decodedJwt.payload)}
+                </TabPanel>
+
+                <TabPanel value={activeTab} index={2}>
+                  {renderJson(decodedJwt.header)}
+                </TabPanel>
+              </>
+            ) : (
+              <Box
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Typography color="text.secondary">
+                  {t('jwtDecoder.noData')}
                 </Typography>
-                
-                <TextField
-                  label={t('jwtDecoder.secretInputLabel')}
-                  value={verificationSecret}
-                  onChange={handleSecretChange}
-                  fullWidth
-                  variant="outlined"
-                  sx={{ mb: 2 }}
-                  type="password"
-                  placeholder={t('jwtDecoder.secretPlaceholder')}
-                />
-                
-                <Button 
-                  onClick={verifyToken} 
-                  variant="contained" 
-                  color="primary" 
-                  startIcon={<SecurityOutlined />}
-                  disabled={!jwtToken || !verificationSecret}
-                >
-                  {t('jwtDecoder.verifyButton')}
-                </Button>
-                
-                {isVerified === true && (
-                  <Alert severity="success" sx={{ mt: 2 }}>
-                    {t('jwtDecoder.signatureValid')}
-                  </Alert>
-                )}
-                
-                {isVerified === false && (
-                  <Alert severity="error" sx={{ mt: 2 }}>
-                    {t('jwtDecoder.signatureInvalid')}
-                  </Alert>
-                )}
               </Box>
             )}
-          </Paper>
-        </Grid>
-        
-        {decodedJwt && (
-          <Grid item xs={12}>
-            <Paper sx={{ p: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                {t('jwtDecoder.decodedToken')}
-              </Typography>
-              
-              {/* Token Status */}
-              <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
-                <Chip
-                  icon={tokenInfo.isExpired ? <ErrorOutline /> : <CheckCircleOutline />}
-                  label={tokenInfo.isExpired ? t('jwtDecoder.expired') : t('jwtDecoder.valid')}
-                  color={tokenInfo.isExpired ? 'error' : 'success'}
-                />
-                
-                {tokenInfo.expiresIn && !tokenInfo.isExpired && (
-                  <Chip 
-                    icon={<Info />} 
-                    label={`${t('jwtDecoder.expiresIn')}: ${tokenInfo.expiresIn}`} 
-                    variant="outlined" 
-                  />
-                )}
-                
-                {tokenInfo.issuer && (
-                  <Chip 
-                    label={`${t('jwtDecoder.issuer')}: ${tokenInfo.issuer}`} 
-                    variant="outlined" 
-                  />
-                )}
-              </Box>
-              
-              <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 2 }}>
-                <Tab label={t('jwtDecoder.headerTab')} />
-                <Tab label={t('jwtDecoder.payloadTab')} />
-                <Tab label={t('jwtDecoder.signatureTab')} />
-                <Tab label={t('jwtDecoder.allTab')} icon={<Article fontSize="small" />} />
-              </Tabs>
-              
-              <TabPanel value={activeTab} index={0}>
-                <Box sx={{ position: 'relative' }}>
-                  <SyntaxHighlighter language="json" style={vscDarkPlus} showLineNumbers>
-                    {formatJson(decodedJwt.header)}
-                  </SyntaxHighlighter>
-                  <Tooltip title={t('jwtDecoder.copyTooltip')}>
-                    <IconButton 
-                      onClick={() => copyToClipboard(formatJson(decodedJwt.header), 'header')}
-                      sx={{ position: 'absolute', top: 8, right: 8, color: 'white' }}
-                    >
-                      <ContentCopy />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
-                  {t('jwtDecoder.headerDescription')}
-                </Typography>
-              </TabPanel>
-              
-              <TabPanel value={activeTab} index={1}>
-                <Box sx={{ position: 'relative' }}>
-                  <SyntaxHighlighter 
-                    language="json" 
-                    style={vscDarkPlus} 
-                    showLineNumbers
-                    wrapLongLines={true}
-                    customStyle={{position: 'relative'}}
-                    renderer={({ stylesheet }) => {
-                      // 使用自定义渲染器来显示带有提示的时间戳
-                      return (
-                        <pre style={{
-                          ...stylesheet['pre'], 
-                          padding: '1em', 
-                          margin: 0, 
-                          backgroundColor: 'rgb(30, 30, 30)',
-                          color: 'white'
-                        }}>
-                          {renderJsonWithTimeTooltips(decodedJwt.payload)}
-                        </pre>
-                      );
-                    }}
-                  >
-                    {formatJson(decodedJwt.payload)}
-                  </SyntaxHighlighter>
-                  <Tooltip title={t('jwtDecoder.copyTooltip')}>
-                    <IconButton 
-                      onClick={() => copyToClipboard(formatJson(decodedJwt.payload), 'payload')}
-                      sx={{ position: 'absolute', top: 8, right: 8, color: 'white', zIndex: 1 }}
-                    >
-                      <ContentCopy />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
-                  {t('jwtDecoder.payloadDescription')}
-                </Typography>
-              </TabPanel>
-              
-              <TabPanel value={activeTab} index={2}>
-                <Box sx={{ position: 'relative' }}>
-                  <SyntaxHighlighter language="text" style={vscDarkPlus}>
-                    {decodedJwt.signature}
-                  </SyntaxHighlighter>
-                  <Tooltip title={t('jwtDecoder.copyTooltip')}>
-                    <IconButton 
-                      onClick={() => copyToClipboard(decodedJwt.signature, 'signature')}
-                      sx={{ position: 'absolute', top: 8, right: 8, color: 'white' }}
-                    >
-                      <ContentCopy />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
-                  {t('jwtDecoder.signatureDescription')}
-                </Typography>
-              </TabPanel>
-              
-              <TabPanel value={activeTab} index={3}>
-                <Box sx={{ position: 'relative' }}>
-                  <Box sx={{ mb: 3 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                      <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', mb: 0 }}>
-                        {t('jwtDecoder.headerTab')}
-                      </Typography>
-                      <Tooltip title={t('jwtDecoder.copyTooltip')}>
-                        <IconButton 
-                          onClick={() => copyToClipboard(formatJson(decodedJwt.header), 'header')}
-                          size="small"
-                          color="primary"
-                        >
-                          <ContentCopy fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                    <Box sx={{ mb: 2 }}>
-                      <SyntaxHighlighter language="json" style={vscDarkPlus} showLineNumbers>
-                        {formatJson(decodedJwt.header)}
-                      </SyntaxHighlighter>
-                    </Box>
-                    
-                    <Divider sx={{ my: 3 }} />
-                    
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                      <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', mb: 0 }}>
-                        {t('jwtDecoder.payloadTab')}
-                      </Typography>
-                      <Tooltip title={t('jwtDecoder.copyTooltip')}>
-                        <IconButton 
-                          onClick={() => copyToClipboard(formatJson(decodedJwt.payload), 'payload')}
-                          size="small"
-                          color="primary"
-                        >
-                          <ContentCopy fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                    <Box sx={{ mb: 2 }}>
-                      <SyntaxHighlighter 
-                        language="json" 
-                        style={vscDarkPlus} 
-                        showLineNumbers
-                        wrapLongLines={true}
-                        customStyle={{position: 'relative'}}
-                        renderer={({ stylesheet }) => {
-                          return (
-                            <pre style={{
-                              ...stylesheet['pre'], 
-                              padding: '1em', 
-                              margin: 0, 
-                              backgroundColor: 'rgb(30, 30, 30)',
-                              color: 'white'
-                            }}>
-                              {renderJsonWithTimeTooltips(decodedJwt.payload)}
-                            </pre>
-                          );
-                        }}
-                      >
-                        {formatJson(decodedJwt.payload)}
-                      </SyntaxHighlighter>
-                    </Box>
-                    
-                    <Divider sx={{ my: 3 }} />
-                    
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                      <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', mb: 0 }}>
-                        {t('jwtDecoder.signatureTab')}
-                      </Typography>
-                      <Tooltip title={t('jwtDecoder.copyTooltip')}>
-                        <IconButton 
-                          onClick={() => copyToClipboard(decodedJwt.signature, 'signature')}
-                          size="small"
-                          color="primary"
-                        >
-                          <ContentCopy fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                    <Box>
-                      <SyntaxHighlighter language="text" style={vscDarkPlus}>
-                        {decodedJwt.signature}
-                      </SyntaxHighlighter>
-                    </Box>
-                  </Box>
-                  <Tooltip title={t('jwtDecoder.copyAllTooltip')}>
-                    <IconButton 
-                      onClick={() => copyToClipboard(JSON.stringify({
-                        header: decodedJwt.header,
-                        payload: decodedJwt.payload,
-                        signature: decodedJwt.signature
-                      }, null, 2), 'token')}
-                      sx={{ position: 'absolute', top: 8, right: 8, color: 'white', zIndex: 1 }}
-                    >
-                      <ContentCopy />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
-                  {t('jwtDecoder.allDescription')}
-                </Typography>
-              </TabPanel>
-            </Paper>
-          </Grid>
-        )}
-        
-        {error && (
-          <Grid item xs={12}>
-            <Alert severity="error">
-              <strong>{t('jwtDecoder.errorTitle')}:</strong> {error}
-            </Alert>
-          </Grid>
-        )}
-        
-        <Grid item xs={12}>
-          <Paper sx={{ p: 2 }}>
-            <Typography variant="h6" gutterBottom>
-              {t('jwtDecoder.aboutJwt')}
-            </Typography>
-            <Typography variant="body2" paragraph>
-              {t('jwtDecoder.jwtDefinition')}
-            </Typography>
-            <Typography variant="body2" paragraph>
-              {t('jwtDecoder.jwtStructure')}
-            </Typography>
-            <Typography variant="body2">
-              {t('jwtDecoder.jwtUsage')}
-            </Typography>
-          </Paper>
-        </Grid>
-      </Grid>
+          </JwtColumn>
+        </JwtContainer>
+      ) : (
+        <JwtEncoderPanel onSnackbar={props.onSnackbar} />
+      )}
+
+      {/* 测试数据生成器对话框 */}
+      {showTestDataGenerator && (
+        <JwtTestDataGenerator
+          open={showTestDataGenerator}
+          onClose={() => setShowTestDataGenerator(false)}
+          onSelect={handleSelectToken}
+        />
+      )}
     </Box>
-  );
-}
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`jwt-tabpanel-${index}`}
-      aria-labelledby={`jwt-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box>{children}</Box>}
-    </div>
   );
 } 

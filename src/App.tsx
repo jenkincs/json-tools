@@ -1,10 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import { AnalyticsTracker } from './components/AnalyticsTracker';
 import { SEO } from './components/SEO';
+import { DevToolbar } from './components/DevToolbar';
 
 export function App() {
   return (
     <>
+      <DevToolbar />
       <SEO 
         title="JSONGeeks - Developer Tools for JSON Processing"
         description="Professional JSON utilities built by developers for developers. Format, validate, compare, convert, query, and visualize JSON data with ease."

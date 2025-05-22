@@ -18,6 +18,7 @@
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
     "@mui/x-tree-view": "^6.17.0",
+    "@stagewise/toolbar-react": "^0.1.2",
     "@textea/json-viewer": "^3.5.0",
     "@types/crypto-js": "^4.2.2",
     "@vercel/analytics": "^1.5.0",
@@ -46,6 +47,7 @@
     "recharts": "^2.15.3"
   },
   "devDependencies": {
+    "@stagewise/toolbar": "^0.2.1",
     "@types/body-parser": "^1.19.5",
     "@types/compression-webpack-plugin": "^9.1.4",
     "@types/cors": "^2.8.18",

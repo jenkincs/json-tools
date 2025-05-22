@@ -25,7 +25,7 @@
     "query": "Abfragen",
     "codeGenerator": "Code-Generator",
     "apiMocker": "API-Mocker",
-    "jwtDecoder": "JWT-Decoder",
+    "jwtDecoder": "JWT-Prozessor",
     "jsonEditor": "JSON-Editor",
     "jsonCrypto": "JSON-Krypto",
     "sort": "Sortieren",
@@ -320,31 +320,54 @@
     "shortDescription": "Generieren Sie Code-Klassen und Typen aus JSON-Daten in mehreren Sprachen"
   },
   "jwtDecoder": {
-    "title": "JWT-Decoder & Validator-Tool",
-    "description": "Dekodieren, analysieren und überprüfen Sie JSON Web Tokens (JWT) mit unserem Online-JWT-Decoder.",
-    "inputLabel": "JWT-Token-Eingabe",
-    "tokenInputLabel": "JWT-Token eingeben",
-    "tokenPlaceholder": "Fügen Sie hier Ihr JWT-Token ein...",
-    "paste": "Aus Zwischenablage einfügen",
-    "clear": "Löschen",
-    "decodedToken": "Dekodierter Token",
-    "headerTab": "Header",
-    "payloadTab": "Payload",
-    "signatureTab": "Signatur",
-    "allTab": "Alle Informationen",
-    "copyTooltip": "In die Zwischenablage kopieren",
-    "copyAllTooltip": "Gesamten Inhalt in die Zwischenablage kopieren",
-    "headerDescription": "Der Header enthält in der Regel den Typ des Tokens und den verwendeten Signaturalgorithmus.",
-    "payloadDescription": "Der Payload enthält die Claims. Claims sind Aussagen über eine Entität und zusätzliche Daten. Bewegen Sie den Mauszeiger über Zeitstempelfelder (exp, iat, usw.), um das tatsächliche Datum und die Uhrzeit zu sehen.",
-    "signatureDescription": "Die Signatur wird verwendet, um zu überprüfen, ob die Nachricht nicht verändert wurde. Bei Tokens, die mit einem privaten Schlüssel signiert wurden, kann sie auch überprüfen, ob der Absender des JWT tatsächlich der ist, für den er sich ausgibt.",
-    "allDescription": "Sehen Sie die komplette JWT-Token-Struktur auf einen Blick, einschließlich Header, Payload und Signatur-Komponenten.",
-    "shortDescription": "Dekodieren, überprüfen und analysieren Sie JWT-Tokens mit einem einfach zu bedienenden Online-Tool",
-    "feature1": "JWT-Analyse",
-    "feature1.description": "Dekodieren und analysieren Sie den Header, Payload und die Signatur eines JWT-Tokens",
-    "feature2": "Signaturprüfung",
-    "feature2.description": "Überprüfen Sie die Integrität und Gültigkeit der JWT-Signatur",
-    "feature3": "Echtzeit-Validierung",
-    "feature3.description": "Sehen Sie sofortige Ergebnisse und Fehler beim Bearbeiten des Tokens"
+    "title": "JWT Decoder",
+    "info": "JWT (JSON Web Token) ist ein offener Standard zur sicheren Übertragung von Informationen",
+    "encoded": "Kodierter JWT",
+    "placeholder": "JWT hier einfügen...",
+    "noData": "Geben Sie einen JWT ein, um die dekodierten Ergebnisse zu sehen",
+    "tabs": {
+      "decoded": "Dekodiert",
+      "payload": "Nutzdaten",
+      "header": "Header"
+    },
+    "tokenInfo": {
+      "title": "Token-Informationen",
+      "issuer": "Aussteller",
+      "expiresIn": "Läuft ab in",
+      "issuedAt": "Ausgestellt am",
+      "subject": "Betreff",
+      "audience": "Zielgruppe"
+    },
+    "verification": {
+      "toggle": "Signatur prüfen",
+      "title": "Signaturprüfung",
+      "placeholder": "Geheimen Schlüssel eingeben (min. 256 Bits)",
+      "verify": "Signatur prüfen"
+    },
+    "errors": {
+      "invalidToken": "Ungültiges JWT-Format",
+      "noToken": "Bitte geben Sie einen JWT ein",
+      "noSecret": "Bitte geben Sie einen Prüfschlüssel ein"
+    },
+    "messages": {
+      "verificationSuccess": "Signaturprüfung erfolgreich",
+      "verificationFailed": "Signaturprüfung fehlgeschlagen",
+      "copied": "{{type}} in die Zwischenablage kopiert"
+    },
+    "generateSample": "Beispiel generieren",
+    "description": "Dekodieren und verifizieren Sie JSON Web Tokens (JWT). Unterstützt alle Standardalgorithmen, Signaturprüfung und detaillierte Tokeninformationen.",
+    "keywords": [
+      "JWT Dekodierung",
+      "JWT Verifizierung",
+      "Token Analyse",
+      "JWT Signatur",
+      "Token Validierung",
+      "JWT Analyse",
+      "Token Überprüfung",
+      "JWT Debugging"
+    ],
+    "timestamps": "Zeitstempel (Lokalzeit)",
+    "hours": "Stunden"
   },
   "jsonEditor": {
     "title": "Erweiterter JSON-Editor",
@@ -408,7 +431,9 @@
     "reset": "Zurücksetzen",
     "close": "Schließen",
     "apply": "Anwenden",
-    "settings": "Einstellungen"
+    "settings": "Einstellungen",
+    "paste": "Einfügen",
+    "clear": "Löschen"
   },
   "footer": {
     "description": "Eine umfassende Suite von JSON-Dienstprogrammen für Entwickler und Datenfachleute.",
@@ -839,5 +864,9 @@
     "feature5": "Ein-Klick-Minimierung",
     "feature5.description": "Einfaches Minimieren von sortiertem JSON für eine reduzierte Dateigröße, ideal für Produktionsumgebungen",
     "shortDescription": "Sortieren Sie JSON-Objekte nach Schlüsseln mit mehreren Sortiermethoden und rekursiver Sortierungsunterstützung"
+  },
+  "jwtPage": {
+    "decoder": "JWT Decoder",
+    "encoder": "JWT Encoder"
   }
 } 

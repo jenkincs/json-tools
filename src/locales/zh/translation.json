@@ -14,7 +14,8 @@
     "toggle": "切换语言",
     "english": "English",
     "chinese": "中文",
-    "german": "Deutsch"
+    "german": "Deutsch",
+    "french": "Français"
   },
   "tabs": {
     "format": "格式化",

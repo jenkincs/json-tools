@@ -5,6 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import enTranslation from './locales/en/translation.json';
 import zhTranslation from './locales/zh/translation.json';
 import deTranslation from './locales/de/translation.json';
+import frTranslation from './locales/fr/translation.json';
 
 // 初始化i18next
 i18n
@@ -28,6 +29,9 @@ i18n
       },
       de: {
         translation: deTranslation
+      },
+      fr: {
+        translation: frTranslation
       }
     },
     // 检测顺序: 先检测浏览器语言(navigator)，再使用本地存储(localStorage)
@@ -39,6 +43,7 @@ i18n
       convertDetectedLanguage: (lng) => {
         if (lng.startsWith('zh')) return 'zh';
         if (lng.startsWith('de')) return 'de';
+        if (lng.startsWith('fr')) return 'fr';
         return lng;
       }
     }

@@ -32,6 +32,7 @@ export function LanguageSwitcher() {
       case 'en': return 'English';
       case 'zh': return '中文';
       case 'de': return 'Deutsch';
+      case 'fr': return 'Français';
       default: return 'English';
     }
   };
@@ -70,6 +71,9 @@ export function LanguageSwitcher() {
         </MenuItem>
         <MenuItem onClick={() => handleLanguageChange('de')} selected={language === 'de'}>
           {t('language.german')}
+        </MenuItem>
+        <MenuItem onClick={() => handleLanguageChange('fr')} selected={language === 'fr'}>
+          {t('language.french')}
         </MenuItem>
       </Menu>
     </>

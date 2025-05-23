@@ -1,0 +1,1050 @@
+{
+    "app": {
+      "title": "JSONGeeks - Outils de développement pour le traitement JSON",
+      "description": "Utilitaires JSON professionnels créés par des développeurs pour des développeurs. Formatez, validez, comparez, convertissez, interrogez et visualisez des données JSON avec ces puissants outils en ligne.",
+      "header": "Outils Professionnels JSONGeeks",
+      "backToHome": "Ouvrir les Outils"
+    },
+    "theme": {
+      "toggleLight": "Passer au Mode Clair",
+      "toggleDark": "Passer au Mode Sombre",
+      "toggle": "Changer de Thème"
+    },
+    "language": {
+      "toggle": "Changer de Langue",
+      "english": "English",
+      "chinese": "中文",
+      "german": "Deutsch",
+      "french": "Français",
+      "french_in_english": "French",
+      "french_in_chinese": "法语",
+      "english_in_french": "Anglais",
+      "chinese_in_french": "Chinois",
+      "german_in_french": "Allemand"
+    },
+    "tabs": {
+      "format": "Formater",
+      "compare": "Comparer",
+      "convert": "Convertir",
+      "visualize": "Visualiser",
+      "validate": "Valider",
+      "query": "Requête",
+      "codeGenerator": "Générateur de Code",
+      "apiMocker": "Simulateur d'API",
+      "jwtDecoder": "Processeur JWT",
+      "jsonEditor": "Éditeur JSON",
+      "jsonCrypto": "Crypto JSON",
+      "sort": "Trier",
+      "faq": "FAQ"
+    },
+    "sort": {
+      "title": "Outil de Tri JSON",
+      "description": "Utilisez cet outil de tri JSON professionnel pour trier les objets JSON par clés, avec prise en charge du tri ascendant, descendant ou personnalisé. Parfait pour créer des sorties JSON standardisées, améliorer la lisibilité et faciliter les comparaisons.",
+      "keywords": [
+        "Trieur JSON",
+        "Tri par clé",
+        "Tri d'objet JSON",
+        "Tri récursif",
+        "Standardisation des données",
+        "Tri JSON imbriqué",
+        "Tri par clé",
+        "Structuration JSON",
+        "Comparaison JSON",
+        "Tri alphabétique"
+      ],
+      "indent": "Indentation",
+      "spaces": "{{count}} espaces",
+      "sort": "Trier",
+      "sortMethod": "Méthode de Tri",
+      "sortAsc": "Clés Ascendantes",
+      "sortDesc": "Clés Descendantes",
+      "sortKeys": "Clés Uniquement",
+      "sortArrays": "Trier les Tableaux",
+      "yes": "Oui",
+      "no": "Non",
+      "minify": "Minifier",
+      "download": "Télécharger",
+      "upload": "Téléverser",
+      "loadTestData": "Charger Données Test",
+      "useTreeView": "Utiliser Vue Arborescente",
+      "collapseLevel": "Niveau de Repli",
+      "level": "Niveau",
+      "all": "Tout Déplié",
+      "resetView": "Réinitialiser Vue",
+      "enterJson": "Entrer JSON...",
+      "paste": "Coller",
+      "copy": "Copier",
+      "feature1": "Options de Tri Multiples",
+      "feature1.description": "Prise en charge du tri par clés en ordre ascendant ou descendant, ainsi que du tri des éléments de tableau",
+      "feature2": "Tri Récursif",
+      "feature2.description": "Gère intelligemment les structures JSON profondément imbriquées, assurant un tri cohérent dans tout le document",
+      "feature3": "Contrôle du Traitement des Tableaux",
+      "feature3.description": "Option pour inclure ou exclure les tableaux du tri, offrant une flexibilité pour différents scénarios",
+      "feature4": "Sortie Formatée",
+      "feature4.description": "Formate automatiquement la sortie après le tri, avec une indentation personnalisable pour une meilleure lisibilité",
+      "shortDescription": "Triez les objets JSON par clés avec plusieurs méthodes de tri et support du tri récursif"
+    },
+    "format": {
+      "title": "Formateur & Embellisseur JSON",
+      "description": "Formatez et embellissez vos données JSON avec cet outil facile à utiliser. Améliorez la lisibilité avec une indentation personnalisable, validez la syntaxe JSON et minifiez rapidement pour la production.",
+      "keywords": [
+        "Formateur JSON",
+        "Embellisseur JSON",
+        "Validateur JSON",
+        "Minifieur JSON",
+        "Indentation JSON",
+        "Format JSON",
+        "JSON lisible",
+        "Syntaxe JSON"
+      ],
+      "indent": "Indentation",
+      "spaces": "{{count}} espaces",
+      "format": "Formater",
+      "minify": "Minifier",
+      "download": "Télécharger",
+      "upload": "Téléverser",
+      "enterJson": "Entrer JSON...",
+      "paste": "Coller",
+      "copy": "Copier",
+      "zoomIn": "Zoom Avant",
+      "zoomOut": "Zoom Arrière",
+      "fullscreen": "Vue Plein Écran",
+      "feature1": "Formatage JSON Intelligent",
+      "feature1.description": "Détecte et formate automatiquement le JSON avec une indentation configurable",
+      "feature2": "Option de Minification",
+      "feature2.description": "Compresse le JSON pour réduire la taille du fichier pour la production",
+      "feature3": "Coloration Syntaxique",
+      "feature3.description": "La sortie colorée rend la structure JSON plus facile à lire",
+      "feature4": "Détection d'Erreurs",
+      "feature4.description": "Identifie et met en évidence les erreurs de syntaxe dans votre JSON avec des messages utiles",
+      "shortDescription": "Formatez, embellissez et validez vos données JSON avec des options configurables"
+    },
+    "compare": {
+      "title": "Outil de Comparaison & Différence JSON",
+      "description": "Comparez deux objets JSON et visualisez les différences. Parfait pour les tests d'API, le débogage des variations de réponse et le suivi des changements dans les structures de données JSON.",
+      "keywords": [
+        "Différence JSON",
+        "Comparaison JSON",
+        "Différences JSON",
+        "Test d'API",
+        "Comparaison d'objets",
+        "Comparaison de données",
+        "Changements JSON",
+        "Delta JSON"
+      ],
+      "firstJson": "Entrer le premier JSON...",
+      "secondJson": "Entrer le second JSON...",
+      "compare": "Comparer",
+      "result": "Résultat de comparaison copié dans le presse-papiers !",
+      "feature1": "Comparaison Côte à Côte",
+      "feature1.description": "Visualisez deux objets JSON l'un à côté de l'autre avec une mise en évidence claire",
+      "feature2": "Détection des Différences",
+      "feature2.description": "Identifie automatiquement les valeurs ajoutées, supprimées et modifiées",
+      "feature3": "Support des Objets Imbriqués",
+      "feature3.description": "Compare des structures imbriquées complexes avec un suivi précis des différences",
+      "shortDescription": "Comparez deux objets JSON et visualisez les différences entre eux"
+    },
+    "convert": {
+      "title": "Convertisseur JSON - Outil de Conversion XML, CSV, YAML",
+      "description": "Convertissez des données JSON vers et depuis différents formats, notamment YAML, XML et CSV. Cet outil polyvalent offre des options personnalisables pour l'indentation, les en-têtes et le formatage des données.",
+      "keywords": [
+        "JSON vers YAML",
+        "JSON vers XML",
+        "JSON vers CSV",
+        "YAML vers JSON",
+        "Conversion de format",
+        "Transformation de données",
+        "Intégration API",
+        "Export de données"
+      ],
+      "jsonToYaml": "JSON → YAML",
+      "yamlToJson": "YAML → JSON",
+      "jsonToXml": "JSON → XML",
+      "jsonToCsv": "JSON → CSV",
+      "options": "Options de Conversion",
+      "prettyPrint": "Mise en Forme",
+      "xmlHeader": "En-tête XML",
+      "includeHeader": "Inclure l'En-tête",
+      "flattenObjects": "Aplatir les Objets",
+      "delimiter": "Délimiteur",
+      "enterJson": "Entrer JSON...",
+      "enterYaml": "Entrer YAML...",
+      "convert": "Convertir",
+      "result": "Sortie convertie copiée dans le presse-papiers !",
+      "feature1": "Support Multi-format",
+      "feature1.description": "Conversion entre JSON, YAML, XML, CSV et autres formats",
+      "feature2": "Conversion Bidirectionnelle",
+      "feature2.description": "Convertissez vers et depuis JSON en un seul clic",
+      "feature3": "Sortie Personnalisable",
+      "feature3.description": "Configurez les options de conversion selon vos besoins",
+      "feature4": "Aperçu Instantané",
+      "feature4.description": "Visualisez les résultats de la conversion en temps réel pendant la saisie",
+      "shortDescription": "Convertissez JSON vers et depuis d'autres formats, notamment YAML, XML et CSV"
+    },
+    "visualize": {
+      "title": "Outil de Visualisation JSON",
+      "description": "Visualisez vos données JSON avec des graphiques interactifs. Transformez des structures de données complexes en représentations visuelles pertinentes.",
+      "keywords": [
+        "Visualisation JSON",
+        "Visualisation de données",
+        "Graphiques JSON",
+        "Graphiques de données",
+        "Graphes JSON",
+        "Présentation de données",
+        "Visualisation d'API",
+        "Analyse de données JSON"
+      ],
+      "jsonData": "Données JSON",
+      "enterJson": "Entrez les données JSON ici...",
+      "loadExample": "Charger des Exemples",
+      "examples": "Données d'Exemple :",
+      "exampleData": {
+        "example1": "Exemple 1 - Données Simples",
+        "example2": "Exemple 2 - Données Multi-séries",
+        "example3": "Exemple 3 - Données Imbriquées"
+      },
+      "visualize": "Générer le Graphique",
+      "chartUpdated": "Graphique mis à jour",
+      "chartOptions": "Configuration du Graphique",
+      "chartType": "Type de Graphique",
+      "barChart": "Graphique à Barres",
+      "lineChart": "Graphique Linéaire",
+      "pieChart": "Graphique Circulaire",
+      "donutChart": "Graphique en Anneau",
+      "areaChart": "Graphique en Aires",
+      "stackedBarChart": "Graphique à Barres Empilées",
+      "scatterChart": "Nuage de Points",
+      "radarChart": "Graphique Radar",
+      "treemapChart": "Carte Arborescente",
+      "xAxisField": "Champ Axe X",
+      "yAxisField": "Champ Axe Y",
+      "colorField": "Champ Couleur",
+      "category": "catégorie",
+      "numeric": "numérique",
+      "enableMultiSeries": "Activer Multi-séries",
+      "multiSeriesEnabled": "Multi-séries Activé",
+      "selectDataSeries": "Sélectionner Séries de Données",
+      "selectFields": "Veuillez sélectionner les champs X et Y",
+      "selectSeries": "Veuillez sélectionner au moins une série de données",
+      "noDataPoints": "Aucun point de données valide à visualiser",
+      "chart": "Résultats du Graphique",
+      "feature1": "Vue Arborescente Interactive",
+      "feature1.description": "Explorez les hiérarchies JSON avec une structure arborescente extensible",
+      "feature2": "Visualisation en Graphe",
+      "feature2.description": "Visualisez les relations entre les éléments JSON avec des graphes interactifs",
+      "feature3": "Fonction de Copie de Chemin",
+      "feature3.description": "Obtenez facilement le chemin vers n'importe quel élément dans des structures JSON complexes",
+      "shortDescription": "Visualisez les données JSON sous forme d'arbres, de graphiques et de graphes interactifs"
+    },
+    "validate": {
+      "title": "Validateur de Schéma JSON",
+      "description": "Validez vos données JSON par rapport au Schéma JSON pour assurer l'intégrité et la structure des données. Cet outil aide les développeurs à vérifier que les charges utiles JSON sont conformes aux schémas prédéfinis.",
+      "keywords": [
+        "Validation JSON",
+        "Validation de schéma",
+        "Test d'API",
+        "Validation de données",
+        "Schéma JSON",
+        "Format JSON",
+        "Intégrité des données"
+      ],
+      "jsonData": "Données JSON",
+      "jsonSchema": "Schéma JSON",
+      "dataExamples": "Exemples de Données",
+      "schemaTemplates": "Modèles de Schéma",
+      "selectExample": "Sélectionner un exemple",
+      "selectTemplate": "Sélectionner un modèle",
+      "enterJsonData": "Entrer les données JSON...",
+      "enterJsonSchema": "Entrer le Schéma JSON...",
+      "validate": "Valider",
+      "validResult": "Validation Réussie",
+      "invalidResult": "Validation Échouée",
+      "errorsFound": "{{count}} erreurs trouvées",
+      "atPath": "Au chemin :",
+      "errorDetails": "Détails de l'Erreur",
+      "errorType": "Type d'Erreur",
+      "path": "Chemin",
+      "message": "Message",
+      "receivedValue": "Valeur Reçue",
+      "expectedSchema": "Schéma Attendu",
+      "enterBoth": "Veuillez entrer à la fois les données JSON et le schéma",
+      "jsonValid": "Le JSON est valide selon le schéma !",
+      "jsonInvalid": "Le JSON est invalide selon le schéma",
+      "invalidValue": "Valeur invalide",
+      "invalidFormat": "Format JSON ou schéma invalide",
+      "templateDataLoaded": "Modèle de schéma et données d'exemple correspondantes chargés : {{name}}",
+      "templateLoaded": "Modèle de schéma chargé",
+      "dataTemplateLoaded": "Données d'exemple et modèle de schéma correspondant chargés : {{name}}",
+      "dataLoaded": "Données d'exemple chargées",
+      "validationResult": "résultat de validation",
+      "learnJsonSchema": "Apprendre JSON Schema",
+      "schemaDescription": "JSON Schema est un langage déclaratif pour valider les données JSON. Vous pouvez définir le format, les champs requis et les types de données, puis valider si les données JSON respectent ces règles.",
+      "documentation": "Documentation",
+      "tutorial": "Tutoriel",
+      "templateExamples": {
+        "genericObject": "Objet Générique",
+        "userList": "Liste d'Utilisateurs",
+        "configObject": "Objet de Configuration"
+      },
+      "feature1": "Validation de Schéma JSON",
+      "feature1.description": "Validez les données JSON par rapport au Schéma JSON (draft-07)",
+      "feature2": "Rapports d'Erreurs Détaillés",
+      "feature2.description": "Obtenez des informations précises sur les échecs de validation",
+      "feature3": "Constructeur de Schéma",
+      "feature3.description": "Créez et modifiez des schémas JSON avec une interface interactive",
+      "shortDescription": "Validez les données JSON par rapport au Schéma JSON avec des rapports d'erreurs détaillés"
+    },
+    "query": {
+      "title": "Outil de Requête JSONPath - Extraire des Données JSON",
+      "description": "Interrogez et extrayez des données spécifiques de structures JSON complexes en utilisant des expressions JSONPath. Cet outil puissant vous permet de naviguer et de filtrer les données JSON avec une syntaxe de chemin précise.",
+      "keywords": [
+        "JSONPath",
+        "Requête JSON",
+        "Extraction JSON",
+        "Filtre JSON",
+        "Navigateur JSON",
+        "Analyseur de réponse API",
+        "Sélection de données JSON",
+        "Expressions de chemin"
+      ],
+      "guide": {
+        "title": "Guide Rapide JSONPath",
+        "showGuide": "Afficher le Guide",
+        "hideGuide": "Masquer le Guide",
+        "loadExample": "Charger Données Test",
+        "try": "Cliquez sur un exemple ci-dessous pour l'essayer",
+        "dataStructure": "Structure de Données d'Exemple :",
+        "syntax": "Référence de Syntaxe JSONPath :",
+        "root": "Représente l'objet racine",
+        "child": "Représente les éléments enfants, par ex., $.store.book accède à la propriété book sous store",
+        "array": "Accède au nième élément d'un tableau, par ex., $.store.book[0] accède au premier livre",
+        "allItems": "Représente tous les éléments d'un tableau, par ex., $.store.book[*].title renvoie tous les titres de livres",
+        "filter": "Filtre les éléments selon des conditions, par ex., $.store.book[?(@.price<10)] renvoie les livres avec un prix inférieur à 10"
+      },
+      "examples": "Essayez Ces Exemples",
+      "example1": "Obtenir toutes les données",
+      "example2": "Obtenir l'objet store",
+      "example3": "Obtenir tous les livres",
+      "example4": "Obtenir le premier livre",
+      "example5": "Obtenir le deuxième livre",
+      "example6": "Obtenir le titre du premier livre",
+      "example7": "Obtenir tous les titres de livres",
+      "example8": "Obtenir tous les auteurs",
+      "example9": "Obtenir les livres en stock",
+      "example10": "Obtenir les livres de plus de 10€",
+      "example11": "Obtenir les livres de moins de 10€",
+      "example12": "Obtenir les détails de la bicyclette",
+      "example13": "Obtenir l'emplacement de la boutique",
+      "jsonData": "Données JSON",
+      "jsonPath": "Requête JSONPath",
+      "executeQuery": "Exécuter la Requête",
+      "results": "Résultats de la Requête",
+      "type": "Type",
+      "recentQueries": "Requêtes Récentes",
+      "noResults": "Aucun résultat trouvé",
+      "invalidQuery": "Format JSON ou requête invalide",
+      "feature1": "Support JSONPath",
+      "feature1.description": "Interrogez le JSON en utilisant la puissante syntaxe JSONPath",
+      "feature2": "Résultats en Direct",
+      "feature2.description": "Voyez les résultats des requêtes se mettre à jour instantanément pendant la saisie",
+      "feature3": "Exemples de Requêtes",
+      "feature3.description": "Apprenez à partir d'exemples de requêtes préconçus pour les tâches courantes",
+      "shortDescription": "Extrayez des données spécifiques du JSON en utilisant des requêtes JSONPath"
+    },
+    "codeGenerator": {
+      "title": "Générateur de Code depuis JSON",
+      "description": "Générez du code de programmation à partir de données JSON. Convertissez instantanément du JSON en classes, interfaces ou modèles dans TypeScript, Java, C#, Python, Go ou Swift.",
+      "keywords": [
+        "JSON vers code",
+        "Générateur de code",
+        "Interface TypeScript",
+        "Classe Java",
+        "Modèle C#",
+        "Classe Python",
+        "Structure Swift",
+        "Structure Go",
+        "Modèle de données",
+        "Désérialisation JSON"
+      ],
+      "targetLanguage": "Langage Cible",
+      "rootClassName": "Nom de la Classe Racine",
+      "generate": "Générer le Code",
+      "upload": "Téléverser JSON",
+      "options": "Options de Génération",
+      "useInterfaces": "Utiliser les Interfaces",
+      "useClasses": "Utiliser les Classes",
+      "optionalProps": "Propriétés Optionnelles",
+      "requiredProps": "Propriétés Requises",
+      "useJsonAnnotations": "Utiliser les Annotations JSON",
+      "noJsonAnnotations": "Sans Annotations JSON",
+      "jsonInput": "Entrée JSON",
+      "generatedCode": "Code Généré",
+      "noCodeGenerated": "Aucun code n'a encore été généré. Entrez des données JSON et cliquez sur Générer.",
+      "feature1": "Support Multi-langages",
+      "feature1.description": "Générez du code pour JavaScript, TypeScript, Python, Java, C# et plus encore",
+      "feature2": "Définitions de Types",
+      "feature2.description": "Générez automatiquement des définitions de types basées sur votre structure JSON",
+      "feature3": "Sortie Personnalisable",
+      "feature3.description": "Configurez les conventions de nommage et les options de style de code",
+      "shortDescription": "Générez des classes et des types de code à partir de données JSON dans plusieurs langages"
+    },
+    "apiMocker": {
+      "title": "API Mocker - Créer des Réponses API Simulées",
+      "description": "Créez des réponses API simulées basées sur un Schéma JSON. Définissez le délai de réponse, le taux d'erreur et d'autres paramètres pour simuler un comportement API réel.",
+      "keywords": [
+        "Simulation d'API",
+        "Serveur simulé",
+        "Test d'API",
+        "Développement frontend",
+        "Schéma JSON",
+        "Simulation d'API",
+        "API factice",
+        "Simulation backend"
+      ],
+      "labels": {
+        "endpoints": "Points d'Accès API",
+        "selectEndpoint": "Sélectionner un Point d'Accès",
+        "createEndpoint": "Créer un Nouveau Point d'Accès",
+        "editEndpoint": "Modifier le Point d'Accès",
+        "endpointName": "Nom du Point d'Accès",
+        "jsonSchema": "Schéma JSON",
+        "mockResult": "Réponse API Simulée",
+        "responseSettings": "Paramètres de Réponse",
+        "delay": "Délai de Réponse",
+        "errorRate": "Taux d'Erreur",
+        "successStatus": "Code de Statut Succès",
+        "errorStatus": "Code de Statut Erreur",
+        "enabled": "Activé",
+        "disabled": "Désactivé",
+        "mockServer": "Serveur Simulé",
+        "serverPort": "Port du Serveur",
+        "headers": "En-têtes de Réponse",
+        "availableEndpoints": "Points d'Accès Disponibles",
+        "schemaExamples": "Exemples de Schéma",
+        "responsePreview": "Aperçu de la Réponse",
+        "statusCode": "Code de Statut"
+      },
+      "buttons": {
+        "saveEndpoint": "Enregistrer le Point d'Accès",
+        "generateMock": "Générer une Réponse Simulée",
+        "copyMock": "Copier la Réponse",
+        "newEndpoint": "Nouveau Point d'Accès",
+        "startServer": "Démarrer le Serveur Simulé",
+        "stopServer": "Arrêter le Serveur"
+      },
+      "placeholders": {
+        "enterSchema": "Entrez le Schéma JSON ici...",
+        "enterEndpointName": "ex., users, products, etc."
+      },
+      "messages": {
+        "endpointCreated": "Point d'accès créé avec succès",
+        "endpointUpdated": "Point d'accès mis à jour avec succès",
+        "endpointDeleted": "Point d'accès supprimé",
+        "dataCopied": "Réponse simulée copiée dans le presse-papiers",
+        "serverStarted": "Serveur simulé démarré sur le port {{port}}",
+        "serverStopped": "Serveur simulé arrêté",
+        "serverRunning": "Serveur en cours d'exécution sur http://localhost:{{port}}",
+        "noEndpoints": "Aucun point d'accès défini. Créez-en un en utilisant le formulaire ci-dessous.",
+        "noMockData": "Aucune donnée simulée générée. Entrez un Schéma JSON et cliquez sur Générer.",
+        "noEnabledEndpoints": "Aucun point d'accès activé. Veuillez activer au moins un point d'accès."
+      },
+      "errors": {
+        "nameRequired": "Le nom du point d'accès est requis",
+        "invalidSchema": "Format de Schéma JSON invalide",
+        "saveFailed": "Échec de l'enregistrement du point d'accès",
+        "generationFailed": "Échec de la génération des données simulées",
+        "noDataToCopy": "Aucune donnée simulée à copier",
+        "invalidPastedSchema": "Format JSON invalide dans le contenu collé",
+        "serverStartFailed": "Échec du démarrage du serveur simulé",
+        "loadExampleFailed": "Échec du chargement de l'exemple"
+      },
+      "examples": {
+        "user": "Profil Utilisateur",
+        "product": "Catalogue Produit",
+        "order": "Détails Commande",
+        "weather": "Prévisions Météo"
+      },
+      "feature1": "Points d'Accès API Simulés",
+      "feature1.description": "Créez des points d'accès API simulés avec des réponses JSON personnalisées",
+      "feature2": "Modèles de Réponse",
+      "feature2.description": "Utilisez des modèles pour générer des données simulées dynamiques",
+      "feature3": "Validation des Requêtes",
+      "feature3.description": "Validez les requêtes entrantes par rapport aux formats attendus",
+      "shortDescription": "Créez des points d'accès API simulés avec des réponses JSON personnalisées pour les tests"
+    },
+    "jwtDecoder": {
+      "title": "Décodeur JWT",
+      "info": "JWT (JSON Web Token) est un standard ouvert utilisé pour transmettre de manière sécurisée des informations entre les parties",
+      "encoded": "JWT Encodé",
+      "placeholder": "Collez votre JWT ici...",
+      "noData": "Entrez un JWT pour voir les résultats décodés",
+      "tabs": {
+        "decoded": "Décodé",
+        "payload": "Charge Utile",
+        "header": "En-tête"
+      },
+      "tokenInfo": {
+        "title": "Informations du Token",
+        "issuer": "Émetteur",
+        "expiresIn": "Expire Dans",
+        "issuedAt": "Émis Le",
+        "subject": "Sujet",
+        "audience": "Audience"
+      },
+      "verification": {
+        "toggle": "Vérifier la Signature",
+        "title": "Vérification de la Signature",
+        "placeholder": "Entrez la clé secrète (min 256 bits)",
+        "verify": "Vérifier la Signature"
+      },
+      "errors": {
+        "invalidToken": "Format JWT invalide",
+        "noToken": "Veuillez entrer un JWT",
+        "noSecret": "Veuillez entrer une clé de vérification"
+      },
+      "messages": {
+        "verificationSuccess": "Vérification de la signature réussie",
+        "verificationFailed": "Échec de la vérification de la signature",
+        "copied": "{{type}} copié dans le presse-papiers"
+      },
+      "generateSample": "Générer un Exemple",
+      "description": "Décodez et vérifiez les JSON Web Tokens (JWT). Prend en charge tous les algorithmes standard, la vérification des signatures et l'affichage détaillé des informations du token.",
+      "keywords": [
+        "Décodage JWT",
+        "Vérification JWT",
+        "Analyse de Token",
+        "Signature JWT",
+        "Validation de Token",
+        "Analyse JWT",
+        "Inspection de Token",
+        "Débogage JWT"
+      ],
+      "timestamps": "Horodatages (Heure Locale)",
+      "hours": "heures"
+    },
+    "jsonEditor": {
+      "title": "Éditeur JSON Avancé",
+      "description": "Un éditeur JSON complet avec coloration syntaxique, auto-complétion et fonctionnalités de formatage automatique. Éditez vos données JSON directement avec validation en temps réel et assistance de code intelligente.",
+      "keywords": [
+        "Éditeur JSON",
+        "IDE JSON",
+        "Éditeur de code",
+        "Coloration syntaxique",
+        "Auto-complétion",
+        "Validateur JSON",
+        "Développement JSON"
+      ],
+      "loadSample": "Charger un Exemple",
+      "format": "Formater JSON",
+      "copy": "Copier",
+      "paste": "Coller",
+      "download": "Télécharger",
+      "upload": "Téléverser",
+      "undo": "Annuler",
+      "redo": "Rétablir",
+      "editorSettings": "Paramètres de l'Éditeur",
+      "settings": {
+        "autoClosingBrackets": "Fermeture automatique des crochets",
+        "autoClosingQuotes": "Fermeture automatique des guillemets",
+        "formatOnPaste": "Formater lors du collage",
+        "formatOnType": "Formater pendant la saisie"
+      },
+      "formatSuccess": "JSON formaté avec succès",
+      "pasteSuccess": "Contenu collé depuis le presse-papiers",
+      "uploadSuccess": "Fichier JSON chargé avec succès",
+      "downloadSuccess": "Fichier JSON téléchargé avec succès",
+      "sampleLoaded": "Exemple JSON chargé",
+      "feature1": "Éditeur Intelligent",
+      "feature1.description": "Édition avancée avec coloration syntaxique et pliage de code",
+      "feature2": "Auto-complétion",
+      "feature2.description": "Suggestions intelligentes pour les propriétés et valeurs JSON",
+      "feature3": "Validation en Temps Réel",
+      "feature3.description": "Retour immédiat sur les erreurs de syntaxe JSON",
+      "feature4": "Éditeur Personnalisable",
+      "feature4.description": "Configurez les fonctionnalités de l'éditeur selon votre flux de travail",
+      "shortDescription": "Éditez JSON avec coloration syntaxique, auto-complétion et validation en temps réel"
+    },
+    "jsonCrypto": {
+      "title": "Outil de Chiffrement & Déchiffrement JSON",
+      "description": "Chiffrez et déchiffrez de manière sécurisée vos données JSON en utilisant des algorithmes de chiffrement puissants. Protégez les informations sensibles dans vos fichiers JSON avec des paramètres de chiffrement personnalisables.",
+      "keywords": [
+        "Chiffrement JSON",
+        "Déchiffrement JSON",
+        "Sécurité des données",
+        "Chiffrement AES",
+        "JSON sécurisé",
+        "Protection JSON",
+        "Données chiffrées",
+        "Cryptographie"
+      ],
+      "algorithm": "Algorithme de Chiffrement",
+      "secretKey": "Clé Secrète",
+      "generateKey": "Générer une Clé",
+      "uploadKey": "Téléverser une Clé",
+      "showKey": "Afficher la Clé",
+      "hideKey": "Masquer la Clé",
+      "pasteKey": "Coller la Clé",
+      "preserveFormatting": "Préserver le Formatage JSON",
+      "includeMetadata": "Inclure les Métadonnées de Chiffrement",
+      "jsonInput": "Entrée JSON",
+      "enterJson": "Entrez les données JSON à chiffrer...",
+      "encryptedOutput": "Sortie Chiffrée",
+      "decryptedOutput": "Sortie Déchiffrée",
+      "encryptedPlaceholder": "Les données chiffrées apparaîtront ici...",
+      "decryptedPlaceholder": "Le JSON déchiffré apparaîtra ici...",
+      "encrypt": "Chiffrer",
+      "decrypt": "Déchiffrer",
+      "encryptedData": "données chiffrées",
+      "switchToDecrypt": "Passer au Mode Déchiffrement",
+      "switchToEncrypt": "Passer au Mode Chiffrement",
+      "useForEncryption": "Utiliser pour le Chiffrement",
+      "readyToEncrypt": "JSON prêt pour le chiffrement",
+      "loadSample": "Charger un Exemple",
+      "copy": "Copier",
+      "paste": "Coller",
+      "download": "Télécharger",
+      "upload": "Téléverser",
+      "keyGenerated": "Clé aléatoire générée avec succès",
+      "encryptSuccess": "JSON chiffré avec succès",
+      "decryptSuccess": "Données déchiffrées avec succès",
+      "pasteSuccess": "Contenu collé depuis le presse-papiers",
+      "uploadSuccess": "Fichier chargé avec succès",
+      "downloadSuccess": "Fichier téléchargé avec succès",
+      "sampleLoaded": "Exemple JSON chargé",
+      "securityTip": "Conseil de Sécurité : Pour une sécurité maximale, ne partagez jamais votre clé de chiffrement dans le même canal que vos données chiffrées. Utilisez un canal sécurisé séparé pour l'échange de clés.",
+      "errors": {
+        "noKey": "La clé secrète est requise pour le chiffrement/déchiffrement",
+        "encryptFailed": "Échec du chiffrement des données JSON",
+        "decryptFailed": "Échec du déchiffrement des données. Vérifiez votre clé et l'algorithme."
+      },
+      "feature1": "Algorithmes de Chiffrement Multiples",
+      "feature1.description": "Support pour les algorithmes de chiffrement AES, DES, Triple DES, Rabbit et RC4",
+      "feature2": "Gestion Sécurisée des Clés",
+      "feature2.description": "Générez des clés sécurisées aléatoires et gérez-les en toute sécurité pour le chiffrement/déchiffrement",
+      "feature3": "Préservation des Métadonnées",
+      "feature3.description": "Option pour inclure les métadonnées de chiffrement pour un déchiffrement plus facile et la détection d'algorithme",
+      "feature4": "Préservation du Format",
+      "feature4.description": "Maintien du formatage et de la structure JSON à travers le processus de chiffrement/déchiffrement",
+      "shortDescription": "Chiffrez et déchiffrez de manière sécurisée les données JSON avec plusieurs algorithmes de chiffrement",
+      "encryptedInput": "Entrée Chiffrée",
+      "useForDecryption": "Utiliser pour le Déchiffrement",
+      "readyToDecrypt": "Données prêtes pour le déchiffrement"
+    },
+    "faq": {
+      "title": "JSONGeeks - Foire Aux Questions",
+      "description": "Trouvez des réponses aux questions courantes sur JSON et nos outils. Cette page FAQ fournit des guides détaillés, des conseils de dépannage et des bonnes pratiques pour vous aider à travailler plus efficacement avec les données JSON.",
+      "keywords": {
+        "format1": ["Format", "Indentation", "Lisibilité", "Embellissement", "Espaces"],
+        "format2": ["Minifier", "Compresser", "Taille de fichier", "Supprimer les espaces"],
+        "format3": ["Sauvegarder", "Télécharger", "Copier", "Partager", "Fichier"],
+        "compare1": ["Comparer", "Différence", "Diff", "Comparaison de fichiers"],
+        "compare2": ["Code couleur", "Ajouter", "Supprimer", "Changer", "Modification"],
+        "convert1": ["JSON vers CSV", "Convertir", "Tableau", "Excel"],
+        "convert2": ["JSON vers XML", "XML", "Balisage", "Imbriqué"],
+        "convert3": ["YAML", "YAML vers JSON", "Fichier de config", "Lisibilité"],
+        "validate1": ["Valider", "Schéma JSON", "Schéma", "Règles", "Structure"],
+        "validate2": ["Erreur", "JSON invalide", "Dépannage", "Déboguer", "Syntaxe"],
+        "query1": ["JSONPath", "Requête", "Extraire", "Rechercher", "Sélecteur"],
+        "query2": ["Requête complexe", "Filtre", "Tableau", "Condition", "Données imbriquées"],
+        "code1": ["Génération de code", "Classe", "Interface", "TypeScript", "Java", "C#"],
+        "code2": ["Convention de nommage", "camelCase", "snake_case", "PascalCase", "Nom de propriété"],
+        "mock1": ["Simulation d'API", "Test", "Données simulées", "Point d'accès", "Fausses données"],
+        "mock2": ["Schéma", "Modèle", "Génération de données", "Aléatoire", "Test"],
+        "visualize1": ["Visualisation", "Graphique", "Affichage de données", "Analyse", "Graphe"],
+        "jwt1": ["JWT", "JSON Web Token", "Jeton", "Authentification", "Autorisation"],
+        "jwt2": ["Structure JWT", "En-tête", "Charge utile", "Signature", "Signer"],
+        "jwt3": ["Validation JWT", "Vérification de signature", "Vérifier", "Sécurité", "Clé"],
+        "jwt4": ["Cas d'utilisation JWT", "Bonne pratique", "Cas d'utilisation", "Application", "Sans état"],
+        "general1": ["Sécurité", "Confidentialité", "Données", "Client", "Serveur"],
+        "general2": ["Gros fichier", "Performance", "Traitement", "Limite", "Navigateur"]
+      },
+      "pageKeywords": ["FAQ JSON", "Questions JSON", "Aide JSON", "Tutoriel JSON", "Guide JSON", "Utilisation des outils JSON"],
+      "searchPlaceholder": "Rechercher dans la FAQ...",
+      "searchResults": "{{count}} résultats trouvés",
+      "quickLinks": "Liens Rapides",
+      "additionalResources": "Ressources Supplémentaires",
+      "resourcesDescription": "Les ressources suivantes fournissent des informations plus détaillées sur JSON et les technologies associées :",
+      "jsonSpecification": "Spécification JSON",
+      "jsonSchemaDoc": "Documentation du Schéma JSON",
+      "jsonPathDoc": "Guide de Syntaxe JSONPath",
+      
+      "questions": {
+        "format1": "Comment formater JSON pour améliorer la lisibilité ?",
+        "format2": "Comment minifier JSON pour réduire la taille du fichier ?",
+        "format3": "Comment sauvegarder ou partager du JSON formaté ?",
+        
+        "compare1": "Comment comparer les différences entre deux objets JSON ?",
+        "compare2": "Que signifient les codes couleur dans les résultats de comparaison ?",
+        
+        "convert1": "Comment convertir JSON au format CSV ?",
+        "convert2": "Comment convertir JSON au format XML ?",
+        "convert3": "Comment convertir entre YAML et JSON ?",
+        
+        "validate1": "Qu'est-ce que la validation par Schéma JSON ?",
+        "validate2": "Que faire en cas d'erreurs de validation ?",
+        
+        "query1": "Comment utiliser JSONPath pour interroger des données JSON ?",
+        "query2": "Comment créer des requêtes JSONPath complexes ?",
+        
+        "code1": "Comment générer des classes ou interfaces de code à partir de JSON ?",
+        "code2": "Comment gérer les conventions de nommage des propriétés ?",
+        
+        "mock1": "Comment fonctionne l'API Mocker ?",
+        "mock2": "Comment créer des réponses API simulées personnalisées ?",
+        
+        "visualize1": "Comment visualiser des données JSON sous forme de graphiques ?",
+        
+        "general1": "Les outils JSON sont-ils sécurisés ? Mes données sont-elles envoyées à des serveurs ?",
+        "general2": "Quelle taille de fichier JSON les outils peuvent-ils gérer ?",
+        
+        "jwt1": "Qu'est-ce que JWT et comment fonctionne-t-il ?",
+        "jwt2": "Que contiennent les trois parties d'un JWT ?",
+        "jwt3": "Comment vérifier une signature JWT ?",
+        "jwt4": "Quand utiliser JWT ?"
+      },
+      
+      "answers": {
+        "format1": "En utilisant notre outil de formatage, vous pouvez facilement améliorer la lisibilité du JSON. Il suffit de coller votre JSON dans la zone de saisie et de cliquer sur le bouton 'Formater'. Vous pouvez également ajuster le nombre d'espaces d'indentation pour personnaliser le formatage. Le processus de formatage ajoute des espaces, des sauts de ligne et une indentation appropriés pour rendre les structures imbriquées clairement visibles.",
+        
+        "format2": "Pour minifier le JSON (aussi appelé compression), collez votre JSON dans l'outil de formatage et cliquez sur le bouton 'Minifier'. Cela supprime tous les espaces, sauts de ligne et indentations inutiles, réduisant significativement la taille du fichier pour la production ou la transmission réseau.",
+        
+        "format3": "Après le formatage ou la minification, vous pouvez cliquer sur le bouton 'Copier' pour copier le résultat dans votre presse-papiers ou cliquer sur le bouton 'Télécharger' pour l'enregistrer comme fichier. Pour partager, vous pouvez copier et envoyer par email ou messagerie, ou téléverser sur des plateformes de partage de code comme GitHub Gist ou Pastebin.",
+        
+        "compare1": "L'outil de comparaison facilite la recherche des différences entre deux objets JSON. Collez le premier JSON dans la zone de saisie gauche et le second JSON dans la zone de saisie droite, puis cliquez sur le bouton 'Comparer'. L'outil mettra en évidence les parties ajoutées, supprimées ou modifiées et affichera les différences dans un format visuel clair.",
+        
+        "compare2": "Dans les résultats de comparaison, le vert indique le contenu ajouté, le rouge indique le contenu supprimé, et le jaune indique le contenu modifié. Chaque changement est également accompagné d'icônes spécifiques au type de changement pour vous aider à identifier rapidement le type de différence.",
+        
+        "convert1": "Pour convertir JSON en format CSV : 1) Sélectionnez l'option 'JSON → CSV' dans l'outil de conversion ; 2) Collez vos données JSON ; 3) Configurez les options comme l'inclusion des en-têtes, le type de délimiteur, etc. ; 4) Cliquez sur le bouton 'Convertir'. Notez que le JSON doit être sous forme de tableau, où chaque élément du tableau sera converti en une ligne dans le CSV.",
+        
+        "convert2": "Pour convertir JSON en XML : 1) Sélectionnez l'option 'JSON → XML' dans l'outil de conversion ; 2) Collez vos données JSON ; 3) Choisissez d'inclure ou non les en-têtes XML ; 4) Cliquez sur le bouton 'Convertir'. Après la conversion, les propriétés d'objet JSON deviennent des balises XML, et les valeurs deviennent le contenu ou les attributs des balises.",
+        
+        "convert3": "La conversion entre YAML et JSON est simple : 1) Sélectionnez la direction de conversion appropriée ('JSON → YAML' ou 'YAML → JSON') ; 2) Collez vos données source ; 3) Cliquez sur le bouton 'Convertir'. YAML est plus lisible que JSON, particulièrement pour les fichiers de configuration complexes, tandis que JSON est plus couramment utilisé pour l'échange de données entre programmes.",
+        
+        "validate1": "La validation par Schéma JSON est une méthode pour s'assurer que les données JSON sont conformes à une structure et des règles prédéfinies. Vous pouvez définir les types de propriétés, les champs requis, les plages de valeurs et d'autres contraintes, et le validateur vérifiera si votre JSON respecte ces règles. C'est utile pour les interfaces API, les fichiers de configuration, ou tout scénario où la cohérence des données doit être garantie.",
+        
+        "validate2": "En cas d'erreurs de validation : 1) Lisez attentivement le message d'erreur, il indique où se trouve le problème ; 2) Vérifiez si le type de données à l'emplacement spécifié est correct ; 3) Assurez-vous que tous les champs requis sont fournis ; 4) Vérifiez que les valeurs sont dans les plages autorisées ; 5) Vérifiez si les formats spéciaux comme les dates ou les emails sont correctement formatés. Vous pouvez également utiliser nos modèles de Schéma intégrés pour apprendre la structure correcte du Schéma.",
+        
+        "query1": "JSONPath est un langage de requête similaire à XPath pour XML. Utilisation de base : 1) `$` représente l'objet racine ; 2) `.propriété` accède à une propriété ; 3) `[index]` accède à un élément de tableau ; 4) `[*]` représente tous les éléments du tableau ; 5) `..propriété` trouve une propriété à n'importe quel niveau ; 6) `[?(@.propriété==valeur)]` filtre selon des conditions. Par exemple, `$.store.book[*].title` retournera tous les titres de livres.",
+        
+        "query2": "Création de requêtes complexes : 1) Utilisez des filtres comme `$.store.book[?(@.price<10)]` pour trouver les livres avec un prix inférieur à 10 ; 2) Combinez plusieurs conditions comme `$.store.book[?(@.price<10 && @.category=='fiction')]` ; 3) Utilisez `..` pour les recherches récursives comme `$..author` pour trouver tous les auteurs ; 4) Utilisez des caractères génériques comme `$.store.book[*].[title,author]` pour obtenir simultanément les titres et les auteurs.",
+        
+        "code1": "Utilisation du Générateur de Code pour convertir JSON en classes/interfaces de code : 1) Collez votre exemple de données JSON ; 2) Sélectionnez le langage cible (TypeScript, Java, C#, etc.) ; 3) Définissez le nom de la classe racine ; 4) Configurez les options comme l'utilisation d'interfaces, si les propriétés sont optionnelles, etc. ; 5) Cliquez sur 'Générer le Code'. Le code généré peut être utilisé directement dans votre projet, économisant un temps considérable sur la création manuelle de modèles de données.",
+        
+        "code2": "Notre générateur de code prend en charge plusieurs conventions de nommage : 1) camelCase (ex., userName) ; 2) PascalCase (ex., UserName) ; 3) snake_case (ex., user_name). Vous pouvez choisir le style de nommage approprié en fonction des conventions de votre langage cible. Certains langages comme Java utilisent généralement camelCase, tandis que C# préfère PascalCase.",
+        
+        "mock1": "L'API Mocker vous permet de créer des points d'accès API simulés sans serveur backend réel. Fonctionnement : 1) Définissez un nom de point d'accès et un Schéma JSON ; 2) Définissez les paramètres de réponse comme le délai, le taux d'erreur, etc. ; 3) Démarrez le serveur simulé ; 4) Accédez à l'API simulée via l'URL générée. C'est particulièrement utile pour les développeurs frontend pour développer et tester lorsque les API backend ne sont pas encore complètes.",
+        
+        "mock2": "Création de réponses API simulées personnalisées : 1) Définissez votre structure de données dans l'éditeur de Schéma ; 2) Utilisez les mots-clés du Schéma JSON comme type, format, enum, etc. pour contrôler le type et la plage des données générées ; 3) Définissez les taux d'erreur pour simuler des erreurs occasionnelles ; 4) Configurez le délai de réponse pour simuler la latence réseau ; 5) Définissez des en-têtes de réponse personnalisés. Vous pouvez également utiliser nos modèles de données courants fournis pour démarrer rapidement.",
+        
+        "visualize1": "Pour visualiser des données JSON sous forme de graphiques : 1) Collez le JSON contenant des données numériques ; 2) Sélectionnez le type de graphique (graphique à barres, graphique linéaire, graphique circulaire, etc.) ; 3) Mappez les champs de données aux axes du graphique (spécifiez quels champs utiliser pour l'axe X, l'axe Y, etc.) ; 4) Activez le support des données multi-séries si nécessaire ; 5) Cliquez sur 'Générer le Graphique'. La visualisation est particulièrement utile pour analyser les tendances des données, comparer des valeurs ou présenter des statistiques.",
+        
+        "general1": "Oui, nos outils fonctionnent entièrement dans votre navigateur, et vos données ne sont jamais envoyées à aucun serveur. Tout le traitement se fait sur votre appareil, garantissant la confidentialité et la sécurité des données. La plupart des fonctionnalités continuent de fonctionner même en mode hors ligne. Cela rend l'outil adapté au traitement de données sensibles ou confidentielles.",
+        
+        "general2": "La taille des fichiers JSON que nos outils peuvent gérer est principalement limitée par la mémoire de votre navigateur et de votre appareil. Typiquement, les fichiers de quelques Mo peuvent être traités facilement. Pour les fichiers plus volumineux (plus de 10 Mo), vous pouvez rencontrer une dégradation des performances. Si vous devez traiter de très gros fichiers JSON, envisagez de les diviser en parties plus petites ou d'utiliser des outils de bureau spécialisés.",
+        
+        "jwt1": "JSON Web Token (JWT) est un standard ouvert (RFC 7519) utilisé pour transmettre de manière sécurisée des informations entre les parties. Il fonctionne ainsi : après l'authentification d'un utilisateur, le serveur génère un JWT et le renvoie au client, qui l'envoie avec les requêtes suivantes. Le serveur valide le token pour confirmer l'identité de l'utilisateur sans interroger à nouveau la base de données. Les JWT sont compacts, ce qui les rend pratiques pour la transmission dans les en-têtes HTTP ou les paramètres d'URL, particulièrement adaptés aux systèmes distribués et aux architectures de microservices.",
+        
+        "jwt2": "Un JWT se compose de trois parties séparées par des points (.) : 1) En-tête : Contient le type de token et l'algorithme de signature utilisé, comme HMAC SHA256 ou RSA ; 2) Charge utile : Contient des revendications telles que l'ID utilisateur, les rôles, la date d'expiration, etc. ; 3) Signature : Créée en utilisant l'algorithme spécifié dans l'en-tête, combiné avec une clé secrète, pour signer les données de l'en-tête et de la charge utile encodées. Les parties en-tête et charge utile sont des JSON encodés en Base64Url, non chiffrés, donc n'importe qui peut les décoder pour voir le contenu. La signature garantit que le token n'a pas été altéré pendant la transmission.",
+        
+        "jwt3": "La vérification d'une signature JWT est une étape cruciale pour assurer la sécurité du token, impliquant : 1) La séparation des trois parties du JWT (en-tête, charge utile et signature) ; 2) L'utilisation de la même clé et du même algorithme utilisés lors de l'émission du token pour recalculer la signature sur l'en-tête et la charge utile ; 3) La comparaison de la signature calculée avec la partie signature du JWT pour vérifier si elles correspondent ; 4) La vérification si le token a expiré. Avec notre décodeur JWT, vous pouvez saisir le token et la clé secrète pour vérifier la signature. De plus, vous devez vérifier d'autres revendications importantes comme l'émetteur (iss), l'audience (aud), etc., pour vous assurer que le token est utilisé dans le bon contexte d'application.",
+        
+        "jwt4": "JWT est particulièrement adapté pour : 1) L'authentification : Après la connexion, les requêtes suivantes peuvent inclure le JWT, permettant aux utilisateurs d'accéder aux routes, services et ressources autorisés avec ce token ; 2) L'échange d'informations : JWT est un bon moyen de transmettre des informations de manière sécurisée entre les parties car vous pouvez vérifier l'identité de l'expéditeur via les signatures et vous assurer que le contenu n'a pas été altéré ; 3) Les API sans état : Permettant aux serveurs d'être sans état, améliorant la scalabilité. Cependant, JWT n'est pas approprié pour tous les scénarios. Pour les situations nécessitant une révocation immédiate des permissions, le stockage de grandes quantités de données, ou des exigences de haute sécurité, envisagez d'autres mécanismes ou utilisez-le en combinaison. Les bonnes pratiques incluent : l'utilisation de HTTPS, la définition de délais d'expiration raisonnables, ne pas stocker d'informations sensibles dans la charge utile, et la gestion prudente des clés."
+      },
+      "shortDescription": "Trouvez des réponses aux questions courantes sur JSON et nos outils"
+    },
+    "categories": {
+      "format": "Formatting",
+      "compare": "Comparison",
+      "convert": "Conversion",
+      "validate": "Validation",
+      "query": "Querying",
+      "code": "Code Generation",
+      "mock": "API Mocking",
+      "visualize": "Visualization",
+      "general": "General Questions",
+      "jwt": "JWT Tokens"
+    },
+    "footer": {
+      "description": "A comprehensive suite of JSON utilities for developers and data professionals.",
+      "built": "Built with React, TypeScript, and Material-UI.",
+      "copyright": "© {{year}} JSONGeeks. All rights reserved.",
+      "tools": "Tools",
+      "resources": "Resources",
+      "documentation": "Documentation",
+      "apiReference": "API Reference",
+      "connect": "Connect with the Developer",
+      "contactEmail": "Contact: contact@jsongeeks.dev",
+      "sourceCode": "Source Code",
+      "reportBug": "Report Bug",
+      "privacy": "All tools on this site are client-side only. Your data never leaves your browser.",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfUse": "Terms of Use"
+    },
+    "policy": {
+      "privacyPolicy": {
+        "title": "Privacy Policy",
+        "dataProcessing": {
+          "title": "Data Processing",
+          "content": "All JSON data processing occurs entirely in your browser and is never sent to any server. We do not collect, store, or process any of the JSON data you upload or input."
+        },
+        "cookies": {
+          "title": "Cookie Usage",
+          "content": "This site only uses necessary local storage (localStorage) to remember your preference settings, such as dark/light theme selection and the last used tool tab. We do not use any tracking cookies or third-party analytics cookies."
+        },
+        "analytics": {
+          "title": "Analytics",
+          "content": "We may use basic analytics tools to collect anonymous usage data, such as visitor numbers and page views, to help us improve our tools. This data does not contain any personally identifiable information and is used solely for internal analysis purposes."
+        },
+        "thirdParty": {
+          "title": "Third-Party Links",
+          "content": "This site may contain links to third-party websites that have their own privacy policies and data handling practices. We are not responsible for the content or privacy practices of these third-party sites and recommend that you review their privacy policies."
+        },
+        "updates": {
+          "title": "Policy Updates",
+          "content": "This privacy policy may be updated periodically, and we encourage you to review it for changes. We will note the last updated date on the page but will not specifically notify you of each change."
+        },
+        "contact": {
+          "title": "Contact Information",
+          "content": "If you have any privacy-related questions, please contact us at: contact@jsongeeks.dev"
+        },
+        "lastUpdated": "Last updated: {{date}}"
+      },
+      "termsOfUse": {
+        "title": "Terms of Use",
+        "license": {
+          "title": "License to Use",
+          "content": "We grant you a non-exclusive license to access and use this tool. You may use this tool to process JSON data for personal or business purposes, but you may not redistribute, resell, or package the tool in whole or in part as another product."
+        },
+        "disclaimer": {
+          "title": "Disclaimer",
+          "content": "This tool is provided 'as is' without any warranty of any kind. We are not responsible for any data loss, damage, or other loss that may result from using this tool. Users assume all risk when using the tool and are responsible for their own data."
+        },
+        "intellectualProperty": {
+          "title": "Intellectual Property",
+          "content": "Unless otherwise noted, all content, code, design, and icons of this tool are the intellectual property of JSONGeeks. You may not copy, modify, distribute, or use this content except as expressly permitted by these terms or with our written permission."
+        },
+        "prohibitedActivities": {
+          "title": "Prohibited Activities",
+          "content": "When using this tool, you must not:",
+          "items": [
+            "Attempt to interfere with or disrupt the normal operation of the site",
+            "Use automated tools to scrape or make excessive requests to the site",
+            "Circumvent, disable, or otherwise interfere with security-related features of the site",
+            "Use the tool to process or store illegal content",
+            "Excessively consume server resources causing degraded experience for other users"
+          ]
+        },
+        "termination": {
+          "title": "Termination",
+          "content": "We reserve the right to terminate or restrict your access to the service at any time, for any reason (including, but not limited to, violation of these Terms of Use), without notice."
+        },
+        "governingLaw": {
+          "title": "Governing Law",
+          "content": "These terms are governed by the laws of China, and any disputes related to this tool shall be submitted to the courts of China with jurisdiction."
+        },
+        "changes": {
+          "title": "Changes to Terms",
+          "content": "We reserve the right to modify these terms at any time. Significant changes will be notified on the site. Your continued use of this tool will be considered acceptance of the modified terms."
+        },
+        "lastUpdated": "Last updated: {{date}}"
+      }
+    },
+    "common": {
+      "copied": "{{content}} copied to clipboard!",
+      "error": {
+        "invalidJson": "Invalid JSON format",
+        "emptyInput": "Please enter some {{content}} to {{action}}",
+        "noData": "No {{content}} to download",
+        "fileRead": "Failed to read file",
+        "clipboard": "Failed to read from clipboard"
+      },
+      "close": "Close",
+      "paste": "Paste",
+      "clear": "Clear"
+    },
+    "share": {
+      "title": "Partager le Contenu JSON",
+      "description": "Créez un lien partageable contenant vos données JSON actuelles et les paramètres de l'outil.",
+      "buttonTooltip": "Partager ce JSON",
+      "buttonAriaLabel": "Partager",
+      "linkLabel": "Lien de Partage",
+      "copy": "Copier",
+      "copyLink": "Copier le Lien",
+      "includeCurrent": "Inclure le Contenu Actuel",
+      "includeJson": "Inclure les Données JSON",
+      "includeSettings": "Inclure les Paramètres de l'Outil",
+      "generateError": "Erreur lors de la génération du lien de partage",
+      "linkCopied": "Lien de partage copié dans le presse-papiers",
+      "copyError": "Erreur lors de la copie dans le presse-papiers",
+      "socialShare": "Partager sur les Réseaux Sociaux",
+      "socialText": "Découvrez ces données JSON que j'ai traitées avec JSONGeeks",
+      "emailSubject": "Lien de Données JSON Partagées",
+      "qrCodeInfo": "Ou scannez le code QR ci-dessous pour accéder sur les appareils mobiles"
+    },
+    "home": {
+      "subtitle": "Outils JSON Complets pour Développeurs",
+      "description": "Une collection d'outils en ligne gratuits pour travailler avec les données JSON. Formatez, validez, convertissez, comparez, visualisez et interrogez du JSON facilement. Aucune inscription requise.",
+      "openApp": "Ouvrir Tous les Outils",
+      "availableTools": "Outils Disponibles",
+      "learnMore": "En Savoir Plus",
+      "useTool": "Utiliser l'Outil",
+      "viewFaq": "Voir la FAQ",
+      "startNow": "Prêt à Commencer ?",
+      "allToolsFree": "Tous les outils sont entièrement gratuits, sans inscription requise, et fonctionnent directement dans votre navigateur.",
+      "openAllTools": "Ouvrir l'Application"
+    },
+    "landingPages": {
+      "tryNow": "Essayer Maintenant",
+      "allTools": "Voir Tous les Outils",
+      "keyFeatures": "Fonctionnalités Clés",
+      "relatedTopics": "Sujets Connexes",
+      "readyToStart": "Prêt à commencer à utiliser cet outil ?",
+      "noSignup": "Pas d'inscription requise, tous les outils sont gratuits et fonctionnent directement dans votre navigateur.",
+      "startUsing": "Commencer à Utiliser {{tool}}",
+      "backToHome": "Retour à l'Accueil",
+      "openTool": "Ouvrir l'Outil"
+    },
+    "jwtPage": {
+      "title": "Décodeur et Vérificateur JWT en Ligne",
+      "description": "Décodez et vérifiez les JSON Web Tokens (JWT) avec cet outil en ligne gratuit. Visualisez les en-têtes, les charges utiles et vérifiez les signatures JWT.",
+      "features": {
+        "title": "Fonctionnalités",
+        "list": [
+          "Décodage JWT instantané",
+          "Vérification de signature",
+          "Affichage formaté des charges utiles",
+          "Validation des horodatages",
+          "Support de tous les algorithmes standard",
+          "Interface conviviale"
+        ]
+      },
+      "benefits": {
+        "title": "Avantages",
+        "list": [
+          "Simplifie le débogage JWT",
+          "Vérifie l'intégrité des tokens",
+          "Économise du temps de développement",
+          "Améliore la sécurité",
+          "Facilite les tests",
+          "Fonctionne hors ligne"
+        ]
+      },
+      "useCases": {
+        "title": "Cas d'Utilisation",
+        "list": [
+          "Débogage d'authentification",
+          "Test d'API",
+          "Vérification de sécurité",
+          "Validation de token",
+          "Inspection de session",
+          "Développement d'API"
+        ]
+      }
+    },
+    "jwtEncoder": {
+      "title": "Encodeur JWT",
+      "description": "Créez et signez des JSON Web Tokens (JWT) avec cet outil en ligne. Personnalisez les en-têtes, les charges utiles et choisissez l'algorithme de signature.",
+      "header": {
+        "title": "En-tête",
+        "alg": "Algorithme",
+        "typ": "Type",
+        "kid": "ID de Clé"
+      },
+      "payload": {
+        "title": "Charge Utile",
+        "iss": "Émetteur",
+        "sub": "Sujet",
+        "aud": "Audience",
+        "exp": "Expiration",
+        "nbf": "Pas Avant",
+        "iat": "Émis À",
+        "jti": "ID JWT"
+      },
+      "signature": {
+        "title": "Signature",
+        "secretKey": "Clé Secrète",
+        "privateKey": "Clé Privée",
+        "publicKey": "Clé Publique",
+        "generateKeyPair": "Générer une Paire de Clés",
+        "verifyWith": "Vérifier Avec"
+      },
+      "options": {
+        "title": "Options",
+        "algorithm": "Algorithme",
+        "secretKey": "Clé Secrète",
+        "includeDefaults": "Inclure les Valeurs par Défaut",
+        "compress": "Compresser le Token"
+      },
+      "actions": {
+        "encode": "Encoder",
+        "verify": "Vérifier",
+        "copy": "Copier",
+        "clear": "Effacer",
+        "reset": "Réinitialiser"
+      },
+      "messages": {
+        "copied": "JWT copié dans le presse-papiers",
+        "encoded": "JWT encodé avec succès",
+        "verified": "Signature JWT vérifiée avec succès",
+        "error": "Erreur lors de l'encodage du JWT",
+        "invalidKey": "Clé invalide pour l'algorithme sélectionné",
+        "invalidPayload": "Charge utile JSON invalide",
+        "keyRequired": "Clé requise pour l'algorithme sélectionné"
+      },
+      "placeholders": {
+        "header": "Entrez l'en-tête JWT...",
+        "payload": "Entrez la charge utile JWT...",
+        "secretKey": "Entrez la clé secrète...",
+        "privateKey": "Entrez la clé privée...",
+        "publicKey": "Entrez la clé publique..."
+      },
+      "tooltips": {
+        "headerHelp": "L'en-tête contient des métadonnées sur le type de token",
+        "payloadHelp": "La charge utile contient les revendications du token",
+        "signatureHelp": "La signature garantit l'intégrité du token",
+        "expirationHelp": "Timestamp Unix de l'expiration du token",
+        "issuedAtHelp": "Timestamp Unix de l'émission du token",
+        "algorithmHelp": "L'algorithme utilisé pour signer le token",
+        "secretKeyHelp": "La clé secrète utilisée pour signer le token",
+        "copyHelp": "Copier le JWT dans le presse-papiers",
+        "resetHelp": "Réinitialiser tous les champs"
+      },
+      "errors": {
+        "invalidHeader": "En-tête JWT invalide",
+        "invalidPayload": "Charge utile JWT invalide",
+        "invalidKey": "Clé de signature invalide",
+        "encodingFailed": "Échec de l'encodage JWT",
+        "verificationFailed": "Échec de la vérification de la signature",
+        "missingKey": "Clé de signature manquante",
+        "unsupportedAlg": "Algorithme non pris en charge"
+      }
+    },
+    "errors": {
+      "invalidJson": "JSON invalide",
+      "invalidJsonDetails": "Le JSON fourni n'est pas valide. Veuillez vérifier la syntaxe.",
+      "parseError": "Erreur d'analyse",
+      "parseErrorDetails": "Impossible d'analyser le contenu JSON. Veuillez vérifier le format.",
+      "networkError": "Erreur réseau",
+      "networkErrorDetails": "Une erreur s'est produite lors de la communication avec le serveur.",
+      "fileError": "Erreur de fichier",
+      "fileErrorDetails": "Une erreur s'est produite lors du traitement du fichier.",
+      "uploadError": "Erreur de téléversement",
+      "uploadErrorDetails": "Impossible de téléverser le fichier. Veuillez réessayer.",
+      "downloadError": "Erreur de téléchargement",
+      "downloadErrorDetails": "Impossible de télécharger le fichier. Veuillez réessayer.",
+      "conversionError": "Erreur de conversion",
+      "conversionErrorDetails": "Une erreur s'est produite lors de la conversion des données.",
+      "validationError": "Erreur de validation",
+      "validationErrorDetails": "Les données ne respectent pas le schéma requis.",
+      "unexpectedError": "Erreur inattendue",
+      "unexpectedErrorDetails": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+      "browserError": "Erreur de navigateur",
+      "browserErrorDetails": "Une erreur s'est produite dans votre navigateur. Veuillez actualiser la page.",
+      "timeoutError": "Délai d'attente dépassé",
+      "timeoutErrorDetails": "L'opération a pris trop de temps. Veuillez réessayer.",
+      "retry": "Réessayer",
+      "close": "Fermer",
+      "details": "Détails",
+      "reportIssue": "Signaler un Problème"
+    }
+  } 

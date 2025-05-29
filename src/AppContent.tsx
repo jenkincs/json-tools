@@ -19,7 +19,7 @@ import {
   Button,
   CircularProgress
 } from '@mui/material'
-import { Brightness4, Brightness7, QuestionAnswer, Home } from '@mui/icons-material'
+import { Brightness4, Brightness7, QuestionAnswer, Home, Cookie } from '@mui/icons-material'
 import { TabPanel } from './components/TabPanel'
 // 懒加载组件
 const FormatPanel = lazy(() => import('./components/FormatPanel').then(module => ({ default: module.FormatPanel })))
@@ -35,6 +35,7 @@ const JwtDecoderPanel = lazy(() => import('./components/JwtDecoderPanel').then(m
 const JsonEditorPanel = lazy(() => import('./components/JsonEditorPanel').then(module => ({ default: module.JsonEditorPanel })))
 const JsonCryptoPanel = lazy(() => import('./components/JsonCryptoPanel').then(module => ({ default: module.JsonCryptoPanel })))
 const SortPanel = lazy(() => import('./components/SortPanel').then(module => ({ default: module.SortPanel })))
+const CookieToolPanel = lazy(() => import('./components/CookieToolPanel').then(module => ({ default: module.CookieToolPanel })))
 
 import { Footer } from './components/Footer'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
@@ -57,7 +58,8 @@ const TOOL_NAMES = [
   'jsonEditor',
   'jsonCrypto',
   'sort',
-  'faq'
+  'faq',
+  'cookieTool'
 ] as const;
 
 // 主应用组件
@@ -109,7 +111,8 @@ function AppContentInner() {
         'jsonEditor': 9,
         'jsonCrypto': 10,
         'sort': 11,
-        'faq': 12
+        'faq': 12,
+        'cookieTool': 13
       };
       
       if (toolTabMap[sharedState.tool] !== undefined) {
@@ -158,7 +161,8 @@ function AppContentInner() {
       t('jsonEditor.description'),
       t('jsonCrypto.description'),
       t('sort.description'),
-      t('faq.description')
+      t('faq.description'),
+      t('cookieTool.description')
     ];
     
     if (metaDescription) {
@@ -293,6 +297,7 @@ function AppContentInner() {
             <Tab label={t('tabs.jsonCrypto')} />
             <Tab label={t('tabs.sort')} />
             <Tab label={t('tabs.faq')} icon={<QuestionAnswer />} iconPosition="start" />
+            <Tab label={t('tabs.cookieTool')} icon={<Cookie />} iconPosition="start" />
           </Tabs>
 
           <TabPanel value={activeTab} index={0}>
@@ -394,6 +399,12 @@ function AppContentInner() {
           <TabPanel value={activeTab} index={12}>
             <Suspense fallback={<CircularProgress />}>
               <FaqPanel onSnackbar={handleSnackbar} />
+            </Suspense>
+          </TabPanel>
+
+          <TabPanel value={activeTab} index={13}>
+            <Suspense fallback={<CircularProgress />}>
+              <CookieToolPanel onSnackbar={handleSnackbar} />
             </Suspense>
           </TabPanel>
         </Paper>

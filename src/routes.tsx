@@ -21,6 +21,9 @@ const JsonEditorLandingPage = lazy(() => import('./pages/LandingPages').then(mod
 const JsonCryptoLandingPage = lazy(() => import('./pages/LandingPages').then(module => ({ default: module.JsonCryptoLandingPage })));
 const SortLandingPage = lazy(() => import('./pages/LandingPages').then(module => ({ default: module.SortLandingPage })));
 
+// 懒加载Cookie工具页面
+const CookieToolPage = lazy(() => import('./pages/CookieToolPage').then(module => ({ default: module.CookieToolPage })));
+
 // 懒加载其他页面
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy').then(module => ({ default: module.PrivacyPolicy })));
 const TermsOfUse = lazy(() => import('./pages/TermsOfUse').then(module => ({ default: module.TermsOfUse })));
@@ -57,7 +60,8 @@ const toolPathsToIndex: Record<string, number> = {
   'jsonEditor': 9,
   'jsonCrypto': 10,
   'sort': 11,
-  'faq': 12
+  'faq': 12,
+  'cookieTool': 13
 };
 
 // 创建直接跳转到特定工具的路由组件
@@ -209,6 +213,16 @@ const router = createBrowserRouter([
           <ScrollToTop>
             <Suspense fallback={<LoadingFallback />}>
               <SortLandingPage />
+            </Suspense>
+          </ScrollToTop>
+        ),
+      },
+      {
+        path: 'cookie-tool',
+        element: (
+          <ScrollToTop>
+            <Suspense fallback={<LoadingFallback />}>
+              <CookieToolPage />
             </Suspense>
           </ScrollToTop>
         ),

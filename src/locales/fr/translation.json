@@ -35,7 +35,8 @@
       "jsonEditor": "Éditeur JSON",
       "jsonCrypto": "Crypto JSON",
       "sort": "Trier",
-      "faq": "FAQ"
+      "faq": "FAQ",
+      "cookieTool": "Analyseur de Cookies"
     },
     "sort": {
       "title": "Outil de Tri JSON",
@@ -1046,5 +1047,68 @@
       "close": "Fermer",
       "details": "Détails",
       "reportIssue": "Signaler un Problème"
+    },
+    "cookieTool": {
+      "title": "Outil d'Analyse de Cookies",
+      "description": "Analysez et parsez les chaînes de cookies HTTP à partir des en-têtes de requête du navigateur. Extrayez les paires nom-valeur de cookies individuels, décodez les valeurs encodées par URL et copiez les résultats facilement. Parfait pour déboguer les applications web et analyser les cookies de navigateur.",
+      "keywords": [
+        "Analyseur de cookies",
+        "Cookie HTTP",
+        "Décodeur de cookies",
+        "Cookie de navigateur",
+        "En-tête de requête",
+        "Analyse de cookies",
+        "Développement web",
+        "Débogage de cookies",
+        "Décodage URL",
+        "Cookie de session"
+      ],
+      "input": "Saisie de Cookie",
+      "enterCookie": "Collez votre chaîne de cookie ici (par exemple, à partir des en-têtes de requête du navigateur)",
+      "instructions": "Copiez les chaînes de cookies à partir des en-têtes de requête du navigateur (F12 → Réseau → En-têtes de Requête → Cookie) et collez-les ici.",
+      "loadExample": "Charger un Exemple",
+      "paste": "Coller",
+      "clear": "Effacer",
+      "parse": "Analyser les Cookies",
+      "fullscreen": "Plein Écran",
+      "fullscreenTitle": "Saisie de Cookie - Mode Plein Écran",
+      "done": "Terminé",
+      "searchPlaceholder": "Rechercher des cookies par clé ou valeur...",
+      "results": "Résultats d'Analyse",
+      "cookies": "cookies",
+      "key": "Clé",
+      "value": "Valeur",
+      "decoded": "Valeur Décodée",
+      "actions": "Actions",
+      "empty": "(vide)",
+      "copyKey": "Copier la Clé",
+      "copyValue": "Copier la Valeur",
+      "copyDecoded": "Copier la Valeur Décodée",
+      "decodedValue": "Valeur Décodée",
+      "cookiePair": "Paire de Cookies",
+      "copyPair": "Copier la Paire de Cookies",
+      "jwt": {
+        "title": "Détails du Token JWT",
+        "decode": "Décoder le JWT",
+        "header": "En-tête",
+        "payload": "Charge Utile",
+        "signature": "Signature",
+        "commonFields": "Champs Communs",
+        "notSet": "Non défini",
+        "invalid": "Horodatage invalide"
+      },
+      "error": {
+        "invalidCookie": "Impossible d'analyser la chaîne de cookie. Veuillez vérifier le format et réessayer."
+      },
+      "features": "Fonctionnalités",
+      "feature1": "Analyse de Chaîne de Cookie",
+      "feature1.description": "Détection et analyse automatiques des chaînes de cookies à partir des en-têtes de requête du navigateur",
+      "feature2": "Décodage URL",
+      "feature2.description": "Décodage automatique des valeurs de cookies encodées par URL pour une meilleure lisibilité",
+      "feature3": "Détection JWT",
+      "feature3.description": "Détection et décodage des tokens JWT dans les valeurs de cookies avec analyse détaillée",
+      "feature4": "Recherche Avancée",
+      "feature4.description": "Recherchez dans les paires de cookies par clés, valeurs ou contenu décodé",
+      "shortDescription": "Analysez et parsez les chaînes de cookies HTTP à partir des en-têtes de requête du navigateur"
     }
   } 

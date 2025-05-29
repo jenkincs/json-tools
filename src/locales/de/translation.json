@@ -30,7 +30,8 @@
     "jsonEditor": "JSON-Editor",
     "jsonCrypto": "JSON-Krypto",
     "sort": "Sortieren",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "cookieTool": "Cookie-Parser"
   },
   "format": {
     "title": "JSON-Formatierer & Verschönerer",
@@ -869,5 +870,68 @@
   "jwtPage": {
     "decoder": "JWT Decoder",
     "encoder": "JWT Encoder"
+  },
+  "cookieTool": {
+    "title": "Cookie-Parser-Tool",
+    "description": "Analysieren und parsen Sie HTTP-Cookie-Strings aus Browser-Request-Headern. Extrahieren Sie einzelne Cookie-Name-Wert-Paare, dekodieren Sie URL-kodierte Werte und kopieren Sie Ergebnisse mit Leichtigkeit. Perfekt für das Debugging von Webanwendungen und die Analyse von Browser-Cookies.",
+    "keywords": [
+      "Cookie-Parser",
+      "HTTP-Cookie",
+      "Cookie-Decoder",
+      "Browser-Cookie",
+      "Request-Header",
+      "Cookie-Analyse",
+      "Webentwicklung",
+      "Cookie-Debugging",
+      "URL-Dekodierung",
+      "Session-Cookie"
+    ],
+    "input": "Cookie-Eingabe",
+    "enterCookie": "Fügen Sie hier Ihren Cookie-String ein (z.B. aus Browser-Request-Headern)",
+    "instructions": "Kopieren Sie Cookie-Strings aus Browser-Request-Headern (F12 → Netzwerk → Request-Header → Cookie) und fügen Sie sie hier ein.",
+    "loadExample": "Beispiel laden",
+    "paste": "Einfügen",
+    "clear": "Löschen",
+    "parse": "Cookies parsen",
+    "fullscreen": "Vollbild",
+    "fullscreenTitle": "Cookie-Eingabe - Vollbildmodus",
+    "done": "Fertig",
+    "searchPlaceholder": "Cookies nach Schlüssel oder Wert durchsuchen...",
+    "results": "Parse-Ergebnisse",
+    "cookies": "Cookies",
+    "key": "Schlüssel",
+    "value": "Wert",
+    "decoded": "Dekodierter Wert",
+    "actions": "Aktionen",
+    "empty": "(leer)",
+    "copyKey": "Schlüssel kopieren",
+    "copyValue": "Wert kopieren",
+    "copyDecoded": "Dekodierten Wert kopieren",
+    "decodedValue": "Dekodierter Wert",
+    "cookiePair": "Cookie-Paar",
+    "copyPair": "Cookie-Paar kopieren",
+    "jwt": {
+      "title": "JWT-Token-Details",
+      "decode": "JWT dekodieren",
+      "header": "Header",
+      "payload": "Payload",
+      "signature": "Signatur",
+      "commonFields": "Häufige Felder",
+      "notSet": "Nicht gesetzt",
+      "invalid": "Ungültiger Zeitstempel"
+    },
+    "error": {
+      "invalidCookie": "Cookie-String konnte nicht geparst werden. Bitte überprüfen Sie das Format und versuchen Sie es erneut."
+    },
+    "features": "Funktionen",
+    "feature1": "Cookie-String-Parsing",
+    "feature1.description": "Automatische Erkennung und Parsing von Cookie-Strings aus Browser-Request-Headern",
+    "feature2": "URL-Dekodierung",
+    "feature2.description": "Automatische Dekodierung von URL-kodierten Cookie-Werten für bessere Lesbarkeit",
+    "feature3": "JWT-Erkennung",
+    "feature3.description": "Erkennung und Dekodierung von JWT-Tokens in Cookie-Werten mit detaillierter Analyse",
+    "feature4": "Erweiterte Suche",
+    "feature4.description": "Durchsuchen Sie Cookie-Paare nach Schlüsseln, Werten oder dekodiertem Inhalt",
+    "shortDescription": "Parsen und analysieren Sie HTTP-Cookie-Strings aus Browser-Request-Headern"
   }
 } 

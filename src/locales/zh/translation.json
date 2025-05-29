@@ -30,7 +30,8 @@
     "jsonEditor": "JSON编辑器",
     "jsonCrypto": "JSON加密",
     "sort": "排序",
-    "faq": "常见问题"
+    "faq": "常见问题",
+    "cookieTool": "Cookie解析器"
   },
   "sort": {
     "title": "JSON排序工具",
@@ -852,6 +853,7 @@
   },
   "common": {
     "copied": "{{content}}已复制到剪贴板！",
+    "linkCopied": "链接已复制到剪贴板！",
     "error": {
       "invalidJson": "无效的 JSON 格式",
       "emptyInput": "请输入要{{action}}的{{content}}",
@@ -923,6 +925,82 @@
       "encoded": "JWT生成成功",
       "encodeError": "JWT生成失败，请检查输入内容",
       "copied": "JWT已复制到剪贴板"
+    }
+  },
+  "cookieTool": {
+    "title": "Cookie解析工具",
+    "description": "解析和分析来自浏览器请求标头的HTTP Cookie字符串。提取单个cookie名称-值对，解码URL编码的值，轻松复制结果。非常适合调试Web应用程序和分析浏览器cookie。",
+    "keywords": [
+      "Cookie解析器",
+      "HTTP cookie",
+      "Cookie解码器",
+      "浏览器cookie",
+      "请求标头",
+      "Cookie分析",
+      "Web开发",
+      "Cookie调试",
+      "URL解码",
+      "会话cookie"
+    ],
+    "input": "Cookie输入",
+    "enterCookie": "在这里粘贴您的cookie字符串（例如，来自浏览器请求标头）...",
+    "parse": "解析Cookie",
+    "paste": "粘贴",
+    "clear": "清除",
+    "loadExample": "加载示例",
+    "instructions": "提示：从浏览器的开发者工具（网络选项卡 → 请求标头 → Cookie）复制完整的Cookie标头值，然后粘贴到这里以解析所有cookie对。",
+    "results": "解析结果",
+    "cookies": "个cookie",
+    "key": "名称",
+    "value": "值",
+    "decoded": "解码值",
+    "actions": "操作",
+    "copyKey": "复制名称",
+    "copyValue": "复制值",
+    "copyDecoded": "复制解码值",
+    "copyPair": "复制名称=值对",
+    "empty": "（空）",
+    "decodedValue": "解码值",
+    "cookiePair": "Cookie对",
+    "features": "核心功能",
+    "feature1": "智能Cookie解析",
+    "feature1.description": "自动解析来自浏览器标头的cookie字符串，处理各种格式和边缘情况",
+    "feature2": "URL解码",
+    "feature2.description": "自动检测并解码URL编码的cookie值，提高可读性",
+    "feature3": "单独复制操作",
+    "feature3.description": "一键复制单个cookie名称、值或完整的名称=值对",
+    "feature4": "开发者友好",
+    "feature4.description": "专为Web开发者调试身份验证、会话管理和cookie相关问题而设计",
+    "shortDescription": "解析和分析来自浏览器请求标头的HTTP Cookie字符串",
+    "error": {
+      "invalidCookie": "解析Cookie字符串失败。请检查格式后重试。"
+    },
+    "fullscreen": "全屏显示",
+    "fullscreenTitle": "Cookie输入 - 全屏模式",
+    "done": "完成",
+    "searchPlaceholder": "搜索Cookie键或值...",
+    "results": "解析结果",
+    "cookies": "个Cookie",
+    "key": "键",
+    "value": "值",
+    "decoded": "解码值",
+    "actions": "操作",
+    "empty": "(空)",
+    "copyKey": "复制键",
+    "copyValue": "复制值",
+    "copyDecoded": "复制解码值",
+    "decodedValue": "解码值",
+    "cookiePair": "Cookie键值对",
+    "copyPair": "复制Cookie键值对",
+    "jwt": {
+      "title": "JWT令牌详情",
+      "decode": "解析JWT",
+      "header": "头部",
+      "payload": "载荷",
+      "signature": "签名",
+      "commonFields": "常用字段",
+      "notSet": "未设置",
+      "invalid": "无效时间戳"
     }
   }
 } 

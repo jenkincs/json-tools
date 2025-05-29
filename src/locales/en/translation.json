@@ -30,7 +30,8 @@
     "jsonEditor": "JSON Editor",
     "jsonCrypto": "JSON Crypto",
     "sort": "Sort",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "cookieTool": "Cookie Parser"
   },
   "sort": {
     "title": "JSON Sorter Tool",
@@ -847,6 +848,7 @@
   },
   "common": {
     "copied": "{{content}} copied to clipboard!",
+    "linkCopied": "Link copied to clipboard!",
     "error": {
       "invalidJson": "Invalid JSON format",
       "emptyInput": "Please enter some {{content}} to {{action}}",
@@ -916,6 +918,82 @@
       "encoded": "JWT generated successfully",
       "encodeError": "Failed to generate JWT, please check your input",
       "copied": "JWT copied to clipboard"
+    }
+  },
+  "cookieTool": {
+    "title": "Cookie Parser Tool",
+    "description": "Parse and analyze HTTP Cookie strings from browser request headers. Extract individual cookie name-value pairs, decode URL-encoded values, and copy results with ease. Perfect for debugging web applications and analyzing browser cookies.",
+    "keywords": [
+      "Cookie parser",
+      "HTTP cookies",
+      "Cookie decoder",
+      "Browser cookies",
+      "Request headers",
+      "Cookie analysis",
+      "Web development",
+      "Cookie debugging",
+      "URL decoding",
+      "Session cookies"
+    ],
+    "input": "Cookie Input",
+    "enterCookie": "Paste your cookie string here (e.g., from browser request headers)...",
+    "parse": "Parse Cookies",
+    "paste": "Paste",
+    "clear": "Clear",
+    "loadExample": "Load Example",
+    "instructions": "Tip: Copy the entire Cookie header value from your browser's Developer Tools (Network tab → Request Headers → Cookie), then paste it here to parse all cookie pairs.",
+    "results": "Parsing Results",
+    "cookies": "cookies",
+    "key": "Name",
+    "value": "Value",
+    "decoded": "Decoded Value",
+    "actions": "Actions",
+    "copyKey": "Copy Name",
+    "copyValue": "Copy Value",
+    "copyDecoded": "Copy Decoded Value",
+    "copyPair": "Copy Name=Value Pair",
+    "empty": "(empty)",
+    "decodedValue": "Decoded Value",
+    "cookiePair": "Cookie Pair",
+    "features": "Key Features",
+    "feature1": "Smart Cookie Parsing",
+    "feature1.description": "Automatically parses cookie strings from browser headers, handling various formats and edge cases",
+    "feature2": "URL Decoding",
+    "feature2.description": "Automatically detects and decodes URL-encoded cookie values for better readability",
+    "feature3": "Individual Copy Actions",
+    "feature3.description": "Copy individual cookie names, values, or complete name=value pairs with one click",
+    "feature4": "Developer-Friendly",
+    "feature4.description": "Designed specifically for web developers debugging authentication, session management, and cookie-related issues",
+    "shortDescription": "Parse and analyze HTTP Cookie strings from browser request headers",
+    "error": {
+      "invalidCookie": "Failed to parse cookie string. Please check the format and try again."
+    },
+    "fullscreen": "Fullscreen",
+    "fullscreenTitle": "Cookie Input - Fullscreen Mode",
+    "done": "Done",
+    "searchPlaceholder": "Search cookies by key or value...",
+    "results": "Parsing Results",
+    "cookies": "cookies",
+    "key": "Key",
+    "value": "Value",
+    "decoded": "Decoded Value",
+    "actions": "Actions",
+    "empty": "(empty)",
+    "copyKey": "Copy Key",
+    "copyValue": "Copy Value",
+    "copyDecoded": "Copy Decoded Value",
+    "decodedValue": "Decoded Value",
+    "cookiePair": "Cookie Pair",
+    "copyPair": "Copy Cookie Pair",
+    "jwt": {
+      "title": "JWT Token Details",
+      "decode": "Decode JWT",
+      "header": "Header",
+      "payload": "Payload",
+      "signature": "Signature",
+      "commonFields": "Common Fields",
+      "notSet": "Not set",
+      "invalid": "Invalid timestamp"
     }
   }
 } 
